@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		A20117CC14FCB12400B042CC /* ofxBlurShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A20117CA14FCB12400B042CC /* ofxBlurShader.cpp */; };
-		A219B7E0150093DE0089F3AF /* smoothEdgeShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A219B7DF150093DE0089F3AF /* smoothEdgeShader.cpp */; };
+		A219B7E0150093DE0089F3AF /* smoothShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A219B7DF150093DE0089F3AF /* smoothShader.cpp */; };
+		A285AD4215040E9B008CAAC4 /* editable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A285AD4115040E9B008CAAC4 /* editable.cpp */; };
+		A285AD881504229E008CAAC4 /* layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A285AD871504229E008CAAC4 /* layer.cpp */; };
 		A2BB020214FC9D9600DF80EB /* ofxMidiIn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2BB01FE14FC9D9600DF80EB /* ofxMidiIn.cpp */; };
 		A2BB020314FC9D9600DF80EB /* ofxMidiOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2BB020014FC9D9600DF80EB /* ofxMidiOut.cpp */; };
 		A2BB020914FC9DF700DF80EB /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2BB020714FC9DF700DF80EB /* RtMidi.cpp */; };
@@ -72,8 +74,12 @@
 /* Begin PBXFileReference section */
 		A20117CA14FCB12400B042CC /* ofxBlurShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxBlurShader.cpp; path = ../../../addons/ofxBlurShader/ofxBlurShader.cpp; sourceTree = SOURCE_ROOT; };
 		A20117CB14FCB12400B042CC /* ofxBlurShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxBlurShader.h; path = ../../../addons/ofxBlurShader/ofxBlurShader.h; sourceTree = SOURCE_ROOT; };
-		A219B7DE150093DE0089F3AF /* smoothEdgeShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smoothEdgeShader.h; sourceTree = "<group>"; };
-		A219B7DF150093DE0089F3AF /* smoothEdgeShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = smoothEdgeShader.cpp; sourceTree = "<group>"; };
+		A219B7DE150093DE0089F3AF /* smoothShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smoothShader.h; sourceTree = "<group>"; };
+		A219B7DF150093DE0089F3AF /* smoothShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = smoothShader.cpp; sourceTree = "<group>"; };
+		A285AD4015040E9B008CAAC4 /* editable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = editable.h; sourceTree = "<group>"; };
+		A285AD4115040E9B008CAAC4 /* editable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = editable.cpp; sourceTree = "<group>"; };
+		A285AD861504229E008CAAC4 /* layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = layer.h; sourceTree = "<group>"; };
+		A285AD871504229E008CAAC4 /* layer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = layer.cpp; sourceTree = "<group>"; };
 		A2BB01FB14FC9D9600DF80EB /* ofxMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxMidi.h; sourceTree = "<group>"; };
 		A2BB01FC14FC9D9600DF80EB /* ofxMidiConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxMidiConstants.h; sourceTree = "<group>"; };
 		A2BB01FD14FC9D9600DF80EB /* ofxMidiEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxMidiEvents.h; sourceTree = "<group>"; };
@@ -303,8 +309,12 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* testApp.h */,
-				A219B7DE150093DE0089F3AF /* smoothEdgeShader.h */,
-				A219B7DF150093DE0089F3AF /* smoothEdgeShader.cpp */,
+				A219B7DE150093DE0089F3AF /* smoothShader.h */,
+				A219B7DF150093DE0089F3AF /* smoothShader.cpp */,
+				A285AD4015040E9B008CAAC4 /* editable.h */,
+				A285AD4115040E9B008CAAC4 /* editable.cpp */,
+				A285AD861504229E008CAAC4 /* layer.h */,
+				A285AD871504229E008CAAC4 /* layer.cpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -415,7 +425,9 @@
 				A2BB020314FC9D9600DF80EB /* ofxMidiOut.cpp in Sources */,
 				A2BB020914FC9DF700DF80EB /* RtMidi.cpp in Sources */,
 				A20117CC14FCB12400B042CC /* ofxBlurShader.cpp in Sources */,
-				A219B7E0150093DE0089F3AF /* smoothEdgeShader.cpp in Sources */,
+				A219B7E0150093DE0089F3AF /* smoothShader.cpp in Sources */,
+				A285AD4215040E9B008CAAC4 /* editable.cpp in Sources */,
+				A285AD881504229E008CAAC4 /* layer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

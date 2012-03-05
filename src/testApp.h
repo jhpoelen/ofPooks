@@ -4,61 +4,15 @@
 
 #include "ofxOpenCv.h"
 #include "ofxMidi.h"
-#include "ofxBlurShader.h"
-#include "smoothEdgeShader.h"
-
-//stupid ball class 
-class ball{
-	
-public:
-	ball(){
-		
-	}
-	
-	void setup(float x, float y, float r){
-		pos.x = x;
-		pos.y = y;
-		pos.z = r;
-		
-		vel.x = 2.0;
-		vel.y = 1.6;
-	}	
-	
-	void update(int width, int height){
-		if( pos.x + pos.z >= width){
-			pos.x = width - pos.z;
-			vel.x *= -1;
-		}else if( pos.x - pos.z <= 0){
-			pos.x = pos.z;
-			vel.x *= -1;
-		}
-		
-		if( pos.y + pos.z >= height){
-			pos.y = height - pos.z;
-			vel.y *= -1;
-		}else if( pos.y - pos.z <= 0){
-			pos.y = pos.z;
-			vel.y *= -1;
-		}
-		
-		pos.x += vel.x;
-		pos.y += vel.y;
-	}
-	
-	void draw(){	
-		ofSetRectMode(OF_RECTMODE_CENTER);
-		ofCircle(pos.x, pos.y,  pos.z);
-		ofSetRectMode(OF_RECTMODE_CORNER);			
-	}
-	
-	ofPoint pos;
-	ofPoint vel;
-	
-};
+#include "smoothShader.h"
+#include "editable.h"
+#include "layer.h"
 
 const int MAX_COLORS = 4;
 const int MAX_SCREENS = 4;
-
+const int MAX_LAYERS = 2;
+const int MAX_LAYOUTS = 2;
+const int MAX_SAMPLES = 2;
 
 class testApp : public ofBaseApp, public ofxMidiListener {
 
@@ -68,8 +22,11 @@ class testApp : public ofBaseApp, public ofxMidiListener {
 		void draw();
 		void exit();
 		
+		void loadSamples();
+	
 		void renderWarpTool(int screenNumber);
-		void renderScreen(ofPoint corners[]);
+		void renderScreen(int screenIndex);
+		void warpScreen(int screenIndex);
 	
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -85,19 +42,18 @@ class testApp : public ofBaseApp, public ofxMidiListener {
 	
 		ofTrueTypeFont ttf;
 		ofTrueTypeFont ttf2;
-	
-		ofImage img;
-		ball balls[80];
-	
+		
 		ofPoint listOfScreenCorners[MAX_SCREENS][4];
+		
+		Editable screenSettings[MAX_SCREENS];
+		Layer screenLayerSettings[MAX_SCREENS][MAX_LAYERS];		
+		Editable screenLayerLayoutSettings[MAX_SCREENS][MAX_LAYERS][MAX_LAYOUTS];
+		
+		ofVideoPlayer samples[MAX_SAMPLES];
+		
 		int whichCorner;
 	
 		GLfloat homographyMatrix[16]; 
-	
-		ofVideoPlayer fingerMovie0;
-		ofVideoPlayer fingerMovie1;
-		ofVideoPlayer fingerMovie2;
-	
 		
 		// vars
 		int port;
@@ -112,11 +68,12 @@ class testApp : public ofBaseApp, public ofxMidiListener {
 		// midi addon
 		ofxMidiIn	midiIn;
 	
-		float alpha;
 		float speed;
-		SmoothShader blur;
+		SmoothShader shader;
 	
 		int selectedScreen;
 		bool showWarpTool;
+	
+		ofPoint mousePos;
 };
 

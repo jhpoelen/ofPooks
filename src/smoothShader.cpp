@@ -7,12 +7,11 @@
  *
  */
 
-#include "smoothEdgeShader.h"
+#include "smoothShader.h"
 
 SmoothShader::SmoothShader() {
     enabled = false;
     initialized = false;
-	alpha = 1.0;
 }
 
 void SmoothShader::setup(float w, float h) {
@@ -26,7 +25,8 @@ void SmoothShader::setup(float w, float h) {
 	string smoothEdgeShader =
 	"const vec4 lumCoeff = vec4(0.2125, 0.7154, 0.0721, 0.0);\
 	uniform sampler2DRect src_tex_unit0;\
-	uniform float alpha;\
+	uniform float layerAlpha;\
+	uniform float screenAlpha;\
 	uniform float width;\
 	uniform float height;\
 	uniform float red;\
@@ -44,7 +44,7 @@ void SmoothShader::setup(float w, float h) {
 		if (red > 0.0 || green > 0.0 || blue > 0.0) {\
 			color = vec4(lum,lum,lum,color[3]) * vec4(red/255.0, green/255.0, blue/255.0, 1.0);\
 		}\
-		gl_FragColor = color * vec4(1.0, 1.0, 1.0, alpha * edgeAlpha);\
+		gl_FragColor = color * vec4(1.0, 1.0, 1.0, layerAlpha * edgeAlpha * screenAlpha);\
 	}";
     
     if (alphaShader.setupShaderFromSource(GL_FRAGMENT_SHADER, smoothEdgeShader)) {
@@ -59,14 +59,17 @@ void SmoothShader::setup(float w, float h) {
     enabled = true;
 }
 
-void SmoothShader::begin(float width, float height) {
+void SmoothShader::begin(float width, float height, float screenAlpha, float layerAlpha) {
     if (!initialized) ofLog(OF_LOG_ERROR, "ofxBlurShader::setup(w,h) needs to be called first");
     if (!enabled) return;
         
 	alphaShader.begin();
-	alphaShader.setUniform1f("alpha", alpha);
+	alphaShader.setUniform1f("layerAlpha", layerAlpha);
+	alphaShader.setUniform1f("screenAlpha", screenAlpha);
+	
 	alphaShader.setUniform1f("width", width);
 	alphaShader.setUniform1f("height", height);
+	
 	alphaShader.setUniform1f("red", red);
 	alphaShader.setUniform1f("green", green);
 	alphaShader.setUniform1f("blue", blue);

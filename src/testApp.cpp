@@ -2,7 +2,6 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
-
 	// black
 	colors[0].set(0, 0, 0);
 	// royal yellow
@@ -18,7 +17,7 @@ void testApp::setup(){
 	ofSetVerticalSync(true);
 	
 	//loads load in some truetype fonts
-	ttf.loadFont("type/frabk.ttf", 56);
+	ttf.loadFont("type/frabk.ttf", 80);
 	ttf2.loadFont("type/frabk.ttf", 14);
 	
 	//this is just for our gui / mouse handles
@@ -26,44 +25,45 @@ void testApp::setup(){
 	for (int i=0; i<MAX_SCREENS; i++) {
 		listOfScreenCorners[i][0].x = 0.0;
 		listOfScreenCorners[i][0].y = 0.0;
-	
+		
 		listOfScreenCorners[i][1].x = 1.0;
 		listOfScreenCorners[i][1].y = 0.0;
-	
+		
 		listOfScreenCorners[i][2].x = 1.0;
 		listOfScreenCorners[i][2].y = 1.0;
-	
+		
 		listOfScreenCorners[i][3].x = 0.0;
 		listOfScreenCorners[i][3].y = 1.0;
-	}
-	//lets load a test image too
-	img.loadImage("ofTheo.jpg");
+	}	
 	
-	//lets setup some stupid particles
-	for(int i = 0; i < 80; i++){
-		balls[i].setup(ofRandom(10, ofGetWidth() - 10), ofRandom(10, ofGetHeight()-10), ofRandom(5, 25));
-		balls[i].vel.x = ofRandom(1.5, 2.8);
-		balls[i].vel.y = ofRandom(1.5, 2.8);
+	loadSamples();
+	for (int j=0; j<MAX_SCREENS; j++) {
+		for (int i=0; i<MAX_LAYERS; i++) {
+			screenLayerSettings[j][i].selectedSampleIndex = 0;
+		}
 	}
-
-	fingerMovie1.loadMovie("fingers.mov");
-	fingerMovie1.setUseTexture(true);
-	fingerMovie1.play();
-	
-	fingerMovie2.loadMovie("/Users/jorrit/Library/Pooks/rocksUpClose/rocksUpClose.avi");
-	fingerMovie2.setUseTexture(true);
-	fingerMovie2.play();
 	
 	ofEnableSmoothing();
 	ofEnableAlphaBlending();
-
-	midiIn.setVerbose(true);
+	ofHideCursor();
+	
+	midiIn.setVerbose(false);
 	midiIn.listPorts();
 	midiIn.openPort(0);
 	midiIn.addListener(this);	
 	
-	blur.setup(320,240);
+	shader.setup(320,240);
 	ofSetFrameRate(30);
+}
+
+void testApp::loadSamples() {
+	samples[1].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/start.mov");
+	samples[1].setUseTexture(true);
+	samples[1].play();
+	
+	samples[0].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/finalCloseup.mov");
+	samples[0].setUseTexture(true);
+	samples[0].play();
 }
 
 void testApp::exit() {
@@ -74,15 +74,12 @@ void testApp::exit() {
 void testApp::update(){
 	ofBackground(0, 0, 0);
 	
-	for(int i = 0; i < 80; i++){
-		balls[i].update(ofGetWidth(), ofGetHeight());
+	for (int i = 0; i < MAX_SAMPLES; i++) {
+		if (samples[i].isPlaying()) {
+			samples[i].update();
+			samples[i].setSpeed(speed);
+		}
 	}
-	fingerMovie1.idleMovie();
-	fingerMovie2.idleMovie();
-	fingerMovie2.setSpeed(speed);
-	
-	sprintf(msg, "value: (%i,%i), received from port: %i, id: %i \n\nwith %f milliseconds difference from last message",value,value2,port,id,timestamp);
-	
 }
 
 //--------------------------------------------------------------
@@ -90,15 +87,44 @@ void testApp::draw(){
 	
 	for(int i=0; i<MAX_SCREENS; i++) {
 		ofPushMatrix();
-		renderScreen(listOfScreenCorners[i]);
+		warpScreen(i);
+		renderScreen(i);
 		if (showWarpTool) {
 			renderWarpTool(i+1);
 		}		
 		ofPopMatrix();
+		if (showWarpTool) {
+			ofSetHexColor(0xFFFFFF);
+			ofSetRectMode(OF_RECTMODE_CENTER);
+			ofCircle(mousePos.x, mousePos.y,  20);
+			ofSetRectMode(OF_RECTMODE_CORNER);			
+		}
 	}
 }
 
-void testApp::renderScreen(ofPoint corners[]) {
+void testApp::renderScreen(int screenIndex) {
+	Editable screen = screenSettings[screenIndex];
+	if (screen.alpha > 0.0) {
+		for (int i=0; i<MAX_LAYERS; i++) {
+			Layer layer = screenLayerSettings[screenIndex][i];
+			if (layer.alpha > 0.0) {
+				// one texture per layer
+				ofVideoPlayer video = samples[layer.selectedSampleIndex];
+				if (video.isLoaded()) {
+					ofTexture texture = video.getTextureReference();
+					// one shader per layer
+					ofEnableAlphaBlending();
+					shader.begin(ofGetWidth(), ofGetHeight(), screen.alpha, layer.alpha);
+					texture.draw(0, 0, ofGetWidth(), ofGetHeight());		
+					shader.end();
+				}
+			}
+		}		
+	}
+}
+
+void testApp::warpScreen(int screenIndex) {
+	ofPoint corners[4] = listOfScreenCorners[screenIndex];
 	//lets make a matrix for openGL
 	//this will be the matrix that peforms the transformation
 	GLfloat myMatrix[16];
@@ -129,8 +155,8 @@ void testApp::renderScreen(ofPoint corners[]) {
 	//corners are in 0.0 - 1.0 range
 	//so we scale up so that they are at the window's scale
 	for(int i = 0; i < 4; i++){
-		cvdst[i].x = corners[i].x  * (float)ofGetWidth();
-		cvdst[i].y = corners[i].y * (float) ofGetHeight();
+		cvdst[i].x = corners[i].x * (float)ofGetWidth();
+		cvdst[i].y = corners[i].y * (float)ofGetHeight();
 	}
 	
 	//we create a matrix that will store the results
@@ -194,45 +220,11 @@ void testApp::renderScreen(ofPoint corners[]) {
 	
 	//finally lets multiply our matrix
 	//wooooo hoooo!
-	glMultMatrixf(myMatrix);
-	
-	
-	// -- NOW LETS DRAW!!!!!!  -----
-	
-	//test an image
-	ofSetHexColor(0xAAAAAA);
-	ofTexture texture1 = fingerMovie1.getTextureReference();	
-	texture1.draw(10, 70);
-	
-	
-	ofTexture texture2 = fingerMovie2.getTextureReference();
-	// a nxm grid distribution
-	// keeping aspect ratio
-	float aspectRatio = 1.0;
-	if (texture2.getHeight() > 0) {
-		aspectRatio = texture2.getWidth() / texture2.getHeight();
-	}
-	float nWidth = 4;
-	float nHeight = 5;
-	
-	float preferedWidth = ofGetWidth() / nWidth;
-	float preferedHeight = ofGetHeight() / nHeight;
-	
-	ofEnableAlphaBlending();
-	blur.begin(texture2.getWidth(), texture2.getHeight());
-	texture2.draw(180, 220);		
-	texture2.draw(280, 320);		
-	blur.end();
-	
-	blur.begin(texture1.getWidth(), texture1.getHeight());
-	texture1.draw(180, 220, -10);
-	blur.end();
-	ofDisableAlphaBlending();
-
+	glMultMatrixf(myMatrix);	
 }
 
 void testApp::renderWarpTool(int screenNumber) {
-	int hexColor = selectedScreen == screenNumber ? 0xFF00FF : 0xFFFFFF; 
+	int hexColor = selectedScreen == screenNumber ? 0xFFFFFF : 0xFFFF00; 
 	
 	//lets draw a bounding box
 	ofNoFill();
@@ -241,14 +233,19 @@ void testApp::renderWarpTool(int screenNumber) {
 	
 	//our particles
 	ofEnableAlphaBlending();
-	ofSetColor(255, 0, 255, 130);
+	ofSetHexColor(hexColor);
 	ofFill();
-	for(int i = 0; i < 40; i++)balls[i].draw();
+	
+	ofSetRectMode(OF_RECTMODE_CENTER);
+	ofCircle(mousePos.x, mousePos.y,  20);
+	ofSetRectMode(OF_RECTMODE_CORNER);
+	
+	//for(int i = 0; i < 40; i++)balls[i].draw();
 	ofDisableAlphaBlending();
 	
 	char selectedScreenMsg[255];	
 	sprintf(selectedScreenMsg, "Screen %d", screenNumber);
-
+	
 	ofSetHexColor(hexColor);
 	ttf.drawString(selectedScreenMsg, ofGetWidth()/3.0, ofGetHeight()/2.0);
 	
@@ -260,21 +257,87 @@ void testApp::renderWarpTool(int screenNumber) {
 }
 
 void testApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
+	
 	// store some data from midi message in variables
 	value = eventArgs.byteOne;
 	value2 = eventArgs.byteTwo;
 	id = eventArgs.channel;
+	
+	sprintf(msg, "value: (%i,%i), received from port: %i, id: %i \n\nwith %f milliseconds difference from last message",value,value2,port,id,timestamp);
+	
 	float normValue2 = value2 / 127.0;
-	if (id == 5) {
-		blur.alpha = normValue2;
+	if (id == 1) {
+		for (int j=0; j<MAX_SCREENS;j++) {
+			if (screenSettings[j].canEdit) {
+				for (int i=0; i< MAX_LAYERS; i++) {
+					if (screenLayerSettings[j][i].canEdit) {
+						screenLayerSettings[j][i].selectedSampleIndex = normValue2 * (MAX_SAMPLES - 1);
+					}
+				}
+			}
+		}
+						
+	}
+	
+	if (id == 5 && value == 7) {
+		for (int j=0; j<MAX_SCREENS;j++) {
+			if (screenSettings[j].canEdit) {
+				for (int i=0; i< MAX_LAYERS; i++) {
+					if (screenLayerSettings[j][i].canEdit) {
+						screenLayerSettings[j][i].alpha = normValue2;
+						char msg[255];
+						sprintf(msg, "layer[%d].alpha = %f", i, screenLayerSettings[j][i].alpha);
+						ofLog(OF_LOG_ERROR, msg);
+					}
+				}
+			}
+		}
 	} else if (id == 6) {
 		int index = normValue2 * (MAX_COLORS - 1);
 		ofColor selectedColor = colors[index];
-		blur.red = selectedColor.r;
-		blur.green = selectedColor.g;
-		blur.blue = selectedColor.b;
+		shader.red = selectedColor.r;
+		shader.green = selectedColor.g;
+		shader.blue = selectedColor.b;
 	} else if (id == 7) {
 		speed = 4*normValue2 - 2;
+	} else if (id == 1) {
+		if (value == 47) {
+			screenSettings[0].canEdit = normValue2 == 1.0;
+			char msg[255];
+			sprintf(msg, "screen [%d].canEdit = %d", 0, screenSettings[0].canEdit);
+			ofLog(OF_LOG_ERROR, msg);
+		} else if (value == 45) {
+			screenSettings[1].canEdit = normValue2 == 1.0;
+		} else if (value == 48) {
+			screenSettings[2].canEdit = normValue2 == 1.0;	
+		} else if (value == 49) {
+			screenSettings[3].canEdit = normValue2 == 1.0;	
+		}
+		
+	} 
+	
+	if (value == 10) {
+		if (id > 0 && id <= MAX_SCREENS) {
+			if (screenSettings[id-1].canEdit) {
+				screenSettings[id-1].alpha = normValue2;
+				char msg[255];
+				sprintf(msg, "screen [%d].alpha = %f", id-1, screenSettings[id-1].alpha);
+			}
+		}
+	}
+	
+	if (value == 16) {
+		for (int i=0; i<MAX_SCREENS; i++) {
+			if (screenSettings[i].canEdit) {
+				int controlNo = id;
+				if (id > 0 && id <= MAX_LAYERS) {
+					screenLayerSettings[i][id-1].canEdit = normValue2 == 1.0;
+					char msg[255];
+					sprintf(msg, "layer [%d].canEdit = %d", id-1, screenLayerSettings[i][id-1].canEdit);
+					ofLog(OF_LOG_ERROR, msg);
+				}
+			}	
+		}
 	}
 	port = eventArgs.port;
 	timestamp = eventArgs.timestamp;
@@ -286,6 +349,7 @@ void testApp::keyPressed(int key){
 	if (key == 'f') {	
 		ofToggleFullscreen();
 	} else if (key > '0' && key < '5') {
+		whichCorner = 0;
 		int affectedScreen = key - '0';
 		if (affectedScreen == selectedScreen) {
 			showWarpTool = !showWarpTool;
@@ -303,62 +367,48 @@ void testApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){
-
+	
 }
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y ){
-
+	mousePos.x = x;
+	mousePos.y = y;
 }
 
 //--------------------------------------------------------------
 void testApp::mouseDragged(int x, int y, int button){
-	if (showWarpTool) {
-		float scaleX = (float)x / ofGetWidth();
-		float scaleY = (float)y / ofGetHeight();
 	
-		if(whichCorner >= 0){
-			listOfScreenCorners[selectedScreen-1][whichCorner].x = scaleX;
-			listOfScreenCorners[selectedScreen-1][whichCorner].y = scaleY;			
-		}
-	}
 }
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
 	if (showWarpTool) {
-		float smallestDist = 1.0;
-		whichCorner = -1;
-	
-		for(int i = 0; i < 4; i++){
-			float distx = listOfScreenCorners[selectedScreen-1][i].x - (float)x/ofGetWidth();
-			float disty = listOfScreenCorners[selectedScreen-1][i].y - (float)y/ofGetHeight();
-			float dist  = sqrt( distx * distx + disty * disty);
-		
-			if(dist < smallestDist && dist < 0.1){
-				whichCorner = i;
-				smallestDist = dist;
-			}
-		}
+		whichCorner = whichCorner % 4;	
+		float scaleX = (float)x / ofGetWidth();
+		float scaleY = (float)y / ofGetHeight();
+		listOfScreenCorners[selectedScreen-1][whichCorner].x = scaleX;
+		listOfScreenCorners[selectedScreen-1][whichCorner].y = scaleY;			
+		whichCorner++;
 	}
 }
 
 //--------------------------------------------------------------
 void testApp::mouseReleased(int x, int y, int button){
-	whichCorner = -1;
+	
 }
 
 //--------------------------------------------------------------
 void testApp::windowResized(int w, int h){
-
+	
 }
 
 //--------------------------------------------------------------
 void testApp::gotMessage(ofMessage msg){
-
+	
 }
 
 //--------------------------------------------------------------
 void testApp::dragEvent(ofDragInfo dragInfo){ 
-
+	
 }
