@@ -13,4 +13,8 @@ public:
 	bool canEdit;
 	float alpha;
 	
+	Editable() {
+		canEdit = false;
+		alpha = 0.0;	
+	}
 };

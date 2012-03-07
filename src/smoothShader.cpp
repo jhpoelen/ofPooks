@@ -32,17 +32,19 @@ void SmoothShader::setup(float w, float h) {
 	uniform float red;\
 	uniform float green;\
 	uniform float blue;\
+	uniform float contrast;\
+	uniform float luminance;\
 	\
 	void main()\
 	{\
 		vec2 st = gl_TexCoord[0].st;\
 		vec2 st_norm = st / vec2(width, height);\
-		float edgeAlpha = 40.0 * (st_norm.s * st_norm.t * (1.0 - st_norm.s) * (1.0 - st_norm.t));\
-		\
+		float edgeAlpha = 80.0 * (st_norm.s * st_norm.t * (1.0 - st_norm.s) * (1.0 - st_norm.t));\
 		vec4 color = texture2DRect(src_tex_unit0, st);\
-		float lum = dot(lumCoeff, color);\
+		float lum =  dot(lumCoeff, color);\
 		if (red > 0.0 || green > 0.0 || blue > 0.0) {\
-			color = vec4(lum,lum,lum,color[3]) * vec4(red/255.0, green/255.0, blue/255.0, 1.0);\
+			lum = 10.0 * luminance * smoothstep(0.75, 1.0, 1.0-lum);\
+			color = lum * vec4(red/255.0, green/255.0, blue/255.0, 1.0);\
 		}\
 		gl_FragColor = color * vec4(1.0, 1.0, 1.0, layerAlpha * edgeAlpha * screenAlpha);\
 	}";
@@ -59,13 +61,16 @@ void SmoothShader::setup(float w, float h) {
     enabled = true;
 }
 
-void SmoothShader::begin(float width, float height, float screenAlpha, float layerAlpha) {
+void SmoothShader::begin(float width, float height, float screenAlpha, float layerAlpha, float contrast, float luminance, float red, float green, float blue) {
     if (!initialized) ofLog(OF_LOG_ERROR, "ofxBlurShader::setup(w,h) needs to be called first");
     if (!enabled) return;
         
 	alphaShader.begin();
 	alphaShader.setUniform1f("layerAlpha", layerAlpha);
 	alphaShader.setUniform1f("screenAlpha", screenAlpha);
+
+	alphaShader.setUniform1f("contrast", contrast);
+	alphaShader.setUniform1f("luminance", luminance);
 	
 	alphaShader.setUniform1f("width", width);
 	alphaShader.setUniform1f("height", height);

@@ -1,17 +1,31 @@
 #include "testApp.h"
 
+
 //--------------------------------------------------------------
 void testApp::setup(){
 	// black
 	colors[0].set(0, 0, 0);
 	// royal yellow
 	colors[1].set(250, 218, 94);
-	// burgundy red 
-	colors[2].set(130, 0, 64);
 	// burnt orange
-	colors[3].set(204, 85, 0);
+	colors[2].set(204, 85, 0);
+	// yellow gold
+	colors[3].set(255, 215, 0);
+	// light sea green
+	colors[4].set(230, 0, 0);
+	// chinese red
+	colors[5].set(230, 0, 0);
+	// chinese red (subsidiary 1)
+	colors[6].set(254, 40, 14);
+	// chinese red (subsidiary 2)
+	colors[7].set(242, 85, 0);
+	// chinese red (subsidiary 3)
+	colors[8].set(137, 0, 24);
 	
+	selectedScreen = 0;
 	speed = 1.0;
+	showWarpTool = false;
+
 	
 	//we run at 60 fps!
 	ofSetVerticalSync(true);
@@ -57,13 +71,29 @@ void testApp::setup(){
 }
 
 void testApp::loadSamples() {
-	samples[1].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/start.mov");
-	samples[1].setUseTexture(true);
-	samples[1].play();
-	
-	samples[0].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/finalCloseup.mov");
+	samples[0].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/handsBegin.mov");
 	samples[0].setUseTexture(true);
-	samples[0].play();
+	
+	samples[1].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/handsFinalColumns.mov");
+	samples[1].setUseTexture(true);
+	
+	samples[2].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/handsFirstColumn.mov");
+	samples[2].setUseTexture(true);
+	
+	samples[3].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/handsFourColumns.mov");
+	samples[3].setUseTexture(true);
+	
+	samples[4].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/handsSeventhColumn.mov");
+	samples[4].setUseTexture(true);
+	
+	samples[5].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/movingCharactersCloseup.mov");
+	samples[5].setUseTexture(true);
+	
+	samples[6].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/movingCharacters.mov");
+	samples[6].setUseTexture(true);
+	
+	samples[7].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/completeZoomout.mov");
+	samples[7].setUseTexture(true);
 }
 
 void testApp::exit() {
@@ -75,16 +105,31 @@ void testApp::update(){
 	ofBackground(0, 0, 0);
 	
 	for (int i = 0; i < MAX_SAMPLES; i++) {
+		if (sampleActiveCount[i] > 0 && !samples[i].isPlaying()) {
+			samples[i].play();
+		} else if (sampleActiveCount[i] == 0 && samples[i].isPlaying()) {
+			samples[i].stop();
+		}
+		
 		if (samples[i].isPlaying()) {
 			samples[i].update();
 			samples[i].setSpeed(speed);
+		} 
+	}
+	
+	for (int  i=0; i<MAX_SCREENS; i++) {
+		for (int j=0; j<MAX_LAYERS; j++) {
+			if (screenLayerSettings[i][j].selectedLayoutIndex == 1) {
+				for (int k=0; k<MAX_STARS; k++) {
+					stars[k].update();
+				}
+			}
 		}
 	}
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-	
 	for(int i=0; i<MAX_SCREENS; i++) {
 		ofPushMatrix();
 		warpScreen(i);
@@ -96,7 +141,7 @@ void testApp::draw(){
 		if (showWarpTool) {
 			ofSetHexColor(0xFFFFFF);
 			ofSetRectMode(OF_RECTMODE_CENTER);
-			ofCircle(mousePos.x, mousePos.y,  20);
+			ofCircle(mousePos.x, mousePos.y,  15);
 			ofSetRectMode(OF_RECTMODE_CORNER);			
 		}
 	}
@@ -110,16 +155,48 @@ void testApp::renderScreen(int screenIndex) {
 			if (layer.alpha > 0.0) {
 				// one texture per layer
 				ofVideoPlayer video = samples[layer.selectedSampleIndex];
-				if (video.isLoaded()) {
-					ofTexture texture = video.getTextureReference();
+				if (video.isLoaded() && video.isPlaying()) {
+					if (video.isFrameNew()) {
+						cachedTextures[layer.selectedSampleIndex] = video.getTextureReference();
+					} 
 					// one shader per layer
 					ofEnableAlphaBlending();
-					shader.begin(ofGetWidth(), ofGetHeight(), screen.alpha, layer.alpha);
-					texture.draw(0, 0, ofGetWidth(), ofGetHeight());		
-					shader.end();
+					ofColor selectedColor = colors[layer.selectedColorIndex];					
+					if (screenLayerSettings[screenIndex][i].selectedLayoutIndex == 0) {
+						shader.begin(cachedTextures[layer.selectedSampleIndex].getWidth(), 
+									 cachedTextures[layer.selectedSampleIndex].getHeight(), 
+									 screen.alpha, 
+									 layer.alpha,
+									 layer.contrast,
+									 layer.luminance,
+									 selectedColor.r,
+									 selectedColor.g,
+									 selectedColor.b);
+						cachedTextures[layer.selectedSampleIndex].draw(0, 0, ofGetWidth(), ofGetHeight());		
+						shader.end();
+					} else {
+						float complexity = screenLayerSettings[screenIndex][i].complexity;
+						ofSetRectMode(OF_RECTMODE_CENTER);
+						for (int k=0; k<MAX_STARS; k++) {
+							TwinklingStar star = stars[k];
+							shader.begin(cachedTextures[layer.selectedSampleIndex].getWidth(), 
+										 cachedTextures[layer.selectedSampleIndex].getHeight(), 
+										 screen.alpha, 
+										 layer.alpha * star.alpha,
+										 layer.contrast,
+										 layer.luminance,
+										 selectedColor.r,
+										 selectedColor.g,
+										 selectedColor.b);
+							cachedTextures[layer.selectedSampleIndex].draw(star.position.x, star.position.y, star.size.x * complexity * 10.0, star.size.y * complexity * 10.0);		
+							shader.end();
+						}
+						ofSetRectMode(OF_RECTMODE_CORNER);
+					}
+					ofDisableAlphaBlending();
 				}
 			}
-		}		
+		}
 	}
 }
 
@@ -266,53 +343,89 @@ void testApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 	sprintf(msg, "value: (%i,%i), received from port: %i, id: %i \n\nwith %f milliseconds difference from last message",value,value2,port,id,timestamp);
 	
 	float normValue2 = value2 / 127.0;
-	if (id == 1) {
+	if (id == 1 && value == 7) {
 		for (int j=0; j<MAX_SCREENS;j++) {
 			if (screenSettings[j].canEdit) {
 				for (int i=0; i< MAX_LAYERS; i++) {
 					if (screenLayerSettings[j][i].canEdit) {
-						screenLayerSettings[j][i].selectedSampleIndex = normValue2 * (MAX_SAMPLES - 1);
+						int oldSampleIndex = screenLayerSettings[j][i].selectedSampleIndex;
+						if (sampleActiveCount[oldSampleIndex] > 0) {
+							sampleActiveCount[oldSampleIndex]--;
+						}
+						int newSampleIndex = normValue2 * (MAX_SAMPLES - 1);
+						screenLayerSettings[j][i].selectedSampleIndex = newSampleIndex;
+						sampleActiveCount[newSampleIndex]++;	
+					}
+				}
+			}
+		}						
+	} else if (id == 2 && value == 7) {
+		for (int j=0; j<MAX_SCREENS;j++) {
+			if (screenSettings[j].canEdit) {
+				for (int i=0; i< MAX_LAYERS; i++) {
+					if (screenLayerSettings[j][i].canEdit) {
+						screenLayerSettings[j][i].complexity = normValue2;
 					}
 				}
 			}
 		}
-						
-	}
-	
-	if (id == 5 && value == 7) {
+	} else if (id == 3 && value == 7) {
+		for (int j=0; j<MAX_SCREENS;j++) {
+			if (screenSettings[j].canEdit) {
+				for (int i=0; i< MAX_LAYERS; i++) {
+					if (screenLayerSettings[j][i].canEdit) {
+						screenLayerSettings[j][i].selectedLayoutIndex = normValue2 * (MAX_LAYOUTS-1);
+					}
+				}
+			}
+		}
+	} else if (id == 4 && value == 7) {
+		for (int j=0; j<MAX_SCREENS;j++) {
+			if (screenSettings[j].canEdit) {
+				for (int i=0; i< MAX_LAYERS; i++) {
+					if (screenLayerSettings[j][i].canEdit) {
+						screenLayerSettings[j][i].luminance = normValue2;
+					}
+				}
+			}
+		}
+	} else if (id == 5 && value == 7) {
 		for (int j=0; j<MAX_SCREENS;j++) {
 			if (screenSettings[j].canEdit) {
 				for (int i=0; i< MAX_LAYERS; i++) {
 					if (screenLayerSettings[j][i].canEdit) {
 						screenLayerSettings[j][i].alpha = normValue2;
-						char msg[255];
-						sprintf(msg, "layer[%d].alpha = %f", i, screenLayerSettings[j][i].alpha);
-						ofLog(OF_LOG_ERROR, msg);
 					}
 				}
 			}
 		}
-	} else if (id == 6) {
+	} else if (id == 6 && value == 7) {
 		int index = normValue2 * (MAX_COLORS - 1);
-		ofColor selectedColor = colors[index];
-		shader.red = selectedColor.r;
-		shader.green = selectedColor.g;
-		shader.blue = selectedColor.b;
-	} else if (id == 7) {
+		for (int j=0; j<MAX_SCREENS;j++) {
+			if (screenSettings[j].canEdit) {
+				for (int i=0; i< MAX_LAYERS; i++) {
+					if (screenLayerSettings[j][i].canEdit) {
+						screenLayerSettings[j][i].selectedColorIndex = index;
+					}
+				}
+			}
+		}		
+	} else if (id == 7 && value == 7) {
 		speed = 4*normValue2 - 2;
 	} else if (id == 1) {
 		if (value == 47) {
 			screenSettings[0].canEdit = normValue2 == 1.0;
-			char msg[255];
-			sprintf(msg, "screen [%d].canEdit = %d", 0, screenSettings[0].canEdit);
-			ofLog(OF_LOG_ERROR, msg);
 		} else if (value == 45) {
 			screenSettings[1].canEdit = normValue2 == 1.0;
 		} else if (value == 48) {
 			screenSettings[2].canEdit = normValue2 == 1.0;	
 		} else if (value == 49) {
 			screenSettings[3].canEdit = normValue2 == 1.0;	
-		}
+		} else if (value == 46) {
+			screenSettings[4].canEdit = normValue2 == 1.0;	
+		} else if (value == 44) {
+			screenSettings[5].canEdit = normValue2 == 1.0;	
+		} 
 		
 	} 
 	
@@ -320,8 +433,6 @@ void testApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 		if (id > 0 && id <= MAX_SCREENS) {
 			if (screenSettings[id-1].canEdit) {
 				screenSettings[id-1].alpha = normValue2;
-				char msg[255];
-				sprintf(msg, "screen [%d].alpha = %f", id-1, screenSettings[id-1].alpha);
 			}
 		}
 	}
@@ -332,9 +443,6 @@ void testApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 				int controlNo = id;
 				if (id > 0 && id <= MAX_LAYERS) {
 					screenLayerSettings[i][id-1].canEdit = normValue2 == 1.0;
-					char msg[255];
-					sprintf(msg, "layer [%d].canEdit = %d", id-1, screenLayerSettings[i][id-1].canEdit);
-					ofLog(OF_LOG_ERROR, msg);
 				}
 			}	
 		}
@@ -348,7 +456,7 @@ void testApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 void testApp::keyPressed(int key){
 	if (key == 'f') {	
 		ofToggleFullscreen();
-	} else if (key > '0' && key < '5') {
+	} else if (key > '0' && key < '7') {
 		whichCorner = 0;
 		int affectedScreen = key - '0';
 		if (affectedScreen == selectedScreen) {
