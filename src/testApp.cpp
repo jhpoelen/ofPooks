@@ -71,7 +71,8 @@ void testApp::setup(){
 }
 
 void testApp::loadSamples() {
-	samples[0].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/handsBegin.mov");
+    
+    samples[0].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/handsBegin.mov");
 	samples[0].setUseTexture(true);
 	
 	samples[1].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/handsFinalColumns.mov");
@@ -94,6 +95,22 @@ void testApp::loadSamples() {
 	
 	samples[7].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/completeZoomout.mov");
 	samples[7].setUseTexture(true);
+
+    samples[8].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/policeOfficeCutout.mov");
+	samples[8].setUseTexture(true);
+
+    samples[9].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/iAManCloseup.mov");
+	samples[9].setUseTexture(true);
+    
+    samples[10].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/sea.mov");
+	samples[10].setUseTexture(true);
+
+    samples[11].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/lolitanews1954.mov");
+	samples[11].setUseTexture(true);
+
+    samples[12].loadTextBuffer("/Users/jorrit/Movies/shows/assassins2012/valerie/leader.txt");
+    
+    fileBuffer = ofBufferFromFile("/Users/jorrit/Movies/shows/assassins2012/valerie/scum.txt");
 }
 
 void testApp::exit() {
@@ -154,15 +171,18 @@ void testApp::renderScreen(int screenIndex) {
 			Layer layer = screenLayerSettings[screenIndex][i];
 			if (layer.alpha > 0.0) {
 				// one texture per layer
-				ofVideoPlayer video = samples[layer.selectedSampleIndex];
-				if (video.isLoaded() && video.isPlaying()) {
+                Sample sample = samples[layer.selectedSampleIndex];
+                if (sample.isVideoPlayer) {
+                    ofVideoPlayer video = sample.videoPlayer; 
+                    if (video.isLoaded() && video.isPlaying()) {
 					if (video.isFrameNew()) {
 						cachedTextures[layer.selectedSampleIndex] = video.getTextureReference();
 					} 
 					// one shader per layer
 					ofEnableAlphaBlending();
 					ofColor selectedColor = colors[layer.selectedColorIndex];					
-					if (screenLayerSettings[screenIndex][i].selectedLayoutIndex == 0) {
+                    int selectedIndex = screenLayerSettings[screenIndex][i].selectedLayoutIndex;
+					if (selectedIndex == 0) {
 						shader.begin(cachedTextures[layer.selectedSampleIndex].getWidth(), 
 									 cachedTextures[layer.selectedSampleIndex].getHeight(), 
 									 screen.alpha, 
@@ -174,7 +194,30 @@ void testApp::renderScreen(int screenIndex) {
 									 selectedColor.b);
 						cachedTextures[layer.selectedSampleIndex].draw(0, 0, ofGetWidth(), ofGetHeight());		
 						shader.end();
-					} else {
+					} if (selectedIndex == 1) {
+                    	float complexity = screenLayerSettings[screenIndex][i].complexity;
+                        int nrows = (complexity * 12) + 1;
+                        int ncols = nrows;
+                        int xSize = ofGetWidth() / nrows;
+                        int ySize = ofGetHeight() / ncols;
+                        for (int row=0; row<nrows; row++) {
+                            for (int col=0; col<ncols; col++) {
+                                shader.begin(cachedTextures[layer.selectedSampleIndex].getWidth(), 
+                                             cachedTextures[layer.selectedSampleIndex].getHeight(), 
+                                             screen.alpha, 
+                                             layer.alpha,
+                                             layer.contrast,
+                                             layer.luminance,
+                                             selectedColor.r,
+                                             selectedColor.g,
+                                             selectedColor.b);                                
+                                int xOffset = row * xSize;
+                                int yOffset = col * ySize;
+                                cachedTextures[layer.selectedSampleIndex].draw(xOffset, yOffset, xSize, ySize);		
+                                shader.end();
+                            }
+                        }
+                    } else {
 						float complexity = screenLayerSettings[screenIndex][i].complexity;
 						ofSetRectMode(OF_RECTMODE_CENTER);
 						for (int k=0; k<MAX_STARS; k++) {
@@ -194,15 +237,20 @@ void testApp::renderScreen(int screenIndex) {
 						ofSetRectMode(OF_RECTMODE_CORNER);
 					}
 					ofDisableAlphaBlending();
+                    
 				}
+                }
 			}
 		}
 	}
 }
 
 void testApp::warpScreen(int screenIndex) {
-	ofPoint corners[4] = listOfScreenCorners[screenIndex];
-	//lets make a matrix for openGL
+	ofPoint corners[4];
+    for (int i=0; i<4; i++) {
+        corners[i] = listOfScreenCorners[screenIndex][i];
+    }
+    //lets make a matrix for openGL
 	//this will be the matrix that peforms the transformation
 	GLfloat myMatrix[16];
 	
@@ -322,15 +370,30 @@ void testApp::renderWarpTool(int screenNumber) {
 	
 	char selectedScreenMsg[255];	
 	sprintf(selectedScreenMsg, "Screen %d", screenNumber);
+    
 	
 	ofSetHexColor(hexColor);
 	ttf.drawString(selectedScreenMsg, ofGetWidth()/3.0, ofGetHeight()/2.0);
-	
+    for (int i=0; i < ofGetHeight()/50; i++) {
+        if (fileBuffer.isLastLine()) {
+            fileBuffer.resetLineReader();
+        }
+        ttf.drawString(fileBuffer.getNextLine(), 0.0, i * 50);        
+         
+    }
+
 	ofSetHexColor(0x000000);
 	ttf2.drawString(msg, 78, 433);
 	
 	ofSetHexColor(hexColor);
 	ttf2.drawString(msg, 80, 430);		
+    
+    
+    
+    
+
+    
+        
 }
 
 void testApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {

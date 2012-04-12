@@ -6,8 +6,6 @@
  *  Copyright 2012 __MyCompanyName__. All rights reserved.
  *
  */
-#pragma once;
-
 #include "ofMain.h"
 
 const int MAX_FADE_STEPS = 10000;

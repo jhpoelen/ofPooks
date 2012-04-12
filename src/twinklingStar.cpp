@@ -23,8 +23,8 @@ void TwinklingStar::update() {
 		if (timeInTicks > MAX_FADE_STEPS) {
 			alpha = 2.0 - alpha;
 		} 
- 		//position.x += speed.x;
-		//position.y += speed.y;
+ 		position.x += speed.x;
+		position.y += speed.y;
 	}
 }
 

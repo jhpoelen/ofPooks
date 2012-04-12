@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A20040C215322F3200BCC100 /* sample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A20040C115322F3200BCC100 /* sample.cpp */; };
 		A20117CC14FCB12400B042CC /* ofxBlurShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A20117CA14FCB12400B042CC /* ofxBlurShader.cpp */; };
 		A219B7E0150093DE0089F3AF /* smoothShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A219B7DF150093DE0089F3AF /* smoothShader.cpp */; };
 		A285AD4215040E9B008CAAC4 /* editable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A285AD4115040E9B008CAAC4 /* editable.cpp */; };
@@ -73,6 +74,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A20040C115322F3200BCC100 /* sample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sample.cpp; sourceTree = "<group>"; };
+		A20040C315322F3B00BCC100 /* sample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sample.h; sourceTree = "<group>"; };
 		A20117CA14FCB12400B042CC /* ofxBlurShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxBlurShader.cpp; path = ../../../addons/ofxBlurShader/ofxBlurShader.cpp; sourceTree = SOURCE_ROOT; };
 		A20117CB14FCB12400B042CC /* ofxBlurShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxBlurShader.h; path = ../../../addons/ofxBlurShader/ofxBlurShader.h; sourceTree = SOURCE_ROOT; };
 		A219B7DE150093DE0089F3AF /* smoothShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smoothShader.h; sourceTree = "<group>"; };
@@ -124,7 +127,7 @@
 		E45BE9770E8CC7DD009D7055 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		E45BE9790E8CC7DD009D7055 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		E45BE97A0E8CC7DD009D7055 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
-		E4B69B5B0A3A1756003C02F2 /* ofPooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ofPooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4B69B5B0A3A1756003C02F2 /* ofPooksDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ofPooksDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = testApp.cpp; path = src/testApp.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1F0A3A1BDC003C02F2 /* testApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = testApp.h; path = src/testApp.h; sourceTree = SOURCE_ROOT; };
@@ -304,7 +307,7 @@
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
 				E45BE5980E8CC70C009D7055 /* frameworks */,
-				E4B69B5B0A3A1756003C02F2 /* ofPooks.app */,
+				E4B69B5B0A3A1756003C02F2 /* ofPooksDebug.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -322,6 +325,8 @@
 				A285AD871504229E008CAAC4 /* layer.cpp */,
 				A2B8E04915075794009B1845 /* twinklingStar.h */,
 				A2B8E04A15075794009B1845 /* twinklingStar.cpp */,
+				A20040C115322F3200BCC100 /* sample.cpp */,
+				A20040C315322F3B00BCC100 /* sample.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -354,7 +359,7 @@
 			);
 			name = ofPooks;
 			productName = myOFApp;
-			productReference = E4B69B5B0A3A1756003C02F2 /* ofPooks.app */;
+			productReference = E4B69B5B0A3A1756003C02F2 /* ofPooksDebug.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -436,6 +441,7 @@
 				A285AD4215040E9B008CAAC4 /* editable.cpp in Sources */,
 				A285AD881504229E008CAAC4 /* layer.cpp in Sources */,
 				A2B8E04B15075794009B1845 /* twinklingStar.cpp in Sources */,
+				A20040C215322F3200BCC100 /* sample.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -509,6 +515,8 @@
 		E4B69B600A3A1757003C02F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -589,6 +597,8 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
+				SDKROOT = macosx;
+				VALID_ARCHS = "x86_64 i386";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -596,6 +606,8 @@
 		E4B69B610A3A1757003C02F2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -675,6 +687,8 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				VALID_ARCHS = "x86_64 i386";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

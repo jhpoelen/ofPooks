@@ -278,7 +278,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>12</integer>
+									<integer>15</integer>
 									<integer>4</integer>
 									<integer>0</integer>
 								</array>
@@ -321,7 +321,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>layer.h</string>
+								<string>twinklingStar.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -329,11 +329,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>layer.h</string>
+										<string>twinklingStar.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>A2B8E19D15077D7A009B1845</string>
+										<string>A2B8E1B2150BB1BF009B1845</string>
 										<key>history</key>
 										<array>
 											<string>A2C4B21014F7675A003470A7</string>
@@ -366,7 +366,6 @@
 											<string>A2B8E0D315076CA2009B1845</string>
 											<string>A2B8E0D415076CA2009B1845</string>
 											<string>A2B8E0F915077276009B1845</string>
-											<string>A2B8E13015077674009B1845</string>
 											<string>A2B8E144150777C2009B1845</string>
 											<string>A2B8E14E150778D9009B1845</string>
 											<string>A2B8E14F150778D9009B1845</string>
@@ -377,7 +376,8 @@
 											<string>A2B8E19A15077D7A009B1845</string>
 											<string>A2B8E19B15077D7A009B1845</string>
 											<string>A2B8E19C15077D7A009B1845</string>
-											<string>A2B8E18F15077C5F009B1845</string>
+											<string>A2B8E1A31507C9B0009B1845</string>
+											<string>A2B8E1A41507C9B0009B1845</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -575,7 +575,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>A2B8E19E15077D7A009B1845</string>
 		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>A2B8DF77150726F8009B1845</string>
 		<string>A2B8DF78150726F8009B1845</string>
