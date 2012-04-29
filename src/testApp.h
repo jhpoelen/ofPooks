@@ -26,6 +26,8 @@ class testApp : public ofBaseApp, public ofxMidiListener {
 		void exit();
 		
 		void loadSamples();
+        void loadSamplesValerie();
+        void loadSamplesNoReservations();
 	
 		void renderWarpTool(int screenNumber);
 		void renderScreen(int screenIndex);
@@ -78,7 +80,6 @@ class testApp : public ofBaseApp, public ofxMidiListener {
 		// midi addon
 		ofxMidiIn	midiIn;
 	
-		float speed;
 		SmoothShader shader;
 	
 		int selectedScreen;

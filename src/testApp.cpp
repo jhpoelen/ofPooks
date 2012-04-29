@@ -23,7 +23,6 @@ void testApp::setup(){
 	colors[8].set(137, 0, 24);
 	
 	selectedScreen = 0;
-	speed = 1.0;
 	showWarpTool = false;
 
 	
@@ -70,45 +69,97 @@ void testApp::setup(){
 	ofSetFrameRate(30);
 }
 
+// TODO - color, layers, speed adjustment with each layer / layouts, master control
+// valerie - start with slow urban, speed up abstract urban mix in valerie, iamman face
+
 void testApp::loadSamples() {
-    
-    samples[0].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/handsBegin.mov");
+    loadSamplesNoReservations();
+    //loadSamplesValerie();
+}
+
+void testApp::loadSamplesNoReservations() {
+
+    samples[0].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
 	samples[0].setUseTexture(true);
 	
-	samples[1].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/handsFinalColumns.mov");
+    samples[1].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
 	samples[1].setUseTexture(true);
 	
-	samples[2].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/handsFirstColumn.mov");
+    samples[2].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
 	samples[2].setUseTexture(true);
 	
-	samples[3].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/handsFourColumns.mov");
+    samples[3].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
 	samples[3].setUseTexture(true);
 	
-	samples[4].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/handsSeventhColumn.mov");
+    samples[4].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
 	samples[4].setUseTexture(true);
 	
-	samples[5].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/movingCharactersCloseup.mov");
+    samples[5].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
 	samples[5].setUseTexture(true);
 	
-	samples[6].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/movingCharacters.mov");
+    samples[6].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
 	samples[6].setUseTexture(true);
 	
-	samples[7].loadMovie("/Users/jorrit/Movies/shows/assassins2012/ShiJianqiao/completeZoomout.mov");
+    samples[7].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
 	samples[7].setUseTexture(true);
-
-    samples[8].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/policeOfficeCutout.mov");
+    
+    samples[8].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
 	samples[8].setUseTexture(true);
-
-    samples[9].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/iAManCloseup.mov");
+    
+    samples[9].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
 	samples[9].setUseTexture(true);
     
-    samples[10].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/sea.mov");
+    samples[10].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
+	samples[10].setUseTexture(true);
+    
+    samples[11].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
+	samples[11].setUseTexture(true);
+    
+    samples[12].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
+	samples[12].setUseTexture(true);
+
+}
+
+void testApp::loadSamplesValerie() {
+    
+    samples[0].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
+	samples[0].setUseTexture(true);
+	
+	samples[1].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
+	samples[1].setUseTexture(true);
+	
+	samples[2].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
+	samples[2].setUseTexture(true);
+	
+	samples[3].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
+	samples[3].setUseTexture(true);
+	
+	samples[4].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
+	samples[4].setUseTexture(true);
+	
+	samples[5].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/policeOfficeCutout.mov");
+	samples[5].setUseTexture(true);
+	
+	samples[6].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/policeOfficeCutout.mov");
+	samples[6].setUseTexture(true);
+	
+	samples[7].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/policeOfficeCutout.mov");
+	samples[7].setUseTexture(true);
+
+    samples[8].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/iAManCloseup.avi");
+	samples[8].setUseTexture(true);
+
+    samples[9].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/iAManCloseup.avi");
+	samples[9].setUseTexture(true);
+    
+    samples[10].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/windows3.avi");
 	samples[10].setUseTexture(true);
 
-    samples[11].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/lolitanews1954.mov");
+    samples[11].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/windows2.avi");
 	samples[11].setUseTexture(true);
 
-    samples[12].loadTextBuffer("/Users/jorrit/Movies/shows/assassins2012/valerie/leader.txt");
+    samples[12].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/windows1.avi");
+	samples[12].setUseTexture(true);
     
     fileBuffer = ofBufferFromFile("/Users/jorrit/Movies/shows/assassins2012/valerie/scum.txt");
 }
@@ -130,16 +181,17 @@ void testApp::update(){
 		
 		if (samples[i].isPlaying()) {
 			samples[i].update();
-			samples[i].setSpeed(speed);
 		} 
 	}
 	
 	for (int  i=0; i<MAX_SCREENS; i++) {
 		for (int j=0; j<MAX_LAYERS; j++) {
-			if (screenLayerSettings[i][j].selectedLayoutIndex == 1) {
+            Layer layer = screenLayerSettings[i][j];
+            if (layer.selectedLayoutIndex == 1) {
 				for (int k=0; k<MAX_STARS; k++) {
 					stars[k].update();
 				}
+                samples[layer.selectedSampleIndex].setSpeed(layer.speed);
 			}
 		}
 	}
@@ -172,17 +224,17 @@ void testApp::renderScreen(int screenIndex) {
 			if (layer.alpha > 0.0) {
 				// one texture per layer
                 Sample sample = samples[layer.selectedSampleIndex];
-                if (sample.isVideoPlayer) {
-                    ofVideoPlayer video = sample.videoPlayer; 
-                    if (video.isLoaded() && video.isPlaying()) {
-					if (video.isFrameNew()) {
-						cachedTextures[layer.selectedSampleIndex] = video.getTextureReference();
-					} 
-					// one shader per layer
-					ofEnableAlphaBlending();
-					ofColor selectedColor = colors[layer.selectedColorIndex];					
-                    int selectedIndex = screenLayerSettings[screenIndex][i].selectedLayoutIndex;
-					if (selectedIndex == 0) {
+                if (sample.isVideoPlayer || sample.isVideoGrabber) {
+                    
+                    if (sample.isPlaying()) {
+                        if (sample.isFrameNew()) {
+                            cachedTextures[layer.selectedSampleIndex] = sample.getTextureReference();
+                        } 
+                        // one shader per layer
+                        ofEnableAlphaBlending();
+                        ofColor selectedColor = colors[layer.selectedColorIndex];					
+                        int selectedIndex = screenLayerSettings[screenIndex][i].selectedLayoutIndex;
+                        if (selectedIndex == 0) {
 						shader.begin(cachedTextures[layer.selectedSampleIndex].getWidth(), 
 									 cachedTextures[layer.selectedSampleIndex].getHeight(), 
 									 screen.alpha, 
@@ -194,7 +246,9 @@ void testApp::renderScreen(int screenIndex) {
 									 selectedColor.b);
 						cachedTextures[layer.selectedSampleIndex].draw(0, 0, ofGetWidth(), ofGetHeight());		
 						shader.end();
-					} if (selectedIndex == 1) {
+					} 
+                        
+                    if (selectedIndex == 1) {
                     	float complexity = screenLayerSettings[screenIndex][i].complexity;
                         int nrows = (complexity * 12) + 1;
                         int ncols = nrows;
@@ -374,13 +428,6 @@ void testApp::renderWarpTool(int screenNumber) {
 	
 	ofSetHexColor(hexColor);
 	ttf.drawString(selectedScreenMsg, ofGetWidth()/3.0, ofGetHeight()/2.0);
-    for (int i=0; i < ofGetHeight()/50; i++) {
-        if (fileBuffer.isLastLine()) {
-            fileBuffer.resetLineReader();
-        }
-        ttf.drawString(fileBuffer.getNextLine(), 0.0, i * 50);        
-         
-    }
 
 	ofSetHexColor(0x000000);
 	ttf2.drawString(msg, 78, 433);
@@ -474,7 +521,15 @@ void testApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 			}
 		}		
 	} else if (id == 7 && value == 7) {
-		speed = 4*normValue2 - 2;
+		for (int j=0; j<MAX_SCREENS;j++) {
+			if (screenSettings[j].canEdit) {
+				for (int i=0; i< MAX_LAYERS; i++) {
+					if (screenLayerSettings[j][i].canEdit) {
+						screenLayerSettings[j][i].speed = 4*normValue2 - 2;
+					}
+				}
+			}
+		}		
 	} else if (id == 1) {
 		if (value == 47) {
 			screenSettings[0].canEdit = normValue2 == 1.0;

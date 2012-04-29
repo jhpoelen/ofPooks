@@ -11,13 +11,17 @@
 class Sample {
 public:
     ofVideoPlayer videoPlayer;
-    
+    ofVideoGrabber videoGrabber;
     ofBuffer text;
     ofTrueTypeFont font;
     
     bool isVideoPlayer;
+    bool isVideoGrabber;
+    bool grabberInitialized;
+    bool grabberActive;
     
     bool loadMovie(string name);
+    bool initGrabber();
     void setUseTexture(bool bUse);
     
     void loadTextBuffer(string name);
@@ -26,6 +30,8 @@ public:
     bool isPlaying();
     void stop();
     void update();
+    bool isFrameNew();
     void setSpeed(float speed);
+    ofTexture & getTextureReference();
     
 };
