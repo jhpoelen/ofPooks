@@ -14,7 +14,7 @@ const int MAX_COLORS = 8;
 const int MAX_SCREENS = 6;
 const int MAX_LAYERS = 4;
 const int MAX_LAYOUTS = 2;
-const int MAX_SAMPLES = 13;
+const int MAX_SAMPLES = 26;
 const int MAX_STARS = 24;
 
 class testApp : public ofBaseApp, public ofxMidiListener {
@@ -26,8 +26,12 @@ class testApp : public ofBaseApp, public ofxMidiListener {
 		void exit();
 		
 		void loadSamples();
+        void loadSamplesLolita();
         void loadSamplesValerie();
+        void loadSamplesShi();
         void loadSamplesNoReservations();
+    
+        void selectSampleIndex(int newSampleIndex);
 	
 		void renderWarpTool(int screenNumber);
 		void renderScreen(int screenIndex);
@@ -74,6 +78,9 @@ class testApp : public ofBaseApp, public ofxMidiListener {
 		int value2;
 		double timestamp;
 		char msg[255];
+    
+        float masterAlpha = 1.0;
+        float masterVolume = 1.0;
 	
 		ofColor colors[MAX_COLORS];
 	

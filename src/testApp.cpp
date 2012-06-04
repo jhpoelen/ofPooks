@@ -24,7 +24,7 @@ void testApp::setup(){
 	
 	selectedScreen = 0;
 	showWarpTool = false;
-
+    
 	
 	//we run at 60 fps!
 	ofSetVerticalSync(true);
@@ -73,12 +73,57 @@ void testApp::setup(){
 // valerie - start with slow urban, speed up abstract urban mix in valerie, iamman face
 
 void testApp::loadSamples() {
-    loadSamplesNoReservations();
-    //loadSamplesValerie();
+    //loadSamplesNoReservations();
+    loadSamplesValerie();
+    loadSamplesLolita();
+    loadSamplesShi();
+}
+
+void testApp::loadSamplesLolita() {
+    samples[0].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/iAmNotSorry1954.mov");
+	samples[0].setUseTexture(true);
+    
+    samples[1].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/libreEstaNoche1979.mov");
+	samples[1].setUseTexture(true);
+    
+    samples[2].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/lolitaChair1954.mov");
+	samples[2].setUseTexture(true);
+    
+    samples[3].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/lolitaHeadshotNoSound1954.mov");
+	samples[3].setUseTexture(true);
+    
+    samples[4].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/lolitaInterviewNoSound1954.mov");
+	samples[4].setUseTexture(true);
+    
+    samples[5].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/iAmNotSorry1954.mov");
+	samples[5].setUseTexture(true);
+    
+    samples[6].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/iAmNotSorry1954.mov");
+	samples[6].setUseTexture(true);
+    
+    samples[7].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/iAmNotSorry1954.mov");
+	samples[7].setUseTexture(true);
+    
+    samples[8].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/iAmNotSorry1954.mov");
+	samples[8].setUseTexture(true);
+    
+    samples[9].zzxccv("/Users/jorrit/Movies/shows/assassins2012/lolita/birds.mov");
+	samples[9].setUseTexture(true);
+    
+    samples[10].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/birds.mov");
+	samples[10].setUseTexture(true);
+    
+    samples[11].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/movingPoints.mov");
+	samples[11].setUseTexture(true);
+    
+    samples[12].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/movingPoints.mov");
+	samples[12].setUseTexture(true);
+    
+	
 }
 
 void testApp::loadSamplesNoReservations() {
-
+    
     samples[0].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
 	samples[0].setUseTexture(true);
 	
@@ -115,53 +160,56 @@ void testApp::loadSamplesNoReservations() {
     samples[11].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
 	samples[11].setUseTexture(true);
     
-    samples[12].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
+    samples[12].loadMovie("/Users/jorrit/Movies/samples/abstract/whitePaint320x240.mov");
 	samples[12].setUseTexture(true);
-
+    
 }
 
 void testApp::loadSamplesValerie() {
     
-    samples[0].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
-	samples[0].setUseTexture(true);
+    samples[13].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
+	samples[13].setUseTexture(true);
 	
-	samples[1].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
-	samples[1].setUseTexture(true);
+	samples[14].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
+	samples[14].setUseTexture(true);
 	
-	samples[2].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
-	samples[2].setUseTexture(true);
-	
-	samples[3].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
-	samples[3].setUseTexture(true);
-	
-	samples[4].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
-	samples[4].setUseTexture(true);
-	
-	samples[5].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/policeOfficeCutout.mov");
-	samples[5].setUseTexture(true);
-	
-	samples[6].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/policeOfficeCutout.mov");
-	samples[6].setUseTexture(true);
-	
-	samples[7].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/policeOfficeCutout.mov");
-	samples[7].setUseTexture(true);
-
-    samples[8].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/iAManCloseup.avi");
-	samples[8].setUseTexture(true);
-
-    samples[9].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/iAManCloseup.avi");
-	samples[9].setUseTexture(true);
+    samples[15].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/iAManCloseup.avi");
+	samples[15].setUseTexture(true);
     
-    samples[10].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/windows3.avi");
-	samples[10].setUseTexture(true);
-
-    samples[11].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/windows2.avi");
-	samples[11].setUseTexture(true);
-
-    samples[12].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/windows1.avi");
-	samples[12].setUseTexture(true);
+    samples[16].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/iAManCloseup.avi");
+	samples[16].setUseTexture(true);
+    
+    samples[17].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/windows3.avi");
+	samples[17].setUseTexture(true);
     
     fileBuffer = ofBufferFromFile("/Users/jorrit/Movies/shows/assassins2012/valerie/scum.txt");
+}
+
+void testApp::loadSamplesShi() {
+    samples[18].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/completeZoomout.mov");
+	samples[18].setUseTexture(true);
+	
+	samples[19].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/handsBegin.mov");
+	samples[19].setUseTexture(true);
+
+    samples[20].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/handsFinalColumns.mov");
+	samples[20].setUseTexture(true);
+    
+    samples[21].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/handsFirstColumn.mov");
+	samples[21].setUseTexture(true);
+    
+    samples[22].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/handsFourColumns.mov");
+	samples[22].setUseTexture(true);
+    
+    samples[23].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/handsSeventhColumn.mov");
+	samples[23].setUseTexture(true);
+
+    samples[24].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/movingCharacters.mov");
+	samples[24].setUseTexture(true);
+
+    samples[25].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/movingCharactersCloseup.mov");
+	samples[25].setUseTexture(true);
+    
 }
 
 void testApp::exit() {
@@ -191,8 +239,9 @@ void testApp::update(){
 				for (int k=0; k<MAX_STARS; k++) {
 					stars[k].update();
 				}
-                samples[layer.selectedSampleIndex].setSpeed(layer.speed);
 			}
+            float speed = masterVolume == 0 ? 0.0 : layer.speed;
+            samples[layer.selectedSampleIndex].setSpeed(speed);
 		}
 	}
 }
@@ -219,6 +268,7 @@ void testApp::draw(){
 void testApp::renderScreen(int screenIndex) {
 	Editable screen = screenSettings[screenIndex];
 	if (screen.alpha > 0.0) {
+        float masterScreenAlpha = screen.alpha * masterAlpha;
 		for (int i=0; i<MAX_LAYERS; i++) {
 			Layer layer = screenLayerSettings[screenIndex][i];
 			if (layer.alpha > 0.0) {
@@ -235,64 +285,64 @@ void testApp::renderScreen(int screenIndex) {
                         ofColor selectedColor = colors[layer.selectedColorIndex];					
                         int selectedIndex = screenLayerSettings[screenIndex][i].selectedLayoutIndex;
                         if (selectedIndex == 0) {
-						shader.begin(cachedTextures[layer.selectedSampleIndex].getWidth(), 
-									 cachedTextures[layer.selectedSampleIndex].getHeight(), 
-									 screen.alpha, 
-									 layer.alpha,
-									 layer.contrast,
-									 layer.luminance,
-									 selectedColor.r,
-									 selectedColor.g,
-									 selectedColor.b);
-						cachedTextures[layer.selectedSampleIndex].draw(0, 0, ofGetWidth(), ofGetHeight());		
-						shader.end();
-					} 
+                            shader.begin(cachedTextures[layer.selectedSampleIndex].getWidth(), 
+                                         cachedTextures[layer.selectedSampleIndex].getHeight(), 
+                                         masterScreenAlpha, 
+                                         layer.alpha,
+                                         layer.contrast,
+                                         layer.luminance,
+                                         selectedColor.r,
+                                         selectedColor.g,
+                                         selectedColor.b);
+                            cachedTextures[layer.selectedSampleIndex].draw(0, 0, ofGetWidth(), ofGetHeight());		
+                            shader.end();
+                        } 
                         
-                    if (selectedIndex == 1) {
-                    	float complexity = screenLayerSettings[screenIndex][i].complexity;
-                        int nrows = (complexity * 12) + 1;
-                        int ncols = nrows;
-                        int xSize = ofGetWidth() / nrows;
-                        int ySize = ofGetHeight() / ncols;
-                        for (int row=0; row<nrows; row++) {
-                            for (int col=0; col<ncols; col++) {
+                        if (selectedIndex == 1) {
+                            float complexity = screenLayerSettings[screenIndex][i].complexity;
+                            int nrows = (complexity * 12) + 1;
+                            int ncols = nrows;
+                            int xSize = ofGetWidth() / nrows;
+                            int ySize = ofGetHeight() / ncols;
+                            for (int row=0; row<nrows; row++) {
+                                for (int col=0; col<ncols; col++) {
+                                    shader.begin(cachedTextures[layer.selectedSampleIndex].getWidth(), 
+                                                 cachedTextures[layer.selectedSampleIndex].getHeight(), 
+                                                 masterScreenAlpha, 
+                                                 layer.alpha,
+                                                 layer.contrast,
+                                                 layer.luminance,
+                                                 selectedColor.r,
+                                                 selectedColor.g,
+                                                 selectedColor.b);                                
+                                    int xOffset = row * xSize;
+                                    int yOffset = col * ySize;
+                                    cachedTextures[layer.selectedSampleIndex].draw(xOffset, yOffset, xSize, ySize);		
+                                    shader.end();
+                                }
+                            }
+                        } else {
+                            float complexity = screenLayerSettings[screenIndex][i].complexity;
+                            ofSetRectMode(OF_RECTMODE_CENTER);
+                            for (int k=0; k<MAX_STARS; k++) {
+                                TwinklingStar star = stars[k];
                                 shader.begin(cachedTextures[layer.selectedSampleIndex].getWidth(), 
                                              cachedTextures[layer.selectedSampleIndex].getHeight(), 
-                                             screen.alpha, 
-                                             layer.alpha,
+                                             masterScreenAlpha, 
+                                             layer.alpha * star.alpha,
                                              layer.contrast,
                                              layer.luminance,
                                              selectedColor.r,
                                              selectedColor.g,
-                                             selectedColor.b);                                
-                                int xOffset = row * xSize;
-                                int yOffset = col * ySize;
-                                cachedTextures[layer.selectedSampleIndex].draw(xOffset, yOffset, xSize, ySize);		
+                                             selectedColor.b);
+                                cachedTextures[layer.selectedSampleIndex].draw(star.position.x, star.position.y, star.size.x * complexity * 10.0, star.size.y * complexity * 10.0);		
                                 shader.end();
                             }
+                            ofSetRectMode(OF_RECTMODE_CORNER);
                         }
-                    } else {
-						float complexity = screenLayerSettings[screenIndex][i].complexity;
-						ofSetRectMode(OF_RECTMODE_CENTER);
-						for (int k=0; k<MAX_STARS; k++) {
-							TwinklingStar star = stars[k];
-							shader.begin(cachedTextures[layer.selectedSampleIndex].getWidth(), 
-										 cachedTextures[layer.selectedSampleIndex].getHeight(), 
-										 screen.alpha, 
-										 layer.alpha * star.alpha,
-										 layer.contrast,
-										 layer.luminance,
-										 selectedColor.r,
-										 selectedColor.g,
-										 selectedColor.b);
-							cachedTextures[layer.selectedSampleIndex].draw(star.position.x, star.position.y, star.size.x * complexity * 10.0, star.size.y * complexity * 10.0);		
-							shader.end();
-						}
-						ofSetRectMode(OF_RECTMODE_CORNER);
-					}
-					ofDisableAlphaBlending();
-                    
-				}
+                        ofDisableAlphaBlending();
+                        
+                    }
                 }
 			}
 		}
@@ -428,7 +478,7 @@ void testApp::renderWarpTool(int screenNumber) {
 	
 	ofSetHexColor(hexColor);
 	ttf.drawString(selectedScreenMsg, ofGetWidth()/3.0, ofGetHeight()/2.0);
-
+    
 	ofSetHexColor(0x000000);
 	ttf2.drawString(msg, 78, 433);
 	
@@ -438,9 +488,9 @@ void testApp::renderWarpTool(int screenNumber) {
     
     
     
-
     
-        
+    
+    
 }
 
 void testApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
@@ -454,21 +504,8 @@ void testApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 	
 	float normValue2 = value2 / 127.0;
 	if (id == 1 && value == 7) {
-		for (int j=0; j<MAX_SCREENS;j++) {
-			if (screenSettings[j].canEdit) {
-				for (int i=0; i< MAX_LAYERS; i++) {
-					if (screenLayerSettings[j][i].canEdit) {
-						int oldSampleIndex = screenLayerSettings[j][i].selectedSampleIndex;
-						if (sampleActiveCount[oldSampleIndex] > 0) {
-							sampleActiveCount[oldSampleIndex]--;
-						}
-						int newSampleIndex = normValue2 * (MAX_SAMPLES - 1);
-						screenLayerSettings[j][i].selectedSampleIndex = newSampleIndex;
-						sampleActiveCount[newSampleIndex]++;	
-					}
-				}
-			}
-		}						
+        int newSampleIndex = normValue2 * (MAX_SAMPLES - 1);
+        selectSampleIndex(newSampleIndex);
 	} else if (id == 2 && value == 7) {
 		for (int j=0; j<MAX_SCREENS;j++) {
 			if (screenSettings[j].canEdit) {
@@ -525,7 +562,7 @@ void testApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 			if (screenSettings[j].canEdit) {
 				for (int i=0; i< MAX_LAYERS; i++) {
 					if (screenLayerSettings[j][i].canEdit) {
-						screenLayerSettings[j][i].speed = 4*normValue2 - 2;
+						screenLayerSettings[j][i].speed = normValue2;
 					}
 				}
 			}
@@ -552,7 +589,10 @@ void testApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 			if (screenSettings[id-1].canEdit) {
 				screenSettings[id-1].alpha = normValue2;
 			}
-		}
+		} else if (id == 9) {
+            masterAlpha = normValue2;
+            masterVolume = normValue2;
+        }
 	}
 	
 	if (value == 16) {
@@ -569,10 +609,32 @@ void testApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 	timestamp = eventArgs.timestamp;
 }
 
+void testApp::selectSampleIndex(int newSampleIndex) {
+    if (newSampleIndex < MAX_SAMPLES) {
+        for (int j=0; j<MAX_SCREENS;j++) {
+            if (screenSettings[j].canEdit) {
+                for (int i=0; i< MAX_LAYERS; i++) {
+                    if (screenLayerSettings[j][i].canEdit) {
+                        int oldSampleIndex = screenLayerSettings[j][i].selectedSampleIndex;
+                        if (sampleActiveCount[oldSampleIndex] > 0) {
+                            sampleActiveCount[oldSampleIndex]--;
+                        }
+                        screenLayerSettings[j][i].selectedSampleIndex = newSampleIndex;
+                        sampleActiveCount[newSampleIndex]++;	
+                    }
+                }
+            }
+        }						
+    }
+    
+    
+}
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-	if (key == 'f') {	
+    sprintf(msg, "pressed key %d", key);
+    ofLog(OF_LOG_WARNING, msg);
+	if (key == 'F') {	
 		ofToggleFullscreen();
 	} else if (key > '0' && key < '7') {
 		whichCorner = 0;
@@ -588,7 +650,88 @@ void testApp::keyPressed(int key){
 		} else {
 			ofHideCursor();
 		}
-	} 
+	} else {
+        switch(key) {
+            case 'q': 
+                selectSampleIndex(0);
+                break;
+            case 'w':
+                selectSampleIndex(1);
+                break;
+            case 'e':
+                selectSampleIndex(2);
+                break;
+            case 'r':
+                selectSampleIndex(3);
+                break;
+            case 't':
+                selectSampleIndex(4);
+                break;
+            case 'y':
+                selectSampleIndex(5);
+                break;
+            case 'u':
+                selectSampleIndex(6);
+                break;
+            case 'i':
+                selectSampleIndex(7);
+                break;
+            case 'o':
+                selectSampleIndex(8);
+                break;
+            case 'p':
+                selectSampleIndex(9);
+                break;
+            case 'a': 
+                selectSampleIndex(10);
+                break;
+            case 's':
+                selectSampleIndex(11);
+                break;
+            case 'd':
+                selectSampleIndex(12);
+                break;
+            case 'f':
+                selectSampleIndex(13);
+                break;
+            case 'g':
+                selectSampleIndex(14);
+                break;
+            case 'h':
+                selectSampleIndex(15);
+                break;
+            case 'j':
+                selectSampleIndex(16);
+                break;
+            case 'k':
+                selectSampleIndex(17);
+                break;
+            case 'l':
+                selectSampleIndex(18);
+                break;
+            case 'z':
+                selectSampleIndex(19);
+                break;
+            case 'x':
+                selectSampleIndex(20);
+                break;
+            case 'c':
+                selectSampleIndex(21);
+                break;
+            case 'v':
+                selectSampleIndex(22);
+                break;
+            case 'b':
+                selectSampleIndex(23);
+                break;
+            case 'n':
+                selectSampleIndex(24);
+                break;
+            case 'm':
+                selectSampleIndex(25);
+                break;
+        }
+    }
 }
 
 //--------------------------------------------------------------

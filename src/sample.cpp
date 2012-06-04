@@ -92,6 +92,12 @@ void Sample::setSpeed(float speed) {
     }
 }
 
+void Sample::setVolume(float volume) {
+    if (isVideoPlayer) {
+        videoPlayer.setVolume(volume);
+    }
+}
+
 ofTexture & Sample::getTextureReference() {
     ofTexture textureRef;
     if (isVideoPlayer) {

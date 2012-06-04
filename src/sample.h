@@ -32,6 +32,7 @@ public:
     void update();
     bool isFrameNew();
     void setSpeed(float speed);
+    void setVolume(float volume);
     ofTexture & getTextureReference();
     
 };
