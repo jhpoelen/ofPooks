@@ -107,13 +107,13 @@ void testApp::loadSamplesLolita() {
     samples[8].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/iAmNotSorry1954.mov");
 	samples[8].setUseTexture(true);
     
-    samples[9].zzxccv("/Users/jorrit/Movies/shows/assassins2012/lolita/birds.mov");
+    samples[9].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/birds.mov");
 	samples[9].setUseTexture(true);
     
     samples[10].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/birds.mov");
 	samples[10].setUseTexture(true);
     
-    samples[11].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/movingPoints.mov");
+    samples[11].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/lolitaArrestStill.mov");
 	samples[11].setUseTexture(true);
     
     samples[12].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/movingPoints.mov");
@@ -173,7 +173,7 @@ void testApp::loadSamplesValerie() {
 	samples[14].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
 	samples[14].setUseTexture(true);
 	
-    samples[15].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/iAManCloseup.avi");
+    samples[15].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/valerieHeadshot.mov");
 	samples[15].setUseTexture(true);
     
     samples[16].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/iAManCloseup.avi");
@@ -189,7 +189,7 @@ void testApp::loadSamplesShi() {
     samples[18].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/completeZoomout.mov");
 	samples[18].setUseTexture(true);
 	
-	samples[19].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/handsBegin.mov");
+	samples[19].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/shiPortrait.mov");
 	samples[19].setUseTexture(true);
 
     samples[20].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/handsFinalColumns.mov");
