@@ -1,8 +1,11 @@
-#include "testApp.h"
+#include "pooksApp.h"
 
 
 //--------------------------------------------------------------
-void testApp::setup(){
+void pooksApp::setup() {
+    masterAlpha = 1.0;
+    masterVolume = 1.0;
+
 	// black
 	colors[0].set(0, 0, 0);
 	// royal yellow
@@ -72,14 +75,14 @@ void testApp::setup(){
 // TODO - color, layers, speed adjustment with each layer / layouts, master control
 // valerie - start with slow urban, speed up abstract urban mix in valerie, iamman face
 
-void testApp::loadSamples() {
+void pooksApp::loadSamples() {
     //loadSamplesNoReservations();
     loadSamplesValerie();
     loadSamplesLolita();
     loadSamplesShi();
 }
 
-void testApp::loadSamplesLolita() {
+void pooksApp::loadSamplesLolita() {
     samples[0].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/iAmNotSorry1954.mov");
 	samples[0].setUseTexture(true);
     
@@ -122,7 +125,7 @@ void testApp::loadSamplesLolita() {
 	
 }
 
-void testApp::loadSamplesNoReservations() {
+void pooksApp::loadSamplesNoReservations() {
     
     samples[0].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
 	samples[0].setUseTexture(true);
@@ -165,7 +168,7 @@ void testApp::loadSamplesNoReservations() {
     
 }
 
-void testApp::loadSamplesValerie() {
+void pooksApp::loadSamplesValerie() {
     
     samples[13].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
 	samples[13].setUseTexture(true);
@@ -185,7 +188,7 @@ void testApp::loadSamplesValerie() {
     fileBuffer = ofBufferFromFile("/Users/jorrit/Movies/shows/assassins2012/valerie/scum.txt");
 }
 
-void testApp::loadSamplesShi() {
+void pooksApp::loadSamplesShi() {
     samples[18].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/completeZoomout.mov");
 	samples[18].setUseTexture(true);
 	
@@ -212,12 +215,12 @@ void testApp::loadSamplesShi() {
     
 }
 
-void testApp::exit() {
+void pooksApp::exit() {
 	midiIn.closePort();
 }
 
 //--------------------------------------------------------------
-void testApp::update(){
+void pooksApp::update(){
 	ofBackground(0, 0, 0);
 	
 	for (int i = 0; i < MAX_SAMPLES; i++) {
@@ -247,7 +250,7 @@ void testApp::update(){
 }
 
 //--------------------------------------------------------------
-void testApp::draw(){
+void pooksApp::draw(){
 	for(int i=0; i<MAX_SCREENS; i++) {
 		ofPushMatrix();
 		warpScreen(i);
@@ -265,7 +268,7 @@ void testApp::draw(){
 	}
 }
 
-void testApp::renderScreen(int screenIndex) {
+void pooksApp::renderScreen(int screenIndex) {
 	Editable screen = screenSettings[screenIndex];
 	if (screen.alpha > 0.0) {
         float masterScreenAlpha = screen.alpha * masterAlpha;
@@ -349,7 +352,7 @@ void testApp::renderScreen(int screenIndex) {
 	}
 }
 
-void testApp::warpScreen(int screenIndex) {
+void pooksApp::warpScreen(int screenIndex) {
 	ofPoint corners[4];
     for (int i=0; i<4; i++) {
         corners[i] = listOfScreenCorners[screenIndex][i];
@@ -452,7 +455,7 @@ void testApp::warpScreen(int screenIndex) {
 	glMultMatrixf(myMatrix);	
 }
 
-void testApp::renderWarpTool(int screenNumber) {
+void pooksApp::renderWarpTool(int screenNumber) {
 	int hexColor = selectedScreen == screenNumber ? 0xFFFFFF : 0xFFFF00; 
 	
 	//lets draw a bounding box
@@ -493,7 +496,7 @@ void testApp::renderWarpTool(int screenNumber) {
     
 }
 
-void testApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
+void pooksApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 	
 	// store some data from midi message in variables
 	value = eventArgs.byteOne;
@@ -609,7 +612,7 @@ void testApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 	timestamp = eventArgs.timestamp;
 }
 
-void testApp::selectSampleIndex(int newSampleIndex) {
+void pooksApp::selectSampleIndex(int newSampleIndex) {
     if (newSampleIndex < MAX_SAMPLES) {
         for (int j=0; j<MAX_SCREENS;j++) {
             if (screenSettings[j].canEdit) {
@@ -631,7 +634,7 @@ void testApp::selectSampleIndex(int newSampleIndex) {
 }
 
 //--------------------------------------------------------------
-void testApp::keyPressed(int key){
+void pooksApp::keyPressed(int key){
     sprintf(msg, "pressed key %d", key);
     ofLog(OF_LOG_WARNING, msg);
 	if (key == 'F') {	
@@ -735,23 +738,23 @@ void testApp::keyPressed(int key){
 }
 
 //--------------------------------------------------------------
-void testApp::keyReleased(int key){
+void pooksApp::keyReleased(int key){
 	
 }
 
 //--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){
+void pooksApp::mouseMoved(int x, int y ){
 	mousePos.x = x;
 	mousePos.y = y;
 }
 
 //--------------------------------------------------------------
-void testApp::mouseDragged(int x, int y, int button){
+void pooksApp::mouseDragged(int x, int y, int button){
 	
 }
 
 //--------------------------------------------------------------
-void testApp::mousePressed(int x, int y, int button){
+void pooksApp::mousePressed(int x, int y, int button){
 	if (showWarpTool) {
 		whichCorner = whichCorner % 4;	
 		float scaleX = (float)x / ofGetWidth();
@@ -763,21 +766,21 @@ void testApp::mousePressed(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
-void testApp::mouseReleased(int x, int y, int button){
+void pooksApp::mouseReleased(int x, int y, int button){
 	
 }
 
 //--------------------------------------------------------------
-void testApp::windowResized(int w, int h){
+void pooksApp::windowResized(int w, int h){
 	
 }
 
 //--------------------------------------------------------------
-void testApp::gotMessage(ofMessage msg){
+void pooksApp::gotMessage(ofMessage msg){
 	
 }
 
 //--------------------------------------------------------------
-void testApp::dragEvent(ofDragInfo dragInfo){ 
+void pooksApp::dragEvent(ofDragInfo dragInfo){ 
 	
 }

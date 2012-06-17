@@ -17,7 +17,7 @@ const int MAX_LAYOUTS = 2;
 const int MAX_SAMPLES = 26;
 const int MAX_STARS = 24;
 
-class testApp : public ofBaseApp, public ofxMidiListener {
+class pooksApp : public ofBaseApp, public ofxMidiListener {
 
 	public:
 		void setup();
@@ -79,8 +79,8 @@ class testApp : public ofBaseApp, public ofxMidiListener {
 		double timestamp;
 		char msg[255];
     
-        float masterAlpha = 1.0;
-        float masterVolume = 1.0;
+        float masterAlpha;
+        float masterVolume;
 	
 		ofColor colors[MAX_COLORS];
 	
