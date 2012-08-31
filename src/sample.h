@@ -14,6 +14,7 @@ public:
     ofVideoGrabber videoGrabber;
     ofBuffer text;
     ofTrueTypeFont font;
+    int activeCount;
     
     bool isVideoPlayer;
     bool isVideoGrabber;
@@ -34,5 +35,9 @@ public:
     void setSpeed(float speed);
     void setVolume(float volume);
     ofTexture & getTextureReference();
+    
+    int getActiveCount();
+    void increaseActiveCount();
+    void decreaseActiveCount();
     
 };

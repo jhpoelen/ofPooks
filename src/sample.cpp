@@ -11,12 +11,14 @@
 bool Sample::loadMovie(string name) {
     isVideoPlayer = true;
     isVideoGrabber = false;
+    activeCount = 0;
     return videoPlayer.loadMovie(name);
 }
 
 bool Sample::initGrabber() {
     isVideoPlayer = false;
     isVideoGrabber = true;
+    activeCount = 0;
     videoGrabber.setVerbose(false);
     videoGrabber.setDeviceID(3);
     grabberInitialized = videoGrabber.initGrabber(320,240,true);
@@ -37,6 +39,7 @@ void Sample::setUseTexture(bool bUse) {
 void Sample::loadTextBuffer(string name) {
     isVideoPlayer = false;
     isVideoGrabber = false;
+    activeCount = 0;
     text = ofBufferFromFile(name);
     font.loadFont("type/frabk.ttf", 80);
 }
@@ -107,5 +110,17 @@ ofTexture & Sample::getTextureReference() {
     }
     // this reference will be invalid after exit of this scope
     return textureRef;
-    
 }
+
+int Sample::getActiveCount() {
+    return activeCount;
+}
+void Sample::increaseActiveCount() {
+    activeCount++;
+}
+void Sample::decreaseActiveCount() {
+    if (activeCount > 0) {
+        activeCount--;
+    }
+}
+

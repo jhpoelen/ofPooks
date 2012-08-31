@@ -14,7 +14,6 @@ const int MAX_COLORS = 8;
 const int MAX_SCREENS = 6;
 const int MAX_LAYERS = 4;
 const int MAX_LAYOUTS = 2;
-const int MAX_SAMPLES = 26;
 const int MAX_STARS = 24;
 
 class pooksApp : public ofBaseApp, public ofxMidiListener {
@@ -26,10 +25,6 @@ class pooksApp : public ofBaseApp, public ofxMidiListener {
 		void exit();
 		
 		void loadSamples();
-        void loadSamplesLolita();
-        void loadSamplesValerie();
-        void loadSamplesShi();
-        void loadSamplesNoReservations();
     
         void selectSampleIndex(int newSampleIndex);
 	
@@ -58,11 +53,10 @@ class pooksApp : public ofBaseApp, public ofxMidiListener {
 		Layer screenLayerSettings[MAX_SCREENS][MAX_LAYERS];		
 		Editable screenLayerLayoutSettings[MAX_SCREENS][MAX_LAYERS][MAX_LAYOUTS];
 		
-		Sample samples[MAX_SAMPLES];
-		int sampleActiveCount[MAX_SAMPLES];
-	
-		ofTexture cachedTextures[MAX_SAMPLES];
-	
+		vector<Sample> samples;
+        vector<int> sampleActiveCount;
+        vector<ofTexture> cachedTextures;
+    
 		TwinklingStar stars[MAX_STARS];
     
         ofBuffer fileBuffer;

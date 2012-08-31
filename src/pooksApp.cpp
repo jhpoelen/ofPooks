@@ -1,4 +1,7 @@
 #include "pooksApp.h"
+#include <pwd.h>
+#include <unistd.h>
+#include "ofUtils.h"
 
 
 //--------------------------------------------------------------
@@ -72,147 +75,20 @@ void pooksApp::setup() {
 	ofSetFrameRate(30);
 }
 
-// TODO - color, layers, speed adjustment with each layer / layouts, master control
-// valerie - start with slow urban, speed up abstract urban mix in valerie, iamman face
-
 void pooksApp::loadSamples() {
-    //loadSamplesNoReservations();
-    loadSamplesValerie();
-    loadSamplesLolita();
-    loadSamplesShi();
-}
-
-void pooksApp::loadSamplesLolita() {
-    samples[0].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/iAmNotSorry1954.mov");
-	samples[0].setUseTexture(true);
-    
-    samples[1].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/libreEstaNoche1979.mov");
-	samples[1].setUseTexture(true);
-    
-    samples[2].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/lolitaChair1954.mov");
-	samples[2].setUseTexture(true);
-    
-    samples[3].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/lolitaHeadshotNoSound1954.mov");
-	samples[3].setUseTexture(true);
-    
-    samples[4].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/lolitaInterviewNoSound1954.mov");
-	samples[4].setUseTexture(true);
-    
-    samples[5].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/iAmNotSorry1954.mov");
-	samples[5].setUseTexture(true);
-    
-    samples[6].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/iAmNotSorry1954.mov");
-	samples[6].setUseTexture(true);
-    
-    samples[7].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/iAmNotSorry1954.mov");
-	samples[7].setUseTexture(true);
-    
-    samples[8].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/iAmNotSorry1954.mov");
-	samples[8].setUseTexture(true);
-    
-    samples[9].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/birds.mov");
-	samples[9].setUseTexture(true);
-    
-    samples[10].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/birds.mov");
-	samples[10].setUseTexture(true);
-    
-    samples[11].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/lolitaArrestStill.mov");
-	samples[11].setUseTexture(true);
-    
-    samples[12].loadMovie("/Users/jorrit/Movies/shows/assassins2012/lolita/movingPoints.mov");
-	samples[12].setUseTexture(true);
-    
-	
-}
-
-void pooksApp::loadSamplesNoReservations() {
-    
-    samples[0].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
-	samples[0].setUseTexture(true);
-	
-    samples[1].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
-	samples[1].setUseTexture(true);
-	
-    samples[2].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
-	samples[2].setUseTexture(true);
-	
-    samples[3].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
-	samples[3].setUseTexture(true);
-	
-    samples[4].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
-	samples[4].setUseTexture(true);
-	
-    samples[5].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
-	samples[5].setUseTexture(true);
-	
-    samples[6].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
-	samples[6].setUseTexture(true);
-	
-    samples[7].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
-	samples[7].setUseTexture(true);
-    
-    samples[8].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
-	samples[8].setUseTexture(true);
-    
-    samples[9].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
-	samples[9].setUseTexture(true);
-    
-    samples[10].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
-	samples[10].setUseTexture(true);
-    
-    samples[11].loadMovie("/Users/jorrit/Movies/shows/noReservationsJai2012/noReservationsEdit.mov");
-	samples[11].setUseTexture(true);
-    
-    samples[12].loadMovie("/Users/jorrit/Movies/samples/abstract/whitePaint320x240.mov");
-	samples[12].setUseTexture(true);
-    
-}
-
-void pooksApp::loadSamplesValerie() {
-    
-    samples[13].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
-	samples[13].setUseTexture(true);
-	
-	samples[14].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/piStreet.mov");
-	samples[14].setUseTexture(true);
-	
-    samples[15].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/valerieHeadshot.mov");
-	samples[15].setUseTexture(true);
-    
-    samples[16].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/iAManCloseup.avi");
-	samples[16].setUseTexture(true);
-    
-    samples[17].loadMovie("/Users/jorrit/Movies/shows/assassins2012/valerie/windows3.avi");
-	samples[17].setUseTexture(true);
-    
-    fileBuffer = ofBufferFromFile("/Users/jorrit/Movies/shows/assassins2012/valerie/scum.txt");
-}
-
-void pooksApp::loadSamplesShi() {
-    samples[18].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/completeZoomout.mov");
-	samples[18].setUseTexture(true);
-	
-	samples[19].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/shiPortrait.mov");
-	samples[19].setUseTexture(true);
-
-    samples[20].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/handsFinalColumns.mov");
-	samples[20].setUseTexture(true);
-    
-    samples[21].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/handsFirstColumn.mov");
-	samples[21].setUseTexture(true);
-    
-    samples[22].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/handsFourColumns.mov");
-	samples[22].setUseTexture(true);
-    
-    samples[23].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/handsSeventhColumn.mov");
-	samples[23].setUseTexture(true);
-
-    samples[24].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/movingCharacters.mov");
-	samples[24].setUseTexture(true);
-
-    samples[25].loadMovie("/Users/jorrit/Movies/shows/assassins2012/shi/movingCharactersCloseup.mov");
-	samples[25].setUseTexture(true);
-    
+    string libraryPath = ofFilePath::join(ofFilePath::getUserHomeDir(), "Library/Pooks");
+    ofDirectory dir(libraryPath);
+    if (dir.exists()) {
+        vector<ofFile> files = dir.getFiles();
+        for (vector<ofFile>::iterator it = files.begin(); it!=files.end(); ++it) {
+            ofFile file = *it;
+            if (file.isFile()) {
+                Sample sample;
+                sample.loadMovie(file.path());
+                samples.push_back(sample);
+            }
+        }
+    }
 }
 
 void pooksApp::exit() {
@@ -223,15 +99,16 @@ void pooksApp::exit() {
 void pooksApp::update(){
 	ofBackground(0, 0, 0);
 	
-	for (int i = 0; i < MAX_SAMPLES; i++) {
-		if (sampleActiveCount[i] > 0 && !samples[i].isPlaying()) {
-			samples[i].play();
-		} else if (sampleActiveCount[i] == 0 && samples[i].isPlaying()) {
-			samples[i].stop();
+    for (vector<Sample>::iterator it = samples.begin(); it!=samples.end(); ++it) {
+        Sample sample = *it;
+		if (sample.getActiveCount() > 0 && !sample.isPlaying()) {
+			sample.play();
+		} else if (sample.getActiveCount() == 0 && sample.isPlaying()) {
+			sample.stop();
 		}
 		
-		if (samples[i].isPlaying()) {
-			samples[i].update();
+		if (sample.isPlaying()) {
+			sample.update();
 		} 
 	}
 	
@@ -507,7 +384,7 @@ void pooksApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 	
 	float normValue2 = value2 / 127.0;
 	if (id == 1 && value == 7) {
-        int newSampleIndex = normValue2 * (MAX_SAMPLES - 1);
+        int newSampleIndex = normValue2 * (samples.size() - 1);
         selectSampleIndex(newSampleIndex);
 	} else if (id == 2 && value == 7) {
 		for (int j=0; j<MAX_SCREENS;j++) {
@@ -613,17 +490,18 @@ void pooksApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 }
 
 void pooksApp::selectSampleIndex(int newSampleIndex) {
-    if (newSampleIndex < MAX_SAMPLES) {
+    if (newSampleIndex < samples.size()) {
         for (int j=0; j<MAX_SCREENS;j++) {
             if (screenSettings[j].canEdit) {
                 for (int i=0; i< MAX_LAYERS; i++) {
                     if (screenLayerSettings[j][i].canEdit) {
                         int oldSampleIndex = screenLayerSettings[j][i].selectedSampleIndex;
-                        if (sampleActiveCount[oldSampleIndex] > 0) {
-                            sampleActiveCount[oldSampleIndex]--;
-                        }
+                        Sample oldSample = samples.at(oldSampleIndex);
+                        oldSample.decreaseActiveCount();
+                        
                         screenLayerSettings[j][i].selectedSampleIndex = newSampleIndex;
-                        sampleActiveCount[newSampleIndex]++;	
+                        Sample newSample = samples.at(newSampleIndex);
+                        newSample.increaseActiveCount();
                     }
                 }
             }
