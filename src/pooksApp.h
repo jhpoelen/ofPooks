@@ -54,8 +54,6 @@ class pooksApp : public ofBaseApp, public ofxMidiListener {
 		Editable screenLayerLayoutSettings[MAX_SCREENS][MAX_LAYERS][MAX_LAYOUTS];
 		
 		vector<Sample> samples;
-        vector<int> sampleActiveCount;
-        vector<ofTexture> cachedTextures;
     
 		TwinklingStar stars[MAX_STARS];
     

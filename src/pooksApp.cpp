@@ -8,7 +8,7 @@
 void pooksApp::setup() {
     masterAlpha = 1.0;
     masterVolume = 1.0;
-
+    
 	// black
 	colors[0].set(0, 0, 0);
 	// royal yellow
@@ -53,7 +53,7 @@ void pooksApp::setup() {
 		
 		listOfScreenCorners[i][3].x = 0.0;
 		listOfScreenCorners[i][3].y = 1.0;
-	}	
+	}
 	
 	loadSamples();
 	for (int j=0; j<MAX_SCREENS; j++) {
@@ -69,26 +69,35 @@ void pooksApp::setup() {
 	midiIn.setVerbose(false);
 	midiIn.listPorts();
 	midiIn.openPort(0);
-	midiIn.addListener(this);	
+	midiIn.addListener(this);
 	
 	shader.setup(320,240);
 	ofSetFrameRate(30);
 }
 
 void pooksApp::loadSamples() {
-    string libraryPath = ofFilePath::join(ofFilePath::getUserHomeDir(), "Library/Pooks");
+    string libraryPath = ofFilePath::join(ofFilePath::getUserHomeDir(), "Library/Pooks/");
+    ofLog(OF_LOG_NOTICE, "samples loading from [" + libraryPath + "] ...");
     ofDirectory dir(libraryPath);
     if (dir.exists()) {
         vector<ofFile> files = dir.getFiles();
         for (vector<ofFile>::iterator it = files.begin(); it!=files.end(); ++it) {
             ofFile file = *it;
+            ofLog(OF_LOG_NOTICE, "found file [" + file.path() + "]");
             if (file.isFile()) {
                 Sample sample;
-                sample.loadMovie(file.path());
-                samples.push_back(sample);
+                if (sample.loadMovie(file.path())) {
+                    ofLog(OF_LOG_NOTICE, "loaded [" + file.path() + "]");
+                    samples.push_back(sample);
+                } else {
+                    ofLog(OF_LOG_ERROR, "failed to load [" + file.path() + "]");
+                }
+            } else {
+                ofLog(OF_LOG_NOTICE, "skipping [" + file.path() + "], not a file");
             }
         }
     }
+    ofLog(OF_LOG_NOTICE, "samples loaded.");
 }
 
 void pooksApp::exit() {
@@ -98,9 +107,9 @@ void pooksApp::exit() {
 //--------------------------------------------------------------
 void pooksApp::update(){
 	ofBackground(0, 0, 0);
-	
-    for (vector<Sample>::iterator it = samples.begin(); it!=samples.end(); ++it) {
-        Sample sample = *it;
+    
+    for (int i=0; i<samples.size(); i++) {
+        Sample sample = samples[i];
 		if (sample.getActiveCount() > 0 && !sample.isPlaying()) {
 			sample.play();
 		} else if (sample.getActiveCount() == 0 && sample.isPlaying()) {
@@ -109,7 +118,7 @@ void pooksApp::update(){
 		
 		if (sample.isPlaying()) {
 			sample.update();
-		} 
+		}
 	}
 	
 	for (int  i=0; i<MAX_SCREENS; i++) {
@@ -121,7 +130,9 @@ void pooksApp::update(){
 				}
 			}
             float speed = masterVolume == 0 ? 0.0 : layer.speed;
-            samples[layer.selectedSampleIndex].setSpeed(speed);
+            if (layer.selectedSampleIndex < samples.size()) {
+                samples[layer.selectedSampleIndex].setSpeed(speed);
+            }
 		}
 	}
 }
@@ -134,13 +145,13 @@ void pooksApp::draw(){
 		renderScreen(i);
 		if (showWarpTool) {
 			renderWarpTool(i+1);
-		}		
+		}
 		ofPopMatrix();
 		if (showWarpTool) {
 			ofSetHexColor(0xFFFFFF);
 			ofSetRectMode(OF_RECTMODE_CENTER);
 			ofCircle(mousePos.x, mousePos.y,  15);
-			ofSetRectMode(OF_RECTMODE_CORNER);			
+			ofSetRectMode(OF_RECTMODE_CORNER);
 		}
 	}
 }
@@ -158,25 +169,26 @@ void pooksApp::renderScreen(int screenIndex) {
                     
                     if (sample.isPlaying()) {
                         if (sample.isFrameNew()) {
-                            cachedTextures[layer.selectedSampleIndex] = sample.getTextureReference();
-                        } 
+                            sample.cacheTextureReference();
+                        }
+                        ofTexture *texture = sample.getTextureReference();
                         // one shader per layer
                         ofEnableAlphaBlending();
-                        ofColor selectedColor = colors[layer.selectedColorIndex];					
+                        ofColor selectedColor = colors[layer.selectedColorIndex];
                         int selectedIndex = screenLayerSettings[screenIndex][i].selectedLayoutIndex;
                         if (selectedIndex == 0) {
-                            shader.begin(cachedTextures[layer.selectedSampleIndex].getWidth(), 
-                                         cachedTextures[layer.selectedSampleIndex].getHeight(), 
-                                         masterScreenAlpha, 
+                            shader.begin(texture->getWidth(),
+                                         texture->getHeight(),
+                                         masterScreenAlpha,
                                          layer.alpha,
                                          layer.contrast,
                                          layer.luminance,
                                          selectedColor.r,
                                          selectedColor.g,
                                          selectedColor.b);
-                            cachedTextures[layer.selectedSampleIndex].draw(0, 0, ofGetWidth(), ofGetHeight());		
+                            texture->draw(0, 0, ofGetWidth(), ofGetHeight());
                             shader.end();
-                        } 
+                        }
                         
                         if (selectedIndex == 1) {
                             float complexity = screenLayerSettings[screenIndex][i].complexity;
@@ -186,18 +198,18 @@ void pooksApp::renderScreen(int screenIndex) {
                             int ySize = ofGetHeight() / ncols;
                             for (int row=0; row<nrows; row++) {
                                 for (int col=0; col<ncols; col++) {
-                                    shader.begin(cachedTextures[layer.selectedSampleIndex].getWidth(), 
-                                                 cachedTextures[layer.selectedSampleIndex].getHeight(), 
-                                                 masterScreenAlpha, 
+                                    shader.begin(texture->getWidth(),
+                                                 texture->getHeight(),
+                                                 masterScreenAlpha,
                                                  layer.alpha,
                                                  layer.contrast,
                                                  layer.luminance,
                                                  selectedColor.r,
                                                  selectedColor.g,
-                                                 selectedColor.b);                                
+                                                 selectedColor.b);
                                     int xOffset = row * xSize;
                                     int yOffset = col * ySize;
-                                    cachedTextures[layer.selectedSampleIndex].draw(xOffset, yOffset, xSize, ySize);		
+                                    texture->draw(xOffset, yOffset, xSize, ySize);
                                     shader.end();
                                 }
                             }
@@ -206,16 +218,16 @@ void pooksApp::renderScreen(int screenIndex) {
                             ofSetRectMode(OF_RECTMODE_CENTER);
                             for (int k=0; k<MAX_STARS; k++) {
                                 TwinklingStar star = stars[k];
-                                shader.begin(cachedTextures[layer.selectedSampleIndex].getWidth(), 
-                                             cachedTextures[layer.selectedSampleIndex].getHeight(), 
-                                             masterScreenAlpha, 
+                                shader.begin(texture->getWidth(),
+                                             texture->getHeight(),
+                                             masterScreenAlpha,
                                              layer.alpha * star.alpha,
                                              layer.contrast,
                                              layer.luminance,
                                              selectedColor.r,
                                              selectedColor.g,
                                              selectedColor.b);
-                                cachedTextures[layer.selectedSampleIndex].draw(star.position.x, star.position.y, star.size.x * complexity * 10.0, star.size.y * complexity * 10.0);		
+                                texture->draw(star.position.x, star.position.y, star.size.x * complexity * 10.0, star.size.y * complexity * 10.0);
                                 shader.end();
                             }
                             ofSetRectMode(OF_RECTMODE_CORNER);
@@ -248,7 +260,7 @@ void pooksApp::warpScreen(int screenIndex) {
 	//we need our points as opencv points
 	//be nice to do this without opencv?
 	CvPoint2D32f cvsrc[4];
-	CvPoint2D32f cvdst[4];	
+	CvPoint2D32f cvdst[4];
 	
 	//we set the warp coordinates
 	//source coordinates as the dimensions of our window
@@ -259,7 +271,7 @@ void pooksApp::warpScreen(int screenIndex) {
 	cvsrc[2].x = ofGetWidth();
 	cvsrc[2].y = ofGetHeight();
 	cvsrc[3].x = 0;
-	cvsrc[3].y = ofGetHeight();			
+	cvsrc[3].y = ofGetHeight();
 	
 	//corners are in 0.0 - 1.0 range
 	//so we scale up so that they are at the window's scale
@@ -274,13 +286,13 @@ void pooksApp::warpScreen(int screenIndex) {
 	CvMat * translate = cvCreateMat(3,3,CV_32FC1);
 	
 	//this is the slightly easier - but supposidly less
-	//accurate warping method 
-	//cvWarpPerspectiveQMatrix(cvsrc, cvdst, translate); 
+	//accurate warping method
+	//cvWarpPerspectiveQMatrix(cvsrc, cvdst, translate);
 	
 	
 	//for the more accurate method we need to create
 	//a couple of matrixes that just act as containers
-	//to store our points  - the nice thing with this 
+	//to store our points  - the nice thing with this
 	//method is you can give it more than four points!
 	
 	CvMat* src_mat = cvCreateMat( 4, 2, CV_32FC1 );
@@ -307,12 +319,12 @@ void pooksApp::warpScreen(int screenIndex) {
 	//       [6][7][8] w
 	
 	//to openGL's 4x4 3D column ordered matrix
-	//        x  y  z  w   
+	//        x  y  z  w
 	// ie:   [0][3][ ][6]
 	//       [1][4][ ][7]
 	//		 [ ][ ][ ][ ]
 	//       [2][5][ ][9]
-	//       
+	//
 	
 	myMatrix[0]		= matrix[0];
 	myMatrix[4]		= matrix[1];
@@ -320,20 +332,20 @@ void pooksApp::warpScreen(int screenIndex) {
 	
 	myMatrix[1]		= matrix[3];
 	myMatrix[5]		= matrix[4];
-	myMatrix[13]	= matrix[5];	
+	myMatrix[13]	= matrix[5];
 	
 	myMatrix[3]		= matrix[6];
 	myMatrix[7]		= matrix[7];
-	myMatrix[15]	= matrix[8];	
+	myMatrix[15]	= matrix[8];
 	
 	
 	//finally lets multiply our matrix
 	//wooooo hoooo!
-	glMultMatrixf(myMatrix);	
+	glMultMatrixf(myMatrix);
 }
 
 void pooksApp::renderWarpTool(int screenNumber) {
-	int hexColor = selectedScreen == screenNumber ? 0xFFFFFF : 0xFFFF00; 
+	int hexColor = selectedScreen == screenNumber ? 0xFFFFFF : 0xFFFF00;
 	
 	//lets draw a bounding box
 	ofNoFill();
@@ -352,7 +364,7 @@ void pooksApp::renderWarpTool(int screenNumber) {
 	//for(int i = 0; i < 40; i++)balls[i].draw();
 	ofDisableAlphaBlending();
 	
-	char selectedScreenMsg[255];	
+	char selectedScreenMsg[255];
 	sprintf(selectedScreenMsg, "Screen %d", screenNumber);
     
 	
@@ -363,7 +375,7 @@ void pooksApp::renderWarpTool(int screenNumber) {
 	ttf2.drawString(msg, 78, 433);
 	
 	ofSetHexColor(hexColor);
-	ttf2.drawString(msg, 80, 430);		
+	ttf2.drawString(msg, 80, 430);
     
     
     
@@ -436,7 +448,7 @@ void pooksApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 					}
 				}
 			}
-		}		
+		}
 	} else if (id == 7 && value == 7) {
 		for (int j=0; j<MAX_SCREENS;j++) {
 			if (screenSettings[j].canEdit) {
@@ -446,23 +458,23 @@ void pooksApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 					}
 				}
 			}
-		}		
+		}
 	} else if (id == 1) {
 		if (value == 47) {
 			screenSettings[0].canEdit = normValue2 == 1.0;
 		} else if (value == 45) {
 			screenSettings[1].canEdit = normValue2 == 1.0;
 		} else if (value == 48) {
-			screenSettings[2].canEdit = normValue2 == 1.0;	
+			screenSettings[2].canEdit = normValue2 == 1.0;
 		} else if (value == 49) {
-			screenSettings[3].canEdit = normValue2 == 1.0;	
+			screenSettings[3].canEdit = normValue2 == 1.0;
 		} else if (value == 46) {
-			screenSettings[4].canEdit = normValue2 == 1.0;	
+			screenSettings[4].canEdit = normValue2 == 1.0;
 		} else if (value == 44) {
-			screenSettings[5].canEdit = normValue2 == 1.0;	
-		} 
+			screenSettings[5].canEdit = normValue2 == 1.0;
+		}
 		
-	} 
+	}
 	
 	if (value == 10) {
 		if (id > 0 && id <= MAX_SCREENS) {
@@ -482,7 +494,7 @@ void pooksApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 				if (id > 0 && id <= MAX_LAYERS) {
 					screenLayerSettings[i][id-1].canEdit = normValue2 == 1.0;
 				}
-			}	
+			}
 		}
 	}
 	port = eventArgs.port;
@@ -505,7 +517,7 @@ void pooksApp::selectSampleIndex(int newSampleIndex) {
                     }
                 }
             }
-        }						
+        }
     }
     
     
@@ -515,7 +527,7 @@ void pooksApp::selectSampleIndex(int newSampleIndex) {
 void pooksApp::keyPressed(int key){
     sprintf(msg, "pressed key %d", key);
     ofLog(OF_LOG_WARNING, msg);
-	if (key == 'F') {	
+	if (key == 'F') {
 		ofToggleFullscreen();
 	} else if (key > '0' && key < '7') {
 		whichCorner = 0;
@@ -533,7 +545,7 @@ void pooksApp::keyPressed(int key){
 		}
 	} else {
         switch(key) {
-            case 'q': 
+            case 'q':
                 selectSampleIndex(0);
                 break;
             case 'w':
@@ -563,7 +575,7 @@ void pooksApp::keyPressed(int key){
             case 'p':
                 selectSampleIndex(9);
                 break;
-            case 'a': 
+            case 'a':
                 selectSampleIndex(10);
                 break;
             case 's':
@@ -634,11 +646,11 @@ void pooksApp::mouseDragged(int x, int y, int button){
 //--------------------------------------------------------------
 void pooksApp::mousePressed(int x, int y, int button){
 	if (showWarpTool) {
-		whichCorner = whichCorner % 4;	
+		whichCorner = whichCorner % 4;
 		float scaleX = (float)x / ofGetWidth();
 		float scaleY = (float)y / ofGetHeight();
 		listOfScreenCorners[selectedScreen-1][whichCorner].x = scaleX;
-		listOfScreenCorners[selectedScreen-1][whichCorner].y = scaleY;			
+		listOfScreenCorners[selectedScreen-1][whichCorner].y = scaleY;
 		whichCorner++;
 	}
 }
@@ -659,6 +671,6 @@ void pooksApp::gotMessage(ofMessage msg){
 }
 
 //--------------------------------------------------------------
-void pooksApp::dragEvent(ofDragInfo dragInfo){ 
+void pooksApp::dragEvent(ofDragInfo dragInfo){
 	
 }

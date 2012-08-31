@@ -101,15 +101,16 @@ void Sample::setVolume(float volume) {
     }
 }
 
-ofTexture & Sample::getTextureReference() {
-    ofTexture textureRef;
+void Sample::cacheTextureReference() {
     if (isVideoPlayer) {
-        return videoPlayer.getTextureReference();
+        textureReference = &videoPlayer.getTextureReference();
     } else if (isVideoGrabber) {
-        return  videoGrabber.getTextureReference();
+        textureReference = &videoGrabber.getTextureReference();
     }
-    // this reference will be invalid after exit of this scope
-    return textureRef;
+}
+
+ofTexture *Sample::getTextureReference() {
+    return textureReference;
 }
 
 int Sample::getActiveCount() {
