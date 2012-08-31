@@ -121,16 +121,22 @@ int Sample::getActiveCount() {
 }
 void Sample::increaseActiveCount() {
     activeCount++;
-    ofLog(OF_LOG_NOTICE, "increased active count [" + ofToString(activeCount) +"]");
 }
 void Sample::decreaseActiveCount() {
     if (activeCount > 0) {
         activeCount--;
     }
-    ofLog(OF_LOG_NOTICE, "decreased active count [" + ofToString(activeCount) +"]");
 }
 
 bool Sample::isLoaded() {
-    return isVideoPlayer ? videoPlayer.isLoaded() : false;
+    bool loaded = false;
+    if (isVideoPlayer) {
+        loaded = videoPlayer.isLoaded();
+    } else if (isVideoGrabber) {
+        loaded = videoGrabber.isInitialized();
+    } else if (!isVideoGrabber && !isVideoPlayer) {
+        loaded = font.isLoaded();
+    }
+    return loaded;
 }
 

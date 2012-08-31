@@ -118,7 +118,6 @@ void pooksApp::update(){
     
     for (int i=0; i<samples.size(); i++) {
         Sample sample = *samples[i];
-        ofLog(OF_LOG_NOTICE, "activeCount [" + ofToString(sample.getActiveCount()) + "]");
 		if (sample.getActiveCount() > 0 && !sample.isPlaying()) {
 			sample.play();
 		} else if (sample.getActiveCount() == 0 && sample.isPlaying()) {
@@ -524,14 +523,6 @@ void pooksApp::selectSampleIndex(int newSampleIndex) {
                         screenLayerSettings[j][i].selectedSampleIndex = newSampleIndex;
                         Sample *newSample = samples.at(newSampleIndex);
                         newSample->increaseActiveCount();
-                        ofLog(OF_LOG_NOTICE, "settings to sample [" + ofToString(newSampleIndex+1) + "] out of [" + ofToString(samples.size()) + "] to active count [" + ofToString(newSample->getActiveCount()) + "]");
-                        if (newSample->isLoaded()) {
-                            ofLog(OF_LOG_NOTICE, "sample is loaded");
-                        } else {
-                            ofLog(OF_LOG_NOTICE, "sample is not loaded");
-                        }
-                        
-
                     }
                 }
             }
