@@ -8,24 +8,26 @@
 
 #include "sample.h"
 
+Sample::Sample() {
+    activeCount = 0;
+}
+
 bool Sample::loadMovie(string name) {
     isVideoPlayer = true;
     isVideoGrabber = false;
-    activeCount = 0;
     return videoPlayer.loadMovie(name);
 }
 
 bool Sample::initGrabber() {
     isVideoPlayer = false;
     isVideoGrabber = true;
-    activeCount = 0;
     videoGrabber.setVerbose(false);
     videoGrabber.setDeviceID(3);
-    grabberInitialized = videoGrabber.initGrabber(320,240,true);
+    bool loaded = videoGrabber.initGrabber(320,240,true);
     int grabW = videoGrabber.width;
     int grabH = videoGrabber.height;
     printf("asked for 320 by 240 - actual size is %i by %i", grabW, grabH);
-           
+    return loaded;
 }
 
 void Sample::setUseTexture(bool bUse) {
@@ -36,12 +38,12 @@ void Sample::setUseTexture(bool bUse) {
     }
 }
 
-void Sample::loadTextBuffer(string name) {
+bool Sample::loadTextBuffer(string name) {
     isVideoPlayer = false;
     isVideoGrabber = false;
-    activeCount = 0;
     text = ofBufferFromFile(name);
-    font.loadFont("type/frabk.ttf", 80);
+    bool loaded = font.loadFont("type/frabk.ttf", 80);
+    return loaded;
 }
 
 
@@ -55,6 +57,7 @@ void Sample::play() {
 
 bool Sample::isPlaying() {
     bool isPlaying = false;
+    
     if (isVideoPlayer) {
         isPlaying = videoPlayer.isLoaded() && videoPlayer.isPlaying();
     } else if (isVideoGrabber) {
@@ -103,13 +106,13 @@ void Sample::setVolume(float volume) {
 
 void Sample::cacheTextureReference() {
     if (isVideoPlayer) {
-        textureReference = &videoPlayer.getTextureReference();
+        textureReference = videoPlayer.getTextureReference();
     } else if (isVideoGrabber) {
-        textureReference = &videoGrabber.getTextureReference();
+        textureReference = videoGrabber.getTextureReference();
     }
 }
 
-ofTexture *Sample::getTextureReference() {
+ofTexture &Sample::getTextureReference() {
     return textureReference;
 }
 
@@ -118,10 +121,16 @@ int Sample::getActiveCount() {
 }
 void Sample::increaseActiveCount() {
     activeCount++;
+    ofLog(OF_LOG_NOTICE, "increased active count [" + ofToString(activeCount) +"]");
 }
 void Sample::decreaseActiveCount() {
     if (activeCount > 0) {
         activeCount--;
     }
+    ofLog(OF_LOG_NOTICE, "decreased active count [" + ofToString(activeCount) +"]");
+}
+
+bool Sample::isLoaded() {
+    return isVideoPlayer ? videoPlayer.isLoaded() : false;
 }
 

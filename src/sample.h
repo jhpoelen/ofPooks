@@ -9,13 +9,17 @@
 #include "ofMain.h"
 
 class Sample {
+private:
+    int activeCount;
+    
 public:
+    Sample();
+    
     ofVideoPlayer videoPlayer;
     ofVideoGrabber videoGrabber;
     ofBuffer text;
     ofTrueTypeFont font;
-    ofTexture *textureReference;
-    int activeCount;
+    ofTexture textureReference;
     
     bool isVideoPlayer;
     bool isVideoGrabber;
@@ -26,7 +30,7 @@ public:
     bool initGrabber();
     void setUseTexture(bool bUse);
     
-    void loadTextBuffer(string name);
+    bool loadTextBuffer(string name);
     
     void play();
     bool isPlaying();
@@ -36,10 +40,12 @@ public:
     void setSpeed(float speed);
     void setVolume(float volume);
     void cacheTextureReference();
-    ofTexture *getTextureReference();
+    ofTexture &getTextureReference();
     
     int getActiveCount();
     void increaseActiveCount();
     void decreaseActiveCount();
+    
+    bool isLoaded();
     
 };

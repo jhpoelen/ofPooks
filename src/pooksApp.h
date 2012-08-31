@@ -19,6 +19,7 @@ const int MAX_STARS = 24;
 class pooksApp : public ofBaseApp, public ofxMidiListener {
 
 	public:
+        virtual ~pooksApp();
 		void setup();
 		void update();
 		void draw();
@@ -53,7 +54,7 @@ class pooksApp : public ofBaseApp, public ofxMidiListener {
 		Layer screenLayerSettings[MAX_SCREENS][MAX_LAYERS];		
 		Editable screenLayerLayoutSettings[MAX_SCREENS][MAX_LAYERS][MAX_LAYOUTS];
 		
-		vector<Sample> samples;
+		vector<Sample*> samples;
     
 		TwinklingStar stars[MAX_STARS];
     

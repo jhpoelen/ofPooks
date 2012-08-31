@@ -33,13 +33,26 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "src/sample.cpp"
-         timestampString = "368086502.865458"
+         filePath = "src/pooksApp.cpp"
+         timestampString = "368133081.813076"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "106"
-         endingLineNumber = "106"
-         landmarkName = "Sample::cacheTextureReference()"
+         startingLineNumber = "122"
+         endingLineNumber = "122"
+         landmarkName = "pooksApp::update()"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "src/pooksApp.cpp"
+         timestampString = "368133081.813076"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "117"
+         endingLineNumber = "117"
+         landmarkName = "pooksApp::update()"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

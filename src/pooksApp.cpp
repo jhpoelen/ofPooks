@@ -75,21 +75,29 @@ void pooksApp::setup() {
 	ofSetFrameRate(30);
 }
 
+pooksApp::~pooksApp() {
+    for (int i=0; i< samples.size(); i++) {
+        delete samples.at(i);
+    }
+}
+
 void pooksApp::loadSamples() {
     string libraryPath = ofFilePath::join(ofFilePath::getUserHomeDir(), "Library/Pooks/");
     ofLog(OF_LOG_NOTICE, "samples loading from [" + libraryPath + "] ...");
-    ofDirectory dir(libraryPath);
-    if (dir.exists()) {
-        vector<ofFile> files = dir.getFiles();
+    ofDirectory libraryDir(libraryPath);
+    if (libraryDir.isDirectory()) {
+        ofLog(OF_LOG_NOTICE, "[" + libraryPath + "] exists and has [" + ofToString(libraryDir.listDir()) + "] files.");
+        vector<ofFile> files = libraryDir.getFiles();
         for (vector<ofFile>::iterator it = files.begin(); it!=files.end(); ++it) {
             ofFile file = *it;
             ofLog(OF_LOG_NOTICE, "found file [" + file.path() + "]");
             if (file.isFile()) {
-                Sample sample;
-                if (sample.loadMovie(file.path())) {
+                Sample *sample = new Sample();
+                if (sample->loadMovie(file.path())) {
                     ofLog(OF_LOG_NOTICE, "loaded [" + file.path() + "]");
                     samples.push_back(sample);
                 } else {
+                    delete sample;
                     ofLog(OF_LOG_ERROR, "failed to load [" + file.path() + "]");
                 }
             } else {
@@ -109,7 +117,8 @@ void pooksApp::update(){
 	ofBackground(0, 0, 0);
     
     for (int i=0; i<samples.size(); i++) {
-        Sample sample = samples[i];
+        Sample sample = *samples[i];
+        ofLog(OF_LOG_NOTICE, "activeCount [" + ofToString(sample.getActiveCount()) + "]");
 		if (sample.getActiveCount() > 0 && !sample.isPlaying()) {
 			sample.play();
 		} else if (sample.getActiveCount() == 0 && sample.isPlaying()) {
@@ -131,7 +140,7 @@ void pooksApp::update(){
 			}
             float speed = masterVolume == 0 ? 0.0 : layer.speed;
             if (layer.selectedSampleIndex < samples.size()) {
-                samples[layer.selectedSampleIndex].setSpeed(speed);
+                samples[layer.selectedSampleIndex]->setSpeed(speed);
             }
 		}
 	}
@@ -162,23 +171,23 @@ void pooksApp::renderScreen(int screenIndex) {
         float masterScreenAlpha = screen.alpha * masterAlpha;
 		for (int i=0; i<MAX_LAYERS; i++) {
 			Layer layer = screenLayerSettings[screenIndex][i];
-			if (layer.alpha > 0.0) {
+			if (layer.alpha > 0.0 && layer.selectedSampleIndex < samples.size()) {
 				// one texture per layer
-                Sample sample = samples[layer.selectedSampleIndex];
-                if (sample.isVideoPlayer || sample.isVideoGrabber) {
+                Sample *sample = samples[layer.selectedSampleIndex];
+                if (sample->isVideoPlayer || sample->isVideoGrabber) {
                     
-                    if (sample.isPlaying()) {
-                        if (sample.isFrameNew()) {
-                            sample.cacheTextureReference();
+                    if (sample->isPlaying()) {
+                        if (sample->isFrameNew()) {
+                            sample->cacheTextureReference();
                         }
-                        ofTexture *texture = sample.getTextureReference();
+                        ofTexture texture = sample->getTextureReference();
                         // one shader per layer
                         ofEnableAlphaBlending();
                         ofColor selectedColor = colors[layer.selectedColorIndex];
                         int selectedIndex = screenLayerSettings[screenIndex][i].selectedLayoutIndex;
                         if (selectedIndex == 0) {
-                            shader.begin(texture->getWidth(),
-                                         texture->getHeight(),
+                            shader.begin(texture.getWidth(),
+                                         texture.getHeight(),
                                          masterScreenAlpha,
                                          layer.alpha,
                                          layer.contrast,
@@ -186,7 +195,7 @@ void pooksApp::renderScreen(int screenIndex) {
                                          selectedColor.r,
                                          selectedColor.g,
                                          selectedColor.b);
-                            texture->draw(0, 0, ofGetWidth(), ofGetHeight());
+                            texture.draw(0, 0, ofGetWidth(), ofGetHeight());
                             shader.end();
                         }
                         
@@ -198,8 +207,8 @@ void pooksApp::renderScreen(int screenIndex) {
                             int ySize = ofGetHeight() / ncols;
                             for (int row=0; row<nrows; row++) {
                                 for (int col=0; col<ncols; col++) {
-                                    shader.begin(texture->getWidth(),
-                                                 texture->getHeight(),
+                                    shader.begin(texture.getWidth(),
+                                                 texture.getHeight(),
                                                  masterScreenAlpha,
                                                  layer.alpha,
                                                  layer.contrast,
@@ -209,7 +218,7 @@ void pooksApp::renderScreen(int screenIndex) {
                                                  selectedColor.b);
                                     int xOffset = row * xSize;
                                     int yOffset = col * ySize;
-                                    texture->draw(xOffset, yOffset, xSize, ySize);
+                                    texture.draw(xOffset, yOffset, xSize, ySize);
                                     shader.end();
                                 }
                             }
@@ -218,8 +227,8 @@ void pooksApp::renderScreen(int screenIndex) {
                             ofSetRectMode(OF_RECTMODE_CENTER);
                             for (int k=0; k<MAX_STARS; k++) {
                                 TwinklingStar star = stars[k];
-                                shader.begin(texture->getWidth(),
-                                             texture->getHeight(),
+                                shader.begin(texture.getWidth(),
+                                             texture.getHeight(),
                                              masterScreenAlpha,
                                              layer.alpha * star.alpha,
                                              layer.contrast,
@@ -227,7 +236,7 @@ void pooksApp::renderScreen(int screenIndex) {
                                              selectedColor.r,
                                              selectedColor.g,
                                              selectedColor.b);
-                                texture->draw(star.position.x, star.position.y, star.size.x * complexity * 10.0, star.size.y * complexity * 10.0);
+                                texture.draw(star.position.x, star.position.y, star.size.x * complexity * 10.0, star.size.y * complexity * 10.0);
                                 shader.end();
                             }
                             ofSetRectMode(OF_RECTMODE_CORNER);
@@ -502,18 +511,27 @@ void pooksApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 }
 
 void pooksApp::selectSampleIndex(int newSampleIndex) {
+    ofLog(OF_LOG_NOTICE, "selectSampleIndex [" + ofToString(newSampleIndex+1) + "] out of [" + ofToString(samples.size()) + "]");
     if (newSampleIndex < samples.size()) {
         for (int j=0; j<MAX_SCREENS;j++) {
             if (screenSettings[j].canEdit) {
                 for (int i=0; i< MAX_LAYERS; i++) {
                     if (screenLayerSettings[j][i].canEdit) {
                         int oldSampleIndex = screenLayerSettings[j][i].selectedSampleIndex;
-                        Sample oldSample = samples.at(oldSampleIndex);
-                        oldSample.decreaseActiveCount();
+                        Sample* oldSample = samples.at(oldSampleIndex);
+                        oldSample->decreaseActiveCount();
                         
                         screenLayerSettings[j][i].selectedSampleIndex = newSampleIndex;
-                        Sample newSample = samples.at(newSampleIndex);
-                        newSample.increaseActiveCount();
+                        Sample *newSample = samples.at(newSampleIndex);
+                        newSample->increaseActiveCount();
+                        ofLog(OF_LOG_NOTICE, "settings to sample [" + ofToString(newSampleIndex+1) + "] out of [" + ofToString(samples.size()) + "] to active count [" + ofToString(newSample->getActiveCount()) + "]");
+                        if (newSample->isLoaded()) {
+                            ofLog(OF_LOG_NOTICE, "sample is loaded");
+                        } else {
+                            ofLog(OF_LOG_NOTICE, "sample is not loaded");
+                        }
+                        
+
                     }
                 }
             }
