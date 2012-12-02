@@ -1,0 +1,3 @@
+ofPooks is a low-fi video instrument for real-time video sample manipulation. ofPooks is built using openframework.cc . The binary for mac os x is provided in bin/ folder.  If you'd like to build the app yourself, please use of0071 and clone the ofPooks project into the myApps folder.
+
+For instructions on how to use ofPooks, see youtube.
