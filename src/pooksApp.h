@@ -9,6 +9,7 @@
 #include "layer.h"
 #include "twinklingStar.h"
 #include "sample.h"
+#include "keyboardController.h"
 
 const int MAX_COLORS = 8;
 const int MAX_SCREENS = 6;
@@ -86,5 +87,7 @@ class pooksApp : public ofBaseApp, public ofxMidiListener {
 		bool showWarpTool;
 	
 		ofPoint mousePos;
+    
+        KeyboardController keyboardController;
 };
 

@@ -633,6 +633,15 @@ void pooksApp::keyPressed(int key){
                 selectSampleIndex(25);
                 break;
         }
+        
+        keyboardController.keyPressed(key);
+        for (int i=0; i<MAX_SCREENS; i++) {
+            bool active = keyboardController.isScreenActive(i);
+            screenSettings[i].canEdit = active;
+            screenSettings[i].alpha = active ? 1.0 : 0.0;
+            screenLayerSettings[i][0].canEdit = active;
+            screenLayerSettings[i][0].alpha = active ? 1.0 : 0.0;
+        }
     }
 }
 
