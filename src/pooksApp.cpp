@@ -78,8 +78,8 @@ void pooksApp::setup() {
 	shader.setup(320,240);
 	ofSetFrameRate(30);
     
-    // start playing first sample in first screen on first layer by default
-    keyboardController.keyPressed('!');
+    // start playing first sample in first screen on first  by default
+    this->keyPressed('!');
 }
 
 pooksApp::~pooksApp() {
@@ -89,7 +89,7 @@ pooksApp::~pooksApp() {
 }
 
 void pooksApp::loadSamples() {
-    string libraryPath = ofFilePath::join(ofFilePath::getUserHomeDir(), "Library/Pooks/");
+    string libraryPath = ofFilePath::join(ofFilePath::getUserHomeDir(), "Movies/Pooks/");
     ofLog(OF_LOG_NOTICE, "samples loading from [" + libraryPath + "] ...");
     ofDirectory libraryDir(libraryPath);
     if (this->loadSamples(libraryDir)) {
@@ -651,17 +651,21 @@ void pooksApp::keyPressed(int key){
             case 'm':
                 selectSampleIndex(25);
                 break;
+            
+            default:
+                keyboardController.keyPressed(key);
+                for (int i=0; i<MAX_SCREENS; i++) {
+                    bool active = keyboardController.isScreenActive(i);
+                    screenSettings[i].canEdit = active;
+                    screenSettings[i].alpha = active ? 1.0 : 0.0;
+                    screenLayerSettings[i][0].canEdit = active;
+                    screenLayerSettings[i][0].alpha = active ? 1.0 : 0.0;
+                    selectSampleIndex(0);
+                }
+                break;
+                
         }
         
-        keyboardController.keyPressed(key);
-        for (int i=0; i<MAX_SCREENS; i++) {
-            bool active = keyboardController.isScreenActive(i);
-            screenSettings[i].canEdit = active;
-            screenSettings[i].alpha = active ? 1.0 : 0.0;
-            screenLayerSettings[i][0].canEdit = active;
-            screenLayerSettings[i][0].alpha = active ? 1.0 : 0.0;
-            selectSampleIndex(0);
-        }
     }
 }
 

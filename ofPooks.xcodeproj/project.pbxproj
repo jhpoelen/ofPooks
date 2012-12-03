@@ -20,6 +20,7 @@
 		A2C9E6A7166C183800CE6D27 /* keyboardController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2C9E6A5166C183800CE6D27 /* keyboardController.cpp */; };
 		A2C9E6AD166C2C2B00CE6D27 /* lichtkrant.mov in Resources */ = {isa = PBXBuildFile; fileRef = A2C9E6AB166C2B7900CE6D27 /* lichtkrant.mov */; };
 		A2C9E6AE166C2C2B00CE6D27 /* frabk.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2C9E6A9166C2AC000CE6D27 /* frabk.ttf */; };
+		A2C9E6AF166C367300CE6D27 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = A265454C1504ACCF0008C97C /* icon.icns */; };
 		A2F0FDC214F3887E00A0CB0B /* ofxCvColorImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2F0FDAB14F3887E00A0CB0B /* ofxCvColorImage.cpp */; };
 		A2F0FDC314F3887E00A0CB0B /* ofxCvContourFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2F0FDAE14F3887E00A0CB0B /* ofxCvContourFinder.cpp */; };
 		A2F0FDC414F3887E00A0CB0B /* ofxCvFloatImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2F0FDB014F3887E00A0CB0B /* ofxCvFloatImage.cpp */; };
@@ -219,6 +220,7 @@
 		A2C9E6A8166C2A8600CE6D27 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A265454C1504ACCF0008C97C /* icon.icns */,
 				A2C9E6AB166C2B7900CE6D27 /* lichtkrant.mov */,
 				A2C9E6A9166C2AC000CE6D27 /* frabk.ttf */,
 			);
@@ -317,7 +319,6 @@
 			isa = PBXGroup;
 			children = (
 				A2C9E6A8166C2A8600CE6D27 /* Resources */,
-				A265454C1504ACCF0008C97C /* icon.icns */,
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
@@ -431,6 +432,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2C9E6AF166C367300CE6D27 /* icon.icns in Resources */,
 				A2C9E6AD166C2C2B00CE6D27 /* lichtkrant.mov in Resources */,
 				A2C9E6AE166C2C2B00CE6D27 /* frabk.ttf in Resources */,
 			);
