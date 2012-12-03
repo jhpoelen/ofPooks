@@ -79,7 +79,9 @@ void pooksApp::setup() {
 	ofSetFrameRate(30);
     
     // start playing first sample in first screen on first  by default
+
     this->keyPressed('!');
+    selectSampleIndex(0);
 }
 
 pooksApp::~pooksApp() {
@@ -660,7 +662,6 @@ void pooksApp::keyPressed(int key){
                     screenSettings[i].alpha = active ? 1.0 : 0.0;
                     screenLayerSettings[i][0].canEdit = active;
                     screenLayerSettings[i][0].alpha = active ? 1.0 : 0.0;
-                    selectSampleIndex(0);
                 }
                 break;
                 
