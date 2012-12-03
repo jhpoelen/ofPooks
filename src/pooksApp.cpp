@@ -6,6 +6,14 @@
 
 //--------------------------------------------------------------
 void pooksApp::setup() {
+    // ensure to load from app bundle resources
+    ofSetDataPathRoot("../Resources/");
+    
+    //loads load in some truetype fonts
+
+	ttf.loadFont("frabk.ttf", 80);
+	ttf2.loadFont("frabk.ttf", 14);
+
     masterAlpha = 1.0;
     masterVolume = 1.0;
     
@@ -34,11 +42,7 @@ void pooksApp::setup() {
 	
 	//we run at 60 fps!
 	ofSetVerticalSync(true);
-	
-	//loads load in some truetype fonts
-	ttf.loadFont("type/frabk.ttf", 80);
-	ttf2.loadFont("type/frabk.ttf", 14);
-	
+		
 	//this is just for our gui / mouse handles
 	//this will end up being the destination quad we are warping too
 	for (int i=0; i<MAX_SCREENS; i++) {
@@ -73,6 +77,9 @@ void pooksApp::setup() {
 	
 	shader.setup(320,240);
 	ofSetFrameRate(30);
+    
+    // start playing first sample in first screen on first layer by default
+    keyboardController.keyPressed('!');
 }
 
 pooksApp::~pooksApp() {
@@ -85,8 +92,20 @@ void pooksApp::loadSamples() {
     string libraryPath = ofFilePath::join(ofFilePath::getUserHomeDir(), "Library/Pooks/");
     ofLog(OF_LOG_NOTICE, "samples loading from [" + libraryPath + "] ...");
     ofDirectory libraryDir(libraryPath);
-    if (libraryDir.isDirectory()) {
-        ofLog(OF_LOG_NOTICE, "[" + libraryPath + "] exists and has [" + ofToString(libraryDir.listDir()) + "] files.");
+    if (this->loadSamples(libraryDir)) {
+        ofLog(OF_LOG_NOTICE, samples.size() + "samples loaded from [" + libraryPath + "].");
+    } else {
+        ofDirectory defaultSamplesDir(ofToDataPath("", true));
+        if (this->loadSamples(defaultSamplesDir)) {
+            ofLog(OF_LOG_NOTICE, samples.size() + " samples loaded from [" + defaultSamplesDir.path() + "]");
+        }
+    }
+
+}
+
+bool pooksApp::loadSamples(ofDirectory libraryDir) {
+    if (libraryDir.exists() && libraryDir.isDirectory()) {
+        ofLog(OF_LOG_NOTICE, "[" + libraryDir.path() + "] exists and has [" + ofToString(libraryDir.listDir()) + "] files.");
         vector<ofFile> files = libraryDir.getFiles();
         for (vector<ofFile>::iterator it = files.begin(); it!=files.end(); ++it) {
             ofFile file = *it;
@@ -105,7 +124,7 @@ void pooksApp::loadSamples() {
             }
         }
     }
-    ofLog(OF_LOG_NOTICE, "samples loaded.");
+    return samples.size() > 0;
 }
 
 void pooksApp::exit() {
@@ -641,6 +660,7 @@ void pooksApp::keyPressed(int key){
             screenSettings[i].alpha = active ? 1.0 : 0.0;
             screenLayerSettings[i][0].canEdit = active;
             screenLayerSettings[i][0].alpha = active ? 1.0 : 0.0;
+            selectSampleIndex(0);
         }
     }
 }

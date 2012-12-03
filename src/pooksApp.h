@@ -27,6 +27,7 @@ class pooksApp : public ofBaseApp, public ofxMidiListener {
 		void exit();
 		
 		void loadSamples();
+        bool loadSamples(ofDirectory libraryDir);
     
         void selectSampleIndex(int newSampleIndex);
 	
