@@ -98,6 +98,11 @@ void Sample::setSpeed(float speed) {
     }
 }
 
+float Sample::getSpeed() {
+    return isVideoPlayer ? videoPlayer.getSpeed() : 0.0;
+}
+
+
 void Sample::setVolume(float volume) {
     if (isVideoPlayer) {
         videoPlayer.setVolume(volume);

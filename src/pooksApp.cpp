@@ -16,25 +16,11 @@ void pooksApp::setup() {
 
     masterAlpha = 1.0;
     masterVolume = 1.0;
+    masterRate = 1.0;
     
-	// black
-	colors[0].set(0, 0, 0);
-	// royal yellow
-	colors[1].set(250, 218, 94);
-	// burnt orange
-	colors[2].set(204, 85, 0);
-	// yellow gold
-	colors[3].set(255, 215, 0);
-	// light sea green
-	colors[4].set(230, 0, 0);
-	// chinese red
-	colors[5].set(230, 0, 0);
-	// chinese red (subsidiary 1)
-	colors[6].set(254, 40, 14);
-	// chinese red (subsidiary 2)
-	colors[7].set(242, 85, 0);
-	// chinese red (subsidiary 3)
-	colors[8].set(137, 0, 24);
+    ofSetEscapeQuitsApp(false);
+    
+	loadColors();
 	
 	selectedScreen = 0;
 	showWarpTool = false;
@@ -103,6 +89,27 @@ void pooksApp::loadSamples() {
         }
     }
 
+}
+
+void pooksApp::loadColors() {
+    // black
+	colors[0].set(0, 0, 0);
+	// royal yellow
+	colors[1].set(250, 218, 94);
+	// burnt orange
+	colors[2].set(204, 85, 0);
+	// yellow gold
+	colors[3].set(255, 215, 0);
+	// light sea green
+	colors[4].set(230, 0, 0);
+	// chinese red
+	colors[5].set(230, 0, 0);
+	// chinese red (subsidiary 1)
+	colors[6].set(254, 40, 14);
+	// chinese red (subsidiary 2)
+	colors[7].set(242, 85, 0);
+	// chinese red (subsidiary 3)
+	colors[8].set(137, 0, 24);
 }
 
 bool pooksApp::loadSamples(ofDirectory libraryDir) {
@@ -653,13 +660,54 @@ void pooksApp::keyPressed(int key){
             case 'm':
                 selectSampleIndex(25);
                 break;
-            
+            case 'Z':
+                for (int i=0; i<MAX_SCREENS; i++) {
+                    bool active = keyboardController.isScreenActive(i);
+                    if (active) {
+                        screenLayerSettings[i][0].speed = screenLayerSettings[i][0].speed > 0.0 ? 0.0 : 1.0;
+                    }
+                }
+                break;
+            case 'A':
+                masterAlpha = masterAlpha < 0.1 ? 0.0 : (masterAlpha - 0.1);
+                break;
+            case 'S':
+                masterAlpha = masterAlpha > 0.9 ? 1.0 : (masterAlpha + 0.1);
+                break;
+            case 'Q':
+                for (int i=0; i<MAX_SCREENS; i++) {
+                    bool active = keyboardController.isScreenActive(i);
+                    if (active) {
+                        screenLayerSettings[i][0].selectedLayoutIndex = (screenLayerSettings[i][0].selectedLayoutIndex + 1) % MAX_LAYOUTS;
+                    }
+                }
+                break;
+            case 'W':
+                for (int i=0; i<MAX_SCREENS; i++) {
+                    bool active = keyboardController.isScreenActive(i);
+                    if (active) {
+                        float complexity = screenLayerSettings[i][0].complexity;
+                        screenLayerSettings[i][0].complexity = complexity < 0.1 ? 0.0 : (complexity - 0.1);
+                    }
+                }
+                break;
+            case 'E':
+                for (int i=0; i<MAX_SCREENS; i++) {
+                    bool active = keyboardController.isScreenActive(i);
+                    if (active) {
+                        float complexity = screenLayerSettings[i][0].complexity;
+                        screenLayerSettings[i][0].complexity = complexity > 0.9 ? 0.0 : (complexity + 0.1);
+                    }
+                }
+                break;
+                
             default:
                 keyboardController.keyPressed(key);
                 for (int i=0; i<MAX_SCREENS; i++) {
                     bool active = keyboardController.isScreenActive(i);
                     screenSettings[i].canEdit = active;
-                    screenSettings[i].alpha = active ? 1.0 : 0.0;
+                    screenSettings[i].alpha = active ? masterAlpha : 0.0;
+                    
                     screenLayerSettings[i][0].canEdit = active;
                     screenLayerSettings[i][0].alpha = active ? 1.0 : 0.0;
                 }

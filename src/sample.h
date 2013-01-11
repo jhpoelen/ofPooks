@@ -38,6 +38,7 @@ public:
     void update();
     bool isFrameNew();
     void setSpeed(float speed);
+    float getSpeed();
     void setVolume(float volume);
     void cacheTextureReference();
     ofTexture &getTextureReference();

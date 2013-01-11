@@ -28,6 +28,7 @@
 		A2F0FDC614F3887E00A0CB0B /* ofxCvImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2F0FDB414F3887E00A0CB0B /* ofxCvImage.cpp */; };
 		A2F0FDC714F3887E00A0CB0B /* ofxCvHaarFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2F0FDB614F3887E00A0CB0B /* ofxCvHaarFinder.cpp */; };
 		A2F0FDC814F3887E00A0CB0B /* ofxCvShortImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2F0FDB914F3887E00A0CB0B /* ofxCvShortImage.cpp */; };
+		A2FB3C3516757A5E00336C5B /* smoothShaderInverted.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2FB3C3316757A5E00336C5B /* smoothShaderInverted.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -124,6 +125,8 @@
 		A2F0FDB914F3887E00A0CB0B /* ofxCvShortImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxCvShortImage.cpp; path = ../../../addons/ofxOpenCv/src/ofxCvShortImage.cpp; sourceTree = SOURCE_ROOT; };
 		A2F0FDBA14F3887E00A0CB0B /* ofxCvShortImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxCvShortImage.h; path = ../../../addons/ofxOpenCv/src/ofxCvShortImage.h; sourceTree = SOURCE_ROOT; };
 		A2F0FDBB14F3887E00A0CB0B /* ofxOpenCv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxOpenCv.h; path = ../../../addons/ofxOpenCv/src/ofxOpenCv.h; sourceTree = SOURCE_ROOT; };
+		A2FB3C3316757A5E00336C5B /* smoothShaderInverted.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = smoothShaderInverted.cpp; sourceTree = "<group>"; };
+		A2FB3C3416757A5E00336C5B /* smoothShaderInverted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smoothShaderInverted.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -337,6 +340,8 @@
 				E4B69E1F0A3A1BDC003C02F2 /* pooksApp.h */,
 				A219B7DE150093DE0089F3AF /* smoothShader.h */,
 				A219B7DF150093DE0089F3AF /* smoothShader.cpp */,
+				A2FB3C3416757A5E00336C5B /* smoothShaderInverted.h */,
+				A2FB3C3316757A5E00336C5B /* smoothShaderInverted.cpp */,
 				A285AD4015040E9B008CAAC4 /* editable.h */,
 				A285AD4115040E9B008CAAC4 /* editable.cpp */,
 				A285AD861504229E008CAAC4 /* layer.h */,
@@ -480,6 +485,7 @@
 				A2B8E04B15075794009B1845 /* twinklingStar.cpp in Sources */,
 				A20040C215322F3200BCC100 /* sample.cpp in Sources */,
 				A2C9E6A7166C183800CE6D27 /* keyboardController.cpp in Sources */,
+				A2FB3C3516757A5E00336C5B /* smoothShaderInverted.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
