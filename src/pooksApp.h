@@ -3,6 +3,7 @@
 #include "ofMain.h"
 
 #include "ofxOpenCv.h"
+
 #include "ofxMidi.h"
 #include "smoothShader.h"
 #include "editable.h"
@@ -14,7 +15,7 @@
 const int MAX_COLORS = 8;
 const int MAX_SCREENS = 6;
 const int MAX_LAYERS = 4;
-const int MAX_LAYOUTS = 2;
+const int MAX_LAYOUTS = 8;
 const int MAX_STARS = 24;
 
 class pooksApp : public ofBaseApp, public ofxMidiListener {

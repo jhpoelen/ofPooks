@@ -224,9 +224,7 @@ void pooksApp::renderScreen(int screenIndex) {
                                          selectedColor.b);
                             texture.draw(0, 0, ofGetWidth(), ofGetHeight());
                             shader.end();
-                        }
-                        
-                        if (selectedIndex == 1) {
+                        } else if (selectedIndex == 1) {
                             float complexity = screenLayerSettings[screenIndex][i].complexity;
                             int nrows = (complexity * 12) + 1;
                             int ncols = nrows;
@@ -248,6 +246,114 @@ void pooksApp::renderScreen(int screenIndex) {
                                     texture.draw(xOffset, yOffset, xSize, ySize);
                                     shader.end();
                                 }
+                            }
+                        } else if (selectedIndex == 2) {
+                            float complexity = screenLayerSettings[screenIndex][i].complexity;
+                            int nrows = (complexity * 128) + 1;
+                            int ncols = 1;
+                            int xSize = ofGetWidth() / nrows;
+                            int ySize = ofGetHeight() / ncols;
+                            for (int row=0; row<nrows; row++) {
+                                for (int col=0; col<ncols; col++) {
+                                    shader.begin(texture.getWidth(),
+                                                 texture.getHeight(),
+                                                 masterScreenAlpha,
+                                                 layer.alpha,
+                                                 layer.contrast,
+                                                 layer.luminance,
+                                                 selectedColor.r,
+                                                 selectedColor.g,
+                                                 selectedColor.b);
+                                    int xOffset = row * xSize;
+                                    int yOffset = col * ySize;
+                                    texture.draw(xOffset, yOffset, xSize, ySize);
+                                    shader.end();
+                                }
+                            }
+                        } else if (selectedIndex == 3) {
+                            float complexity = screenLayerSettings[screenIndex][i].complexity;
+                            int nrows = 1;
+                            int ncols = (complexity * 128) + 1;
+                            int xSize = ofGetWidth() / nrows;
+                            int ySize = ofGetHeight() / ncols;
+                            for (int row=0; row<nrows; row++) {
+                                for (int col=0; col<ncols; col++) {
+                                    shader.begin(texture.getWidth(),
+                                                 texture.getHeight(),
+                                                 masterScreenAlpha,
+                                                 layer.alpha,
+                                                 layer.contrast,
+                                                 layer.luminance,
+                                                 selectedColor.r,
+                                                 selectedColor.g,
+                                                 selectedColor.b);
+                                    int xOffset = row * xSize;
+                                    int yOffset = col * ySize;
+                                    texture.draw(xOffset, yOffset, xSize, ySize);
+                                    shader.end();
+                                }
+                            }
+                        } else if (selectedIndex == 4) {
+                            float complexity = screenLayerSettings[screenIndex][i].complexity;
+                            float noiseFactor = ofGetHeight()/(1 + complexity * 12);
+                            long int n = getpid();
+                            ofSeedRandom(screenIndex * 10 + i);
+                            int x = -noiseFactor/2 + ofRandom(noiseFactor);
+                            int y = -noiseFactor/2 + ofRandom(noiseFactor);
+                            int xSize = ofGetWidth() / (30 + ((complexity * 64) + 1));
+                            int ySize = ofGetHeight() / ((complexity * 64) + 1);
+                            while (x < ofGetWidth()) {
+                                int xSizeNew = xSize - noiseFactor/2 + ofRandom(noiseFactor);
+                                while (y < ofGetHeight()) {
+                                    int ySizeNew = ySize - noiseFactor/2 + ofRandom(noiseFactor);
+                                    if (rand() % 5 != 0) {
+                                        shader.begin(texture.getWidth(),
+                                                     texture.getHeight(),
+                                                     masterScreenAlpha,
+                                                     layer.alpha,
+                                                     layer.contrast,
+                                                     layer.luminance,
+                                                     selectedColor.r,
+                                                     selectedColor.g,
+                                                     selectedColor.b);
+                                        texture.draw(x, y, xSizeNew, ySizeNew);
+                                        shader.end();
+                                    }
+                                    y += ySizeNew;
+                                }
+                                y = -noiseFactor/2 + ofRandom(noiseFactor);
+                                x += xSize;
+                            }
+                        } else if (selectedIndex == 5) {
+                            float complexity = screenLayerSettings[screenIndex][i].complexity;
+                            float noiseFactor = ofGetHeight()/(1 + complexity * 12);
+                            long int n = getpid();
+                            ofSeedRandom(screenIndex * 10 + i);
+                            int x = -noiseFactor/2 + ofRandom(noiseFactor);
+                            int y = -noiseFactor/2 + ofRandom(noiseFactor);
+                            int xSize = ofGetWidth() / (30 + ((complexity * 64) + 1));
+                            int ySize = ofGetHeight() / ((complexity * 64) + 1);
+                            while (y < ofGetHeight()) {
+                                int ySizeNew = ySize - noiseFactor/2 + ofRandom(noiseFactor);
+                                while (x < ofGetWidth()) {
+                                    int xSizeNew = xSize - noiseFactor/2 + ofRandom(noiseFactor);
+                                    if (rand() % 10 != 0) {
+                                        shader.begin(texture.getWidth(),
+                                                 texture.getHeight(),
+                                                 masterScreenAlpha,
+                                                 layer.alpha,
+                                                 layer.contrast,
+                                                 layer.luminance,
+                                                 selectedColor.r,
+                                                 selectedColor.g,
+                                                 selectedColor.b);
+                                        texture.draw(x, y, xSizeNew, ySizeNew);
+                                        shader.end();
+                                    }
+                                    x += xSizeNew;
+                                }
+                                x = -noiseFactor/2 + ofRandom(noiseFactor);
+                                y += ySizeNew;
                             }
                         } else {
                             float complexity = screenLayerSettings[screenIndex][i].complexity;
