@@ -23,6 +23,7 @@ class pooksApp : public ofBaseApp, public ofxMidiListener {
 private:
     void loadColors();
     void handleCmdKey(int key);
+
     
 public:
     virtual ~pooksApp();
@@ -32,6 +33,7 @@ public:
     void exit();
     
     void stepAlpha(int step);
+    ofColor getSelectedColorIndex(Layer layer);
     
     void loadSamples();
     bool loadSamples(ofDirectory libraryDir);

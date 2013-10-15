@@ -192,6 +192,14 @@ void pooksApp::draw(){
 	}
 }
 
+ofColor pooksApp::getSelectedColorIndex(Layer layer) {
+    if (layer.selectedColorIndex == 0) {
+        return colors[rand() % MAX_COLORS];
+    } else {
+        return colors[layer.selectedColorIndex];
+    }
+}
+
 void pooksApp::renderScreen(int screenIndex) {
 	Editable screen = screenSettings[screenIndex];
 	if (screen.alpha > 0.0) {
@@ -210,9 +218,10 @@ void pooksApp::renderScreen(int screenIndex) {
                         ofTexture texture = sample->getTextureReference();
                         // one shader per layer
                         ofEnableAlphaBlending();
-                        ofColor selectedColor = colors[layer.selectedColorIndex];
+                        
                         int selectedIndex = screenLayerSettings[screenIndex][i].selectedLayoutIndex;
                         if (selectedIndex == 0) {
+                            ofColor selectedColor = getSelectedColorIndex(layer);
                             shader.begin(texture.getWidth(),
                                          texture.getHeight(),
                                          masterScreenAlpha,
@@ -232,6 +241,7 @@ void pooksApp::renderScreen(int screenIndex) {
                             int ySize = ofGetHeight() / ncols;
                             for (int row=0; row<nrows; row++) {
                                 for (int col=0; col<ncols; col++) {
+                                    ofColor selectedColor = getSelectedColorIndex(layer);
                                     shader.begin(texture.getWidth(),
                                                  texture.getHeight(),
                                                  masterScreenAlpha,
@@ -248,6 +258,7 @@ void pooksApp::renderScreen(int screenIndex) {
                                 }
                             }
                         } else if (selectedIndex == 2) {
+                            
                             float complexity = screenLayerSettings[screenIndex][i].complexity;
                             int nrows = (complexity * 128) + 1;
                             int ncols = 1;
@@ -255,6 +266,7 @@ void pooksApp::renderScreen(int screenIndex) {
                             int ySize = ofGetHeight() / ncols;
                             for (int row=0; row<nrows; row++) {
                                 for (int col=0; col<ncols; col++) {
+                                    ofColor selectedColor = getSelectedColorIndex(layer);
                                     shader.begin(texture.getWidth(),
                                                  texture.getHeight(),
                                                  masterScreenAlpha,
@@ -278,6 +290,7 @@ void pooksApp::renderScreen(int screenIndex) {
                             int ySize = ofGetHeight() / ncols;
                             for (int row=0; row<nrows; row++) {
                                 for (int col=0; col<ncols; col++) {
+                                    ofColor selectedColor = getSelectedColorIndex(layer);
                                     shader.begin(texture.getWidth(),
                                                  texture.getHeight(),
                                                  masterScreenAlpha,
@@ -307,6 +320,7 @@ void pooksApp::renderScreen(int screenIndex) {
                                 while (y < ofGetHeight()) {
                                     int ySizeNew = ySize - noiseFactor/2 + ofRandom(noiseFactor);
                                     if (rand() % 5 != 0) {
+                                        ofColor selectedColor = getSelectedColorIndex(layer);
                                         shader.begin(texture.getWidth(),
                                                      texture.getHeight(),
                                                      masterScreenAlpha,
@@ -338,6 +352,7 @@ void pooksApp::renderScreen(int screenIndex) {
                                 while (x < ofGetWidth()) {
                                     int xSizeNew = xSize - noiseFactor/2 + ofRandom(noiseFactor);
                                     if (rand() % 10 != 0) {
+                                        ofColor selectedColor = getSelectedColorIndex(layer);
                                         shader.begin(texture.getWidth(),
                                                  texture.getHeight(),
                                                  masterScreenAlpha,
@@ -360,6 +375,7 @@ void pooksApp::renderScreen(int screenIndex) {
                             ofSetRectMode(OF_RECTMODE_CENTER);
                             for (int k=0; k<MAX_STARS; k++) {
                                 TwinklingStar star = stars[k];
+                                ofColor selectedColor = getSelectedColorIndex(layer);
                                 shader.begin(texture.getWidth(),
                                              texture.getHeight(),
                                              masterScreenAlpha,
