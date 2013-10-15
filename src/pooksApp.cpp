@@ -4,7 +4,6 @@
 #include "ofUtils.h"
 
 
-//--------------------------------------------------------------
 void pooksApp::setup() {
     // ensure to load from app bundle resources
     ofSetDataPathRoot("../Resources/");
@@ -45,7 +44,9 @@ void pooksApp::setup() {
 		listOfScreenCorners[i][3].y = 1.0;
 	}
 	
-	loadSamples();
+    SampleFactory factory;
+    samples = factory.createSamples();
+
 	for (int j=0; j<MAX_SCREENS; j++) {
 		for (int i=0; i<MAX_LAYERS; i++) {
 			screenLayerSettings[j][i].selectedSampleIndex = 0;
@@ -76,21 +77,6 @@ pooksApp::~pooksApp() {
     }
 }
 
-void pooksApp::loadSamples() {
-    string libraryPath = ofFilePath::join(ofFilePath::getUserHomeDir(), "Movies/Pooks/");
-    ofLog(OF_LOG_NOTICE, "samples loading from [" + libraryPath + "] ...");
-    ofDirectory libraryDir(libraryPath);
-    if (this->loadSamples(libraryDir)) {
-        ofLog(OF_LOG_NOTICE, samples.size() + "samples loaded from [" + libraryPath + "].");
-    } else {
-        ofDirectory defaultSamplesDir(ofToDataPath("", true));
-        if (this->loadSamples(defaultSamplesDir)) {
-            ofLog(OF_LOG_NOTICE, samples.size() + " samples loaded from [" + defaultSamplesDir.path() + "]");
-        }
-    }
-
-}
-
 void pooksApp::loadColors() {
     // black
 	colors[0].set(0, 0, 0);
@@ -110,30 +96,6 @@ void pooksApp::loadColors() {
 	colors[7].set(242, 85, 0);
 	// chinese red (subsidiary 3)
 	colors[8].set(137, 0, 24);
-}
-
-bool pooksApp::loadSamples(ofDirectory libraryDir) {
-    if (libraryDir.exists() && libraryDir.isDirectory()) {
-        ofLog(OF_LOG_NOTICE, "[" + libraryDir.path() + "] exists and has [" + ofToString(libraryDir.listDir()) + "] files.");
-        vector<ofFile> files = libraryDir.getFiles();
-        for (vector<ofFile>::iterator it = files.begin(); it!=files.end(); ++it) {
-            ofFile file = *it;
-            ofLog(OF_LOG_NOTICE, "found file [" + file.path() + "]");
-            if (file.isFile()) {
-                Sample *sample = new Sample();
-                if (sample->loadMovie(file.path())) {
-                    ofLog(OF_LOG_NOTICE, "loaded [" + file.path() + "]");
-                    samples.push_back(sample);
-                } else {
-                    delete sample;
-                    ofLog(OF_LOG_ERROR, "failed to load [" + file.path() + "]");
-                }
-            } else {
-                ofLog(OF_LOG_NOTICE, "skipping [" + file.path() + "], not a file");
-            }
-        }
-    }
-    return samples.size() > 0;
 }
 
 void pooksApp::exit() {
@@ -210,7 +172,6 @@ void pooksApp::renderScreen(int screenIndex) {
 				// one texture per layer
                 Sample *sample = samples[layer.selectedSampleIndex];
                 if (sample->isVideoPlayer || sample->isVideoGrabber) {
-                    
                     if (sample->isPlaying()) {
                         if (sample->isFrameNew()) {
                             sample->cacheTextureReference();
@@ -519,7 +480,6 @@ void pooksApp::renderWarpTool(int screenNumber) {
 	ofCircle(mousePos.x, mousePos.y,  20);
 	ofSetRectMode(OF_RECTMODE_CORNER);
 	
-	//for(int i = 0; i < 40; i++)balls[i].draw();
 	ofDisableAlphaBlending();
 	
 	char selectedScreenMsg[255];

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A20040C215322F3200BCC100 /* sample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A20040C115322F3200BCC100 /* sample.cpp */; };
 		A20117CC14FCB12400B042CC /* ofxBlurShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A20117CA14FCB12400B042CC /* ofxBlurShader.cpp */; };
+		A2154B2E180D076F004799EA /* sampleText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2154B2C180D076F004799EA /* sampleText.cpp */; };
+		A2154B31180D0812004799EA /* sampleFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2154B2F180D0812004799EA /* sampleFactory.cpp */; };
 		A219B7E0150093DE0089F3AF /* smoothShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A219B7DF150093DE0089F3AF /* smoothShader.cpp */; };
 		A285AD4215040E9B008CAAC4 /* editable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A285AD4115040E9B008CAAC4 /* editable.cpp */; };
 		A285AD881504229E008CAAC4 /* layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A285AD871504229E008CAAC4 /* layer.cpp */; };
@@ -28,7 +30,6 @@
 		A2F0FDC614F3887E00A0CB0B /* ofxCvImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2F0FDB414F3887E00A0CB0B /* ofxCvImage.cpp */; };
 		A2F0FDC714F3887E00A0CB0B /* ofxCvHaarFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2F0FDB614F3887E00A0CB0B /* ofxCvHaarFinder.cpp */; };
 		A2F0FDC814F3887E00A0CB0B /* ofxCvShortImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2F0FDB914F3887E00A0CB0B /* ofxCvShortImage.cpp */; };
-		A2FB3C3516757A5E00336C5B /* smoothShaderInverted.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2FB3C3316757A5E00336C5B /* smoothShaderInverted.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -83,6 +84,10 @@
 		A20040C315322F3B00BCC100 /* sample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sample.h; sourceTree = "<group>"; };
 		A20117CA14FCB12400B042CC /* ofxBlurShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxBlurShader.cpp; path = ../../../addons/ofxBlurShader/ofxBlurShader.cpp; sourceTree = SOURCE_ROOT; };
 		A20117CB14FCB12400B042CC /* ofxBlurShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxBlurShader.h; path = ../../../addons/ofxBlurShader/ofxBlurShader.h; sourceTree = SOURCE_ROOT; };
+		A2154B2C180D076F004799EA /* sampleText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sampleText.cpp; sourceTree = "<group>"; };
+		A2154B2D180D076F004799EA /* sampleText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sampleText.h; sourceTree = "<group>"; };
+		A2154B2F180D0812004799EA /* sampleFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sampleFactory.cpp; sourceTree = "<group>"; };
+		A2154B30180D0812004799EA /* sampleFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sampleFactory.h; sourceTree = "<group>"; };
 		A219B7DE150093DE0089F3AF /* smoothShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smoothShader.h; sourceTree = "<group>"; };
 		A219B7DF150093DE0089F3AF /* smoothShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = smoothShader.cpp; sourceTree = "<group>"; };
 		A265454C1504ACCF0008C97C /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
@@ -125,8 +130,6 @@
 		A2F0FDB914F3887E00A0CB0B /* ofxCvShortImage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxCvShortImage.cpp; path = ../../../addons/ofxOpenCv/src/ofxCvShortImage.cpp; sourceTree = SOURCE_ROOT; };
 		A2F0FDBA14F3887E00A0CB0B /* ofxCvShortImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxCvShortImage.h; path = ../../../addons/ofxOpenCv/src/ofxCvShortImage.h; sourceTree = SOURCE_ROOT; };
 		A2F0FDBB14F3887E00A0CB0B /* ofxOpenCv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxOpenCv.h; path = ../../../addons/ofxOpenCv/src/ofxOpenCv.h; sourceTree = SOURCE_ROOT; };
-		A2FB3C3316757A5E00336C5B /* smoothShaderInverted.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = smoothShaderInverted.cpp; sourceTree = "<group>"; };
-		A2FB3C3416757A5E00336C5B /* smoothShaderInverted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smoothShaderInverted.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -340,8 +343,6 @@
 				E4B69E1F0A3A1BDC003C02F2 /* pooksApp.h */,
 				A219B7DE150093DE0089F3AF /* smoothShader.h */,
 				A219B7DF150093DE0089F3AF /* smoothShader.cpp */,
-				A2FB3C3416757A5E00336C5B /* smoothShaderInverted.h */,
-				A2FB3C3316757A5E00336C5B /* smoothShaderInverted.cpp */,
 				A285AD4015040E9B008CAAC4 /* editable.h */,
 				A285AD4115040E9B008CAAC4 /* editable.cpp */,
 				A285AD861504229E008CAAC4 /* layer.h */,
@@ -350,6 +351,10 @@
 				A2B8E04A15075794009B1845 /* twinklingStar.cpp */,
 				A20040C115322F3200BCC100 /* sample.cpp */,
 				A20040C315322F3B00BCC100 /* sample.h */,
+				A2154B2C180D076F004799EA /* sampleText.cpp */,
+				A2154B2D180D076F004799EA /* sampleText.h */,
+				A2154B2F180D0812004799EA /* sampleFactory.cpp */,
+				A2154B30180D0812004799EA /* sampleFactory.h */,
 				A2C9E6A5166C183800CE6D27 /* keyboardController.cpp */,
 				A2C9E6A6166C183800CE6D27 /* keyboardController.h */,
 			);
@@ -485,7 +490,8 @@
 				A2B8E04B15075794009B1845 /* twinklingStar.cpp in Sources */,
 				A20040C215322F3200BCC100 /* sample.cpp in Sources */,
 				A2C9E6A7166C183800CE6D27 /* keyboardController.cpp in Sources */,
-				A2FB3C3516757A5E00336C5B /* smoothShaderInverted.cpp in Sources */,
+				A2154B2E180D076F004799EA /* sampleText.cpp in Sources */,
+				A2154B31180D0812004799EA /* sampleFactory.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,10 +1,4 @@
-//
-//  sample.h
-//  ofPooks
-//
-//  Created by jorrit poelen on 4/8/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+#pragma once
 
 #include "ofMain.h"
 
@@ -17,8 +11,6 @@ public:
     
     ofVideoPlayer videoPlayer;
     ofVideoGrabber videoGrabber;
-    ofBuffer text;
-    ofTrueTypeFont font;
     ofTexture textureReference;
     
     bool isVideoPlayer;
@@ -26,7 +18,7 @@ public:
     bool grabberInitialized;
     bool grabberActive;
     
-    bool loadMovie(string name);
+    virtual bool loadMovie(string name);
     bool initGrabber();
     void setUseTexture(bool bUse);
     
@@ -35,18 +27,18 @@ public:
     void play();
     bool isPlaying();
     void stop();
-    void update();
+    virtual void update();
     bool isFrameNew();
     void setSpeed(float speed);
     float getSpeed();
     void setVolume(float volume);
-    void cacheTextureReference();
+    virtual void cacheTextureReference();
     ofTexture &getTextureReference();
     
     int getActiveCount();
     void increaseActiveCount();
     void decreaseActiveCount();
     
-    bool isLoaded();
+    virtual bool isLoaded();
     
 };

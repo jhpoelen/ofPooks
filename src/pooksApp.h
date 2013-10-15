@@ -10,6 +10,7 @@
 #include "layer.h"
 #include "twinklingStar.h"
 #include "sample.h"
+#include "sampleFactory.h"
 #include "keyboardController.h"
 
 const int MAX_COLORS = 8;
@@ -34,9 +35,6 @@ public:
     
     void stepAlpha(int step);
     ofColor getSelectedColorIndex(Layer layer);
-    
-    void loadSamples();
-    bool loadSamples(ofDirectory libraryDir);
     
     void selectSampleIndex(int newSampleIndex);
 	

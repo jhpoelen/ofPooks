@@ -1,11 +1,3 @@
-//
-//  sample.cpp
-//  ofPooks
-//
-//  Created by jorrit poelen on 4/8/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
-
 #include "sample.h"
 
 Sample::Sample() {
@@ -37,15 +29,6 @@ void Sample::setUseTexture(bool bUse) {
         videoGrabber.setUseTexture(bUse);
     }
 }
-
-bool Sample::loadTextBuffer(string name) {
-    isVideoPlayer = false;
-    isVideoGrabber = false;
-    text = ofBufferFromFile(name);
-    bool loaded = font.loadFont("type/frabk.ttf", 80);
-    return loaded;
-}
-
 
 void Sample::play() {
     if (isVideoPlayer) {
@@ -139,9 +122,7 @@ bool Sample::isLoaded() {
         loaded = videoPlayer.isLoaded();
     } else if (isVideoGrabber) {
         loaded = videoGrabber.isInitialized();
-    } else if (!isVideoGrabber && !isVideoPlayer) {
-        loaded = font.isLoaded();
-    }
+    } 
     return loaded;
 }
 
