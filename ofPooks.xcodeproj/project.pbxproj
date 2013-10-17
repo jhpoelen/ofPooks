@@ -24,6 +24,7 @@
 		A2B175D3180FA01400A06BDA /* layoutStarryNight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B175D1180FA01300A06BDA /* layoutStarryNight.cpp */; };
 		A2B175D6180FA2AD00A06BDA /* LayoutNoisy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B175D4180FA2AC00A06BDA /* LayoutNoisy.cpp */; };
 		A2B175D9180FA35700A06BDA /* layoutMoreNoise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B175D7180FA35600A06BDA /* layoutMoreNoise.cpp */; };
+		A2B175DC180FABD200A06BDA /* LayoutPoem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B175DA180FABD000A06BDA /* LayoutPoem.cpp */; };
 		A2B8E04B15075794009B1845 /* twinklingStar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B8E04A15075794009B1845 /* twinklingStar.cpp */; };
 		A2BB020214FC9D9600DF80EB /* ofxMidiIn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2BB01FE14FC9D9600DF80EB /* ofxMidiIn.cpp */; };
 		A2BB020314FC9D9600DF80EB /* ofxMidiOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2BB020014FC9D9600DF80EB /* ofxMidiOut.cpp */; };
@@ -125,6 +126,8 @@
 		A2B175D5180FA2AD00A06BDA /* LayoutNoisy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutNoisy.h; sourceTree = "<group>"; };
 		A2B175D7180FA35600A06BDA /* layoutMoreNoise.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = layoutMoreNoise.cpp; sourceTree = "<group>"; };
 		A2B175D8180FA35700A06BDA /* layoutMoreNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = layoutMoreNoise.h; sourceTree = "<group>"; };
+		A2B175DA180FABD000A06BDA /* LayoutPoem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayoutPoem.cpp; sourceTree = "<group>"; };
+		A2B175DB180FABD100A06BDA /* LayoutPoem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutPoem.h; sourceTree = "<group>"; };
 		A2B8E04915075794009B1845 /* twinklingStar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = twinklingStar.h; sourceTree = "<group>"; };
 		A2B8E04A15075794009B1845 /* twinklingStar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = twinklingStar.cpp; sourceTree = "<group>"; };
 		A2BB01FB14FC9D9600DF80EB /* ofxMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxMidi.h; sourceTree = "<group>"; };
@@ -407,6 +410,8 @@
 				A2B175D5180FA2AD00A06BDA /* LayoutNoisy.h */,
 				A2B175D7180FA35600A06BDA /* layoutMoreNoise.cpp */,
 				A2B175D8180FA35700A06BDA /* layoutMoreNoise.h */,
+				A2B175DA180FABD000A06BDA /* LayoutPoem.cpp */,
+				A2B175DB180FABD100A06BDA /* LayoutPoem.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -552,6 +557,7 @@
 				A2B175D3180FA01400A06BDA /* layoutStarryNight.cpp in Sources */,
 				A2B175D6180FA2AD00A06BDA /* LayoutNoisy.cpp in Sources */,
 				A2B175D9180FA35700A06BDA /* layoutMoreNoise.cpp in Sources */,
+				A2B175DC180FABD200A06BDA /* LayoutPoem.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,6 +10,7 @@
 #include "layoutStarryNight.h"
 #include "layoutMoreNoise.h"
 #include "LayoutNoisy.h"
+#include "LayoutPoem.h"
 
 void pooksApp::setup() {
     // ensure to load from app bundle resources
@@ -100,6 +101,7 @@ void pooksApp::loadLayouts() {
     layouts.push_back(new LayoutStarryNight());
     layouts.push_back(new LayoutNoisy());
     layouts.push_back(new LayoutMoreNoise());
+    layouts.push_back(new LayoutPoem(ofFilePath::join(ofFilePath::getUserHomeDir(), "Movies/Pooks/poems.txt")));
 }
 
 void pooksApp::loadColors() {
@@ -137,6 +139,7 @@ void pooksApp::update(){
 		for (int j=0; j<MAX_LAYERS; j++) {
             Layer layer = screenLayerSettings[i][j];
             Layout *layout = layouts.at(layer.selectedLayoutIndex % layouts.size());
+            layout->update();
             float speed = masterVolume == 0 ? 0.0 : layer.speed;
             if (layer.selectedSampleIndex < samples.size()) {
                 samples[layer.selectedSampleIndex]->setSpeed(speed);
