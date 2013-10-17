@@ -62,22 +62,24 @@ void SmoothShader::setup(float w, float h) {
 }
 
 void SmoothShader::begin(float width, float height, float screenAlpha, float layerAlpha, float contrast, float luminance, float red, float green, float blue) {
-    if (!initialized) ofLog(OF_LOG_ERROR, "ofxBlurShader::setup(w,h) needs to be called first");
-    if (!enabled) return;
-        
-	alphaShader.begin();
-	alphaShader.setUniform1f("layerAlpha", layerAlpha);
-	alphaShader.setUniform1f("screenAlpha", screenAlpha);
+    if (!initialized) {
+        ofLog(OF_LOG_ERROR, "ofxBlurShader::setup(w,h) needs to be called first");
+    }
+    if (enabled) {
+        alphaShader.begin();
+        alphaShader.setUniform1f("layerAlpha", layerAlpha);
+        alphaShader.setUniform1f("screenAlpha", screenAlpha);
 
-	alphaShader.setUniform1f("contrast", contrast);
-	alphaShader.setUniform1f("luminance", luminance);
+        alphaShader.setUniform1f("contrast", contrast);
+        alphaShader.setUniform1f("luminance", luminance);
 	
-	alphaShader.setUniform1f("width", width);
-	alphaShader.setUniform1f("height", height);
+        alphaShader.setUniform1f("width", width);
+        alphaShader.setUniform1f("height", height);
 	
-	alphaShader.setUniform1f("red", red);
-	alphaShader.setUniform1f("green", green);
-	alphaShader.setUniform1f("blue", blue);
+        alphaShader.setUniform1f("red", red);
+        alphaShader.setUniform1f("green", green);
+        alphaShader.setUniform1f("blue", blue);
+    }
 }
 
 void SmoothShader::end() {
