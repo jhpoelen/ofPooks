@@ -81,9 +81,8 @@ void SmoothShader::begin(float width, float height, float screenAlpha, float lay
 }
 
 void SmoothShader::end() {
-    if (!enabled) return;
-
-	alphaShader.end();
-	
+    if (enabled) {
+        alphaShader.end();
+    }
 }
 
