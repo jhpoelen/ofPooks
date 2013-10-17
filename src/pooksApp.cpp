@@ -2,7 +2,14 @@
 #include <pwd.h>
 #include <unistd.h>
 #include "ofUtils.h"
-
+#include "colorChannelAlphabet.h"
+#include "layoutTelevision.h"
+#include "layoutGrid.h"
+#include "layoutHorizontalStripes.h"
+#include "layoutVerticalStripes.h"
+#include "layoutStarryNight.h"
+#include "layoutMoreNoise.h"
+#include "LayoutNoisy.h"
 
 void pooksApp::setup() {
     // ensure to load from app bundle resources
@@ -20,6 +27,8 @@ void pooksApp::setup() {
     ofSetEscapeQuitsApp(false);
     
 	loadColors();
+    
+    loadLayouts();
 	
 	selectedScreen = 0;
 	showWarpTool = false;
@@ -62,7 +71,6 @@ void pooksApp::setup() {
 	midiIn.openPort(0);
 	midiIn.addListener(this);
 	
-	shader.setup(320,240);
 	ofSetFrameRate(30);
     
     // start playing first sample in first screen on first  by default
@@ -75,27 +83,33 @@ pooksApp::~pooksApp() {
     for (int i=0; i< samples.size(); i++) {
         delete samples.at(i);
     }
+    for (int i=0; i< colorChannels.size(); i++) {
+        delete colorChannels.at(i);
+    }
+    for (int i=0; i< layouts.size(); i++) {
+        delete layouts.at(i);
+    }
+    
+}
+
+void pooksApp::loadLayouts() {
+    layouts.push_back(new LayoutTelevision());
+    layouts.push_back(new LayoutGrid());
+    layouts.push_back(new LayoutVerticalStripes());
+    layouts.push_back(new LayoutHorizontalStripes());
+    layouts.push_back(new LayoutStarryNight());
+    layouts.push_back(new LayoutNoisy());
+    layouts.push_back(new LayoutMoreNoise());
 }
 
 void pooksApp::loadColors() {
-    // black
-	colors[0].set(0, 0, 0);
-	// royal yellow
-	colors[1].set(250, 218, 94);
-	// burnt orange
-	colors[2].set(204, 85, 0);
-	// yellow gold
-	colors[3].set(255, 215, 0);
-	// light sea green
-	colors[4].set(230, 0, 0);
-	// chinese red
-	colors[5].set(230, 0, 0);
-	// chinese red (subsidiary 1)
-	colors[6].set(254, 40, 14);
-	// chinese red (subsidiary 2)
-	colors[7].set(242, 85, 0);
-	// chinese red (subsidiary 3)
-	colors[8].set(137, 0, 24);
+    ColorChannel *colorChannel = new ColorChannel();
+    colorChannel->loadColors();
+    colorChannels.push_back(colorChannel);
+    
+    ColorChannelAlphabet *alphabet = new ColorChannelAlphabet();
+    alphabet->loadColors();
+    colorChannels.push_back(alphabet);
 }
 
 void pooksApp::exit() {
@@ -122,11 +136,7 @@ void pooksApp::update(){
 	for (int  i=0; i<MAX_SCREENS; i++) {
 		for (int j=0; j<MAX_LAYERS; j++) {
             Layer layer = screenLayerSettings[i][j];
-            if (layer.selectedLayoutIndex == 1) {
-				for (int k=0; k<MAX_STARS; k++) {
-					stars[k].update();
-				}
-			}
+            Layout *layout = layouts.at(layer.selectedLayoutIndex % layouts.size());
             float speed = masterVolume == 0 ? 0.0 : layer.speed;
             if (layer.selectedSampleIndex < samples.size()) {
                 samples[layer.selectedSampleIndex]->setSpeed(speed);
@@ -154,203 +164,29 @@ void pooksApp::draw(){
 	}
 }
 
-ofColor pooksApp::getSelectedColorIndex(Layer layer) {
-    if (layer.selectedColorIndex == 0) {
-        return colors[rand() % MAX_COLORS];
-    } else {
-        return colors[layer.selectedColorIndex];
-    }
-}
-
 void pooksApp::renderScreen(int screenIndex) {
 	Editable screen = screenSettings[screenIndex];
 	if (screen.alpha > 0.0) {
         float masterScreenAlpha = screen.alpha * masterAlpha;
 		for (int i=0; i<MAX_LAYERS; i++) {
 			Layer layer = screenLayerSettings[screenIndex][i];
+            layer.masterScreenAlpha = masterScreenAlpha;
 			if (layer.alpha > 0.0 && layer.selectedSampleIndex < samples.size()) {
 				// one texture per layer
                 Sample *sample = samples[layer.selectedSampleIndex];
+                // one colorChannel per layer
+                ColorChannel *colorChannel = colorChannels.at(layer.selectedColorIndex);
                 if (sample->isVideoPlayer || sample->isVideoGrabber) {
                     if (sample->isPlaying()) {
                         if (sample->isFrameNew()) {
                             sample->cacheTextureReference();
                         }
                         ofTexture texture = sample->getTextureReference();
-                        // one shader per layer
+
                         ofEnableAlphaBlending();
-                        
-                        int selectedIndex = screenLayerSettings[screenIndex][i].selectedLayoutIndex;
-                        if (selectedIndex == 0) {
-                            ofColor selectedColor = getSelectedColorIndex(layer);
-                            shader.begin(texture.getWidth(),
-                                         texture.getHeight(),
-                                         masterScreenAlpha,
-                                         layer.alpha,
-                                         layer.contrast,
-                                         layer.luminance,
-                                         selectedColor.r,
-                                         selectedColor.g,
-                                         selectedColor.b);
-                            texture.draw(0, 0, ofGetWidth(), ofGetHeight());
-                            shader.end();
-                        } else if (selectedIndex == 1) {
-                            float complexity = screenLayerSettings[screenIndex][i].complexity;
-                            int nrows = (complexity * 12) + 1;
-                            int ncols = nrows;
-                            int xSize = ofGetWidth() / nrows;
-                            int ySize = ofGetHeight() / ncols;
-                            for (int row=0; row<nrows; row++) {
-                                for (int col=0; col<ncols; col++) {
-                                    ofColor selectedColor = getSelectedColorIndex(layer);
-                                    shader.begin(texture.getWidth(),
-                                                 texture.getHeight(),
-                                                 masterScreenAlpha,
-                                                 layer.alpha,
-                                                 layer.contrast,
-                                                 layer.luminance,
-                                                 selectedColor.r,
-                                                 selectedColor.g,
-                                                 selectedColor.b);
-                                    int xOffset = row * xSize;
-                                    int yOffset = col * ySize;
-                                    texture.draw(xOffset, yOffset, xSize, ySize);
-                                    shader.end();
-                                }
-                            }
-                        } else if (selectedIndex == 2) {
-                            
-                            float complexity = screenLayerSettings[screenIndex][i].complexity;
-                            int nrows = (complexity * 128) + 1;
-                            int ncols = 1;
-                            int xSize = ofGetWidth() / nrows;
-                            int ySize = ofGetHeight() / ncols;
-                            for (int row=0; row<nrows; row++) {
-                                for (int col=0; col<ncols; col++) {
-                                    ofColor selectedColor = getSelectedColorIndex(layer);
-                                    shader.begin(texture.getWidth(),
-                                                 texture.getHeight(),
-                                                 masterScreenAlpha,
-                                                 layer.alpha,
-                                                 layer.contrast,
-                                                 layer.luminance,
-                                                 selectedColor.r,
-                                                 selectedColor.g,
-                                                 selectedColor.b);
-                                    int xOffset = row * xSize;
-                                    int yOffset = col * ySize;
-                                    texture.draw(xOffset, yOffset, xSize, ySize);
-                                    shader.end();
-                                }
-                            }
-                        } else if (selectedIndex == 3) {
-                            float complexity = screenLayerSettings[screenIndex][i].complexity;
-                            int nrows = 1;
-                            int ncols = (complexity * 128) + 1;
-                            int xSize = ofGetWidth() / nrows;
-                            int ySize = ofGetHeight() / ncols;
-                            for (int row=0; row<nrows; row++) {
-                                for (int col=0; col<ncols; col++) {
-                                    ofColor selectedColor = getSelectedColorIndex(layer);
-                                    shader.begin(texture.getWidth(),
-                                                 texture.getHeight(),
-                                                 masterScreenAlpha,
-                                                 layer.alpha,
-                                                 layer.contrast,
-                                                 layer.luminance,
-                                                 selectedColor.r,
-                                                 selectedColor.g,
-                                                 selectedColor.b);
-                                    int xOffset = row * xSize;
-                                    int yOffset = col * ySize;
-                                    texture.draw(xOffset, yOffset, xSize, ySize);
-                                    shader.end();
-                                }
-                            }
-                        } else if (selectedIndex == 4) {
-                            float complexity = screenLayerSettings[screenIndex][i].complexity;
-                            float noiseFactor = ofGetHeight()/(1 + complexity * 12);
-                            long int n = getpid();
-                            ofSeedRandom(screenIndex * 10 + i);
-                            int x = -noiseFactor/2 + ofRandom(noiseFactor);
-                            int y = -noiseFactor/2 + ofRandom(noiseFactor);
-                            int xSize = ofGetWidth() / (30 + ((complexity * 64) + 1));
-                            int ySize = ofGetHeight() / ((complexity * 64) + 1);
-                            while (x < ofGetWidth()) {
-                                int xSizeNew = xSize - noiseFactor/2 + ofRandom(noiseFactor);
-                                while (y < ofGetHeight()) {
-                                    int ySizeNew = ySize - noiseFactor/2 + ofRandom(noiseFactor);
-                                    if (rand() % 5 != 0) {
-                                        ofColor selectedColor = getSelectedColorIndex(layer);
-                                        shader.begin(texture.getWidth(),
-                                                     texture.getHeight(),
-                                                     masterScreenAlpha,
-                                                     layer.alpha,
-                                                     layer.contrast,
-                                                     layer.luminance,
-                                                     selectedColor.r,
-                                                     selectedColor.g,
-                                                     selectedColor.b);
-                                        texture.draw(x, y, xSizeNew, ySizeNew);
-                                        shader.end();
-                                    }
-                                    y += ySizeNew;
-                                }
-                                y = -noiseFactor/2 + ofRandom(noiseFactor);
-                                x += xSize;
-                            }
-                        } else if (selectedIndex == 5) {
-                            float complexity = screenLayerSettings[screenIndex][i].complexity;
-                            float noiseFactor = ofGetHeight()/(1 + complexity * 12);
-                            long int n = getpid();
-                            ofSeedRandom(screenIndex * 10 + i);
-                            int x = -noiseFactor/2 + ofRandom(noiseFactor);
-                            int y = -noiseFactor/2 + ofRandom(noiseFactor);
-                            int xSize = ofGetWidth() / (30 + ((complexity * 64) + 1));
-                            int ySize = ofGetHeight() / ((complexity * 64) + 1);
-                            while (y < ofGetHeight()) {
-                                int ySizeNew = ySize - noiseFactor/2 + ofRandom(noiseFactor);
-                                while (x < ofGetWidth()) {
-                                    int xSizeNew = xSize - noiseFactor/2 + ofRandom(noiseFactor);
-                                    if (rand() % 10 != 0) {
-                                        ofColor selectedColor = getSelectedColorIndex(layer);
-                                        shader.begin(texture.getWidth(),
-                                                 texture.getHeight(),
-                                                 masterScreenAlpha,
-                                                 layer.alpha,
-                                                 layer.contrast,
-                                                 layer.luminance,
-                                                 selectedColor.r,
-                                                 selectedColor.g,
-                                                 selectedColor.b);
-                                        texture.draw(x, y, xSizeNew, ySizeNew);
-                                        shader.end();
-                                    }
-                                    x += xSizeNew;
-                                }
-                                x = -noiseFactor/2 + ofRandom(noiseFactor);
-                                y += ySizeNew;
-                            }
-                        } else {
-                            float complexity = screenLayerSettings[screenIndex][i].complexity;
-                            ofSetRectMode(OF_RECTMODE_CENTER);
-                            for (int k=0; k<MAX_STARS; k++) {
-                                TwinklingStar star = stars[k];
-                                ofColor selectedColor = getSelectedColorIndex(layer);
-                                shader.begin(texture.getWidth(),
-                                             texture.getHeight(),
-                                             masterScreenAlpha,
-                                             layer.alpha * star.alpha,
-                                             layer.contrast,
-                                             layer.luminance,
-                                             selectedColor.r,
-                                             selectedColor.g,
-                                             selectedColor.b);
-                                texture.draw(star.position.x, star.position.y, star.size.x * complexity * 10.0, star.size.y * complexity * 10.0);
-                                shader.end();
-                            }
-                            ofSetRectMode(OF_RECTMODE_CORNER);
-                        }
+                        int selectedIndex = layer.selectedLayoutIndex;
+                        Layout *layout = layouts[selectedIndex % layouts.size()];
+                        layout->render(texture, colorChannel, layer);
                         ofDisableAlphaBlending();
                         
                     }
@@ -557,7 +393,7 @@ void pooksApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 			}
 		}
 	} else if (id == 6 && value == 7) {
-		int index = normValue2 * (MAX_COLORS - 1);
+		int index = normValue2 * (colorChannels.size() - 1);
 		for (int j=0; j<MAX_SCREENS;j++) {
 			if (screenSettings[j].canEdit) {
 				for (int i=0; i< MAX_LAYERS; i++) {
@@ -620,7 +456,6 @@ void pooksApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 }
 
 void pooksApp::selectSampleIndex(int newSampleIndex) {
-    ofLog(OF_LOG_NOTICE, "selectSampleIndex [" + ofToString(newSampleIndex+1) + "] out of [" + ofToString(samples.size()) + "]");
     if (newSampleIndex < samples.size()) {
         for (int j=0; j<MAX_SCREENS;j++) {
             if (screenSettings[j].canEdit) {
@@ -638,9 +473,8 @@ void pooksApp::selectSampleIndex(int newSampleIndex) {
             }
         }
     }
-    
-    
 }
+
 
 //--------------------------------------------------------------
 void pooksApp::keyPressed(int key){

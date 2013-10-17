@@ -39,7 +39,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "149"
          endingLineNumber = "149"
-         landmarkName = "pooksApp::update()"
+         landmarkName = "pooksApp::draw()"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -52,7 +52,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "145"
          endingLineNumber = "145"
-         landmarkName = "pooksApp::update()"
+         landmarkName = "pooksApp::draw()"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -142,9 +142,7 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "807"
-         endingLineNumber = "807"
-         landmarkName = "pooksApp::keyPressed(int key)"
-         landmarkType = "5">
+         endingLineNumber = "807">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>
