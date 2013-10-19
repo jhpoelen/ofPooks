@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include "ofUtils.h"
 #include "colorChannelAlphabet.h"
+#include "colorChannelPoem.h"
 #include "layoutTelevision.h"
 #include "layoutGrid.h"
 #include "layoutHorizontalStripes.h"
@@ -10,7 +11,6 @@
 #include "layoutStarryNight.h"
 #include "layoutMoreNoise.h"
 #include "LayoutNoisy.h"
-#include "LayoutPoem.h"
 
 void pooksApp::setup() {
     // ensure to load from app bundle resources
@@ -73,7 +73,10 @@ void pooksApp::setup() {
 	midiIn.addListener(this);
 	
 	ofSetFrameRate(30);
-    
+    string qwerty = "qwertyuiopasdfghjklzxcvbnm";
+    for (int i=0; i< qwerty.size(); i++) {
+        keysToIndex[qwerty.at(i)-'a'] = i;
+    }
     // start playing first sample in first screen on first  by default
 
     this->keyPressed('!');
@@ -101,7 +104,6 @@ void pooksApp::loadLayouts() {
     layouts.push_back(new LayoutStarryNight());
     layouts.push_back(new LayoutNoisy());
     layouts.push_back(new LayoutMoreNoise());
-    layouts.push_back(new LayoutPoem(ofFilePath::join(ofFilePath::getUserHomeDir(), "Movies/Pooks/poems.txt")));
 }
 
 void pooksApp::loadColors() {
@@ -112,6 +114,19 @@ void pooksApp::loadColors() {
     ColorChannelAlphabet *alphabet = new ColorChannelAlphabet();
     alphabet->loadColors();
     colorChannels.push_back(alphabet);
+    
+    ofDirectory textDir = ofFilePath::join(ofFilePath::getUserHomeDir(), "Movies/Pooks/text/");
+    ofLog(OF_LOG_NOTICE, "loading colorchannels...");
+    if (textDir.exists() && textDir.isDirectory()) {
+        ofLog(OF_LOG_NOTICE, "[" + textDir.path() + "] exists and has [" + ofToString(textDir.listDir()) + "] files.");
+        vector<ofFile> files = textDir.getFiles();
+        for (vector<ofFile>::iterator it = files.begin(); it!=files.end(); ++it) {
+            ofFile file = *it;
+            ofLog(OF_LOG_NOTICE, "found text file [" + file.path() + "]");
+            colorChannels.push_back(new ColorChannelPoem(file.path()));
+        }
+    }
+    ofLog(OF_LOG_NOTICE, "loading colorchannels done.");
 }
 
 void pooksApp::exit() {
@@ -416,6 +431,16 @@ void pooksApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 				}
 			}
 		}
+	} else if (id == 8 && value == 7) {
+		for (int j=0; j<MAX_SCREENS;j++) {
+			if (screenSettings[j].canEdit) {
+				for (int i=0; i< MAX_LAYERS; i++) {
+					if (screenLayerSettings[j][i].canEdit) {
+						screenLayerSettings[j][i].layoutSpeed = normValue2;
+					}
+				}
+			}
+		}
 	} else if (id == 1) {
 		if (value == 47) {
 			screenSettings[0].canEdit = normValue2 == 1.0;
@@ -458,6 +483,18 @@ void pooksApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 	timestamp = eventArgs.timestamp;
 }
 
+void pooksApp::selectColorChannelIndex(int colorChannelIndex) {
+    for (int j=0; j<MAX_SCREENS;j++) {
+        if (screenSettings[j].canEdit) {
+            for (int i=0; i< MAX_LAYERS; i++) {
+                if (screenLayerSettings[j][i].canEdit) {
+                    screenLayerSettings[j][i].selectedColorIndex = colorChannelIndex % colorChannels.size();
+                }
+            }
+        }
+    }
+}
+
 void pooksApp::selectSampleIndex(int newSampleIndex) {
     if (newSampleIndex < samples.size()) {
         for (int j=0; j<MAX_SCREENS;j++) {
@@ -481,8 +518,6 @@ void pooksApp::selectSampleIndex(int newSampleIndex) {
 
 //--------------------------------------------------------------
 void pooksApp::keyPressed(int key){
-    sprintf(msg, "pressed key %d", key);
-    ofLog(OF_LOG_WARNING, msg);
 	if (key == 'F') {
 		ofToggleFullscreen();
 	} else if (key > '0' && key < '7') {
@@ -500,85 +535,14 @@ void pooksApp::keyPressed(int key){
 			ofHideCursor();
 		}
 	} else {
-        switch(key) {
-            case 'q':
-                selectSampleIndex(0);
-                break;
-            case 'w':
-                selectSampleIndex(1);
-                break;
-            case 'e':
-                selectSampleIndex(2);
-                break;
-            case 'r':
-                selectSampleIndex(3);
-                break;
-            case 't':
-                selectSampleIndex(4);
-                break;
-            case 'y':
-                selectSampleIndex(5);
-                break;
-            case 'u':
-                selectSampleIndex(6);
-                break;
-            case 'i':
-                selectSampleIndex(7);
-                break;
-            case 'o':
-                selectSampleIndex(8);
-                break;
-            case 'p':
-                selectSampleIndex(9);
-                break;
-            case 'a':
-                selectSampleIndex(10);
-                break;
-            case 's':
-                selectSampleIndex(11);
-                break;
-            case 'd':
-                selectSampleIndex(12);
-                break;
-            case 'f':
-                selectSampleIndex(13);
-                break;
-            case 'g':
-                selectSampleIndex(14);
-                break;
-            case 'h':
-                selectSampleIndex(15);
-                break;
-            case 'j':
-                selectSampleIndex(16);
-                break;
-            case 'k':
-                selectSampleIndex(17);
-                break;
-            case 'l':
-                selectSampleIndex(18);
-                break;
-            case 'z':
-                selectSampleIndex(19);
-                break;
-            case 'x':
-                selectSampleIndex(20);
-                break;
-            case 'c':
-                selectSampleIndex(21);
-                break;
-            case 'v':
-                selectSampleIndex(22);
-                break;
-            case 'b':
-                selectSampleIndex(23);
-                break;
-            case 'n':
-                selectSampleIndex(24);
-                break;
-            case 'm':
-                selectSampleIndex(25);
-                break;
+        
+        if (key - 'a' < 26 && key - 'a' >= 0) {
+            selectSampleIndex(keysToIndex[key - 'a']);
+        } else if (key >= 0 && key < 26) {
+            selectColorChannelIndex(keysToIndex[key]);
+        } else {
+            switch(key) {
+            
             case 'Z':
                 for (int i=0; i<MAX_SCREENS; i++) {
                     bool active = keyboardController.isScreenActive(i);
@@ -631,7 +595,7 @@ void pooksApp::keyPressed(int key){
                     screenLayerSettings[i][0].alpha = active ? 1.0 : 0.0;
                 }
                 break;
-                
+            }
         }
         
     }

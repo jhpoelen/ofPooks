@@ -23,6 +23,7 @@ private:
     void loadColors();
     void loadLayouts();
     void handleCmdKey(int key);
+    int keysToIndex[26];
 
     
 public:
@@ -35,7 +36,8 @@ public:
     void stepAlpha(int step);
     
     void selectSampleIndex(int newSampleIndex);
-	
+	void selectColorChannelIndex(int colorChannelIndex);
+    
     void renderWarpTool(int screenNumber);
     void renderScreen(int screenIndex);
     void warpScreen(int screenIndex);

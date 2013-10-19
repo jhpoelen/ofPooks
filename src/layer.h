@@ -11,6 +11,7 @@ public:
     float masterScreenAlpha;
 	float alpha;
 	float speed;
+    float layoutSpeed;
 	float contrast;
 	float luminance;
 	float complexity;
@@ -22,5 +23,6 @@ public:
         masterScreenAlpha = 0.0;
 		alpha = 0.0;
 		speed = 1.0;
+        layoutSpeed = 1.0;
 	}
 };
