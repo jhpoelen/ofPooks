@@ -4,13 +4,15 @@
 #include "ofUtils.h"
 #include "colorChannelAlphabet.h"
 #include "colorChannelPoem.h"
+#include "colorChannelPassthrough.h"
 #include "layoutTelevision.h"
 #include "layoutGrid.h"
+#include "layoutGridDynamic.h"
 #include "layoutHorizontalStripes.h"
 #include "layoutVerticalStripes.h"
 #include "layoutStarryNight.h"
-#include "layoutMoreNoise.h"
-#include "LayoutNoisy.h"
+#include "layoutGridVerticalNoisy.h"
+#include "LayoutGridHorizontalNoisy.h"
 
 void pooksApp::setup() {
     // ensure to load from app bundle resources
@@ -99,22 +101,15 @@ pooksApp::~pooksApp() {
 void pooksApp::loadLayouts() {
     layouts.push_back(new LayoutTelevision());
     layouts.push_back(new LayoutGrid());
+    layouts.push_back(new LayoutGridDynamic());
     layouts.push_back(new LayoutVerticalStripes());
     layouts.push_back(new LayoutHorizontalStripes());
     layouts.push_back(new LayoutStarryNight());
-    layouts.push_back(new LayoutNoisy());
-    layouts.push_back(new LayoutMoreNoise());
+    layouts.push_back(new LayoutGridVerticalNoisy());
+    layouts.push_back(new LayoutGridHorizontalNoisy());
 }
 
 void pooksApp::loadColors() {
-    ColorChannel *colorChannel = new ColorChannel();
-    colorChannel->loadColors();
-    colorChannels.push_back(colorChannel);
-    
-    ColorChannelAlphabet *alphabet = new ColorChannelAlphabet();
-    alphabet->loadColors();
-    colorChannels.push_back(alphabet);
-    
     ofDirectory textDir = ofFilePath::join(ofFilePath::getUserHomeDir(), "Movies/Pooks/text/");
     ofLog(OF_LOG_NOTICE, "loading colorchannels...");
     if (textDir.exists() && textDir.isDirectory()) {
@@ -126,6 +121,20 @@ void pooksApp::loadColors() {
             colorChannels.push_back(new ColorChannelPoem(file.path()));
         }
     }
+    ofLog(OF_LOG_NOTICE, "loading colorchannels done.");
+    
+    ColorChannel *colorChannel = new ColorChannel();
+    colorChannel->loadColors();
+    colorChannels.push_back(colorChannel);
+    
+    ColorChannelAlphabet *alphabet = new ColorChannelAlphabet();
+    alphabet->loadColors();
+    colorChannels.push_back(alphabet);
+    
+    ColorChannel *colorChannelBlack = new ColorChannelPassthrough();
+    colorChannelBlack->loadColors();
+    colorChannels.push_back(colorChannelBlack);
+
     ofLog(OF_LOG_NOTICE, "loading colorchannels done.");
 }
 
@@ -154,7 +163,7 @@ void pooksApp::update(){
 		for (int j=0; j<MAX_LAYERS; j++) {
             Layer layer = screenLayerSettings[i][j];
             Layout *layout = layouts.at(layer.selectedLayoutIndex % layouts.size());
-            layout->update();
+            layout->update(layer);
             float speed = masterVolume == 0 ? 0.0 : layer.speed;
             if (layer.selectedSampleIndex < samples.size()) {
                 samples[layer.selectedSampleIndex]->setSpeed(speed);

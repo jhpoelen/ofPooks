@@ -11,6 +11,8 @@
 		A20117CC14FCB12400B042CC /* ofxBlurShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A20117CA14FCB12400B042CC /* ofxBlurShader.cpp */; };
 		A2154B2E180D076F004799EA /* sampleText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2154B2C180D076F004799EA /* sampleText.cpp */; };
 		A2154B31180D0812004799EA /* sampleFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2154B2F180D0812004799EA /* sampleFactory.cpp */; };
+		A2191BD41813208B00B275F0 /* layoutGridDynamic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2191BD21813208B00B275F0 /* layoutGridDynamic.cpp */; };
+		A2191BDA181325B300B275F0 /* colorChannelPassthrough.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2191BD8181325B300B275F0 /* colorChannelPassthrough.cpp */; };
 		A219B7E0150093DE0089F3AF /* smoothShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A219B7DF150093DE0089F3AF /* smoothShader.cpp */; };
 		A25CE503181239F500D1C5B2 /* colorChannelPoem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A25CE501181239F500D1C5B2 /* colorChannelPoem.cpp */; };
 		A285AD4215040E9B008CAAC4 /* editable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A285AD4115040E9B008CAAC4 /* editable.cpp */; };
@@ -23,8 +25,8 @@
 		A2B175CD180F9E3B00A06BDA /* layoutVerticalStripes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B175CB180F9E3A00A06BDA /* layoutVerticalStripes.cpp */; };
 		A2B175D0180F9ED400A06BDA /* layoutHorizontalStripes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B175CE180F9ED400A06BDA /* layoutHorizontalStripes.cpp */; };
 		A2B175D3180FA01400A06BDA /* layoutStarryNight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B175D1180FA01300A06BDA /* layoutStarryNight.cpp */; };
-		A2B175D6180FA2AD00A06BDA /* LayoutNoisy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B175D4180FA2AC00A06BDA /* LayoutNoisy.cpp */; };
-		A2B175D9180FA35700A06BDA /* layoutMoreNoise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B175D7180FA35600A06BDA /* layoutMoreNoise.cpp */; };
+		A2B175D6180FA2AD00A06BDA /* LayoutGridVerticalNoisy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B175D4180FA2AC00A06BDA /* LayoutGridVerticalNoisy.cpp */; };
+		A2B175D9180FA35700A06BDA /* layoutGridHorizontalNoisy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B175D7180FA35600A06BDA /* layoutGridHorizontalNoisy.cpp */; };
 		A2B8E04B15075794009B1845 /* twinklingStar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B8E04A15075794009B1845 /* twinklingStar.cpp */; };
 		A2BB020214FC9D9600DF80EB /* ofxMidiIn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2BB01FE14FC9D9600DF80EB /* ofxMidiIn.cpp */; };
 		A2BB020314FC9D9600DF80EB /* ofxMidiOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2BB020014FC9D9600DF80EB /* ofxMidiOut.cpp */; };
@@ -99,6 +101,10 @@
 		A2154B2D180D076F004799EA /* sampleText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sampleText.h; sourceTree = "<group>"; };
 		A2154B2F180D0812004799EA /* sampleFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sampleFactory.cpp; sourceTree = "<group>"; };
 		A2154B30180D0812004799EA /* sampleFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sampleFactory.h; sourceTree = "<group>"; };
+		A2191BD21813208B00B275F0 /* layoutGridDynamic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = layoutGridDynamic.cpp; sourceTree = "<group>"; };
+		A2191BD31813208B00B275F0 /* layoutGridDynamic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = layoutGridDynamic.h; sourceTree = "<group>"; };
+		A2191BD8181325B300B275F0 /* colorChannelPassthrough.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = colorChannelPassthrough.cpp; sourceTree = "<group>"; };
+		A2191BD9181325B300B275F0 /* colorChannelPassthrough.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colorChannelPassthrough.h; sourceTree = "<group>"; };
 		A219B7DE150093DE0089F3AF /* smoothShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smoothShader.h; sourceTree = "<group>"; };
 		A219B7DF150093DE0089F3AF /* smoothShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = smoothShader.cpp; sourceTree = "<group>"; };
 		A25CE501181239F500D1C5B2 /* colorChannelPoem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = colorChannelPoem.cpp; sourceTree = "<group>"; };
@@ -124,10 +130,10 @@
 		A2B175CF180F9ED400A06BDA /* layoutHorizontalStripes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = layoutHorizontalStripes.h; sourceTree = "<group>"; };
 		A2B175D1180FA01300A06BDA /* layoutStarryNight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = layoutStarryNight.cpp; sourceTree = "<group>"; };
 		A2B175D2180FA01300A06BDA /* layoutStarryNight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = layoutStarryNight.h; sourceTree = "<group>"; };
-		A2B175D4180FA2AC00A06BDA /* LayoutNoisy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayoutNoisy.cpp; sourceTree = "<group>"; };
-		A2B175D5180FA2AD00A06BDA /* LayoutNoisy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutNoisy.h; sourceTree = "<group>"; };
-		A2B175D7180FA35600A06BDA /* layoutMoreNoise.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = layoutMoreNoise.cpp; sourceTree = "<group>"; };
-		A2B175D8180FA35700A06BDA /* layoutMoreNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = layoutMoreNoise.h; sourceTree = "<group>"; };
+		A2B175D4180FA2AC00A06BDA /* LayoutGridVerticalNoisy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayoutGridVerticalNoisy.cpp; sourceTree = "<group>"; };
+		A2B175D5180FA2AD00A06BDA /* LayoutGridVerticalNoisy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutGridVerticalNoisy.h; sourceTree = "<group>"; };
+		A2B175D7180FA35600A06BDA /* layoutGridHorizontalNoisy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = layoutGridHorizontalNoisy.cpp; sourceTree = "<group>"; };
+		A2B175D8180FA35700A06BDA /* layoutGridHorizontalNoisy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = layoutGridHorizontalNoisy.h; sourceTree = "<group>"; };
 		A2B8E04915075794009B1845 /* twinklingStar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = twinklingStar.h; sourceTree = "<group>"; };
 		A2B8E04A15075794009B1845 /* twinklingStar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = twinklingStar.cpp; sourceTree = "<group>"; };
 		A2BB01FB14FC9D9600DF80EB /* ofxMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxMidi.h; sourceTree = "<group>"; };
@@ -221,6 +227,31 @@
 			name = ofxBlurShader;
 			sourceTree = "<group>";
 		};
+		A2191BD118130DCD00B275F0 /* layout */ = {
+			isa = PBXGroup;
+			children = (
+				A2B175C2180F992500A06BDA /* layout.cpp */,
+				A2B175C3180F992500A06BDA /* layout.h */,
+				A2B175C5180F9A5900A06BDA /* layoutTelevision.cpp */,
+				A2B175C6180F9A5900A06BDA /* layoutTelevision.h */,
+				A2B175C8180F9D3700A06BDA /* layoutGrid.cpp */,
+				A2B175C9180F9D3800A06BDA /* layoutGrid.h */,
+				A2B175CB180F9E3A00A06BDA /* layoutVerticalStripes.cpp */,
+				A2B175CC180F9E3B00A06BDA /* layoutVerticalStripes.h */,
+				A2B175CE180F9ED400A06BDA /* layoutHorizontalStripes.cpp */,
+				A2B175CF180F9ED400A06BDA /* layoutHorizontalStripes.h */,
+				A2B175D1180FA01300A06BDA /* layoutStarryNight.cpp */,
+				A2B175D2180FA01300A06BDA /* layoutStarryNight.h */,
+				A2B175D4180FA2AC00A06BDA /* LayoutGridVerticalNoisy.cpp */,
+				A2B175D5180FA2AD00A06BDA /* LayoutGridVerticalNoisy.h */,
+				A2B175D7180FA35600A06BDA /* layoutGridHorizontalNoisy.cpp */,
+				A2B175D8180FA35700A06BDA /* layoutGridHorizontalNoisy.h */,
+				A2191BD21813208B00B275F0 /* layoutGridDynamic.cpp */,
+				A2191BD31813208B00B275F0 /* layoutGridDynamic.h */,
+			);
+			name = layout;
+			sourceTree = "<group>";
+		};
 		A25CE500181239D600D1C5B2 /* color */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,6 +261,8 @@
 				A2B175C0180F7D7300A06BDA /* colorChannelAlphabet.h */,
 				A25CE501181239F500D1C5B2 /* colorChannelPoem.cpp */,
 				A25CE502181239F500D1C5B2 /* colorChannelPoem.h */,
+				A2191BD8181325B300B275F0 /* colorChannelPassthrough.cpp */,
+				A2191BD9181325B300B275F0 /* colorChannelPassthrough.h */,
 			);
 			name = color;
 			sourceTree = "<group>";
@@ -420,22 +453,7 @@
 				A2154B2D180D076F004799EA /* sampleText.h */,
 				A2154B2F180D0812004799EA /* sampleFactory.cpp */,
 				A2154B30180D0812004799EA /* sampleFactory.h */,
-				A2B175C2180F992500A06BDA /* layout.cpp */,
-				A2B175C3180F992500A06BDA /* layout.h */,
-				A2B175C5180F9A5900A06BDA /* layoutTelevision.cpp */,
-				A2B175C6180F9A5900A06BDA /* layoutTelevision.h */,
-				A2B175C8180F9D3700A06BDA /* layoutGrid.cpp */,
-				A2B175C9180F9D3800A06BDA /* layoutGrid.h */,
-				A2B175CB180F9E3A00A06BDA /* layoutVerticalStripes.cpp */,
-				A2B175CC180F9E3B00A06BDA /* layoutVerticalStripes.h */,
-				A2B175CE180F9ED400A06BDA /* layoutHorizontalStripes.cpp */,
-				A2B175CF180F9ED400A06BDA /* layoutHorizontalStripes.h */,
-				A2B175D1180FA01300A06BDA /* layoutStarryNight.cpp */,
-				A2B175D2180FA01300A06BDA /* layoutStarryNight.h */,
-				A2B175D4180FA2AC00A06BDA /* LayoutNoisy.cpp */,
-				A2B175D5180FA2AD00A06BDA /* LayoutNoisy.h */,
-				A2B175D7180FA35600A06BDA /* layoutMoreNoise.cpp */,
-				A2B175D8180FA35700A06BDA /* layoutMoreNoise.h */,
+				A2191BD118130DCD00B275F0 /* layout */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -579,9 +597,11 @@
 				A2B175CD180F9E3B00A06BDA /* layoutVerticalStripes.cpp in Sources */,
 				A2B175D0180F9ED400A06BDA /* layoutHorizontalStripes.cpp in Sources */,
 				A2B175D3180FA01400A06BDA /* layoutStarryNight.cpp in Sources */,
-				A2B175D6180FA2AD00A06BDA /* LayoutNoisy.cpp in Sources */,
-				A2B175D9180FA35700A06BDA /* layoutMoreNoise.cpp in Sources */,
+				A2B175D6180FA2AD00A06BDA /* LayoutGridVerticalNoisy.cpp in Sources */,
+				A2B175D9180FA35700A06BDA /* layoutGridHorizontalNoisy.cpp in Sources */,
 				A25CE503181239F500D1C5B2 /* colorChannelPoem.cpp in Sources */,
+				A2191BD41813208B00B275F0 /* layoutGridDynamic.cpp in Sources */,
+				A2191BDA181325B300B275F0 /* colorChannelPassthrough.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,7 @@ void LayoutGrid::render(ofTexture texture, ColorChannel* colorChannel, Layer lay
     int ySize = ofGetHeight() / ncols;
     for (int row=0; row<nrows; row++) {
         for (int col=0; col<ncols; col++) {
-            ofColor selectedColor = colorChannel->selectColor(nrows * col + row);
+            ofColor selectedColor = colorChannel->selectColor(selectColorIndex(row, col, nrows));
             if (selectedColor.r > 0 || selectedColor.g > 0 || selectedColor.b > 0) {
                 shader.begin(texture.getWidth(),
                          texture.getHeight(),
@@ -28,6 +28,6 @@ void LayoutGrid::render(ofTexture texture, ColorChannel* colorChannel, Layer lay
     }
 }
 
-void LayoutGrid::update() {
-
+int LayoutGrid::selectColorIndex(int row, int col, int nrows) {
+    return nrows * col + row;
 }

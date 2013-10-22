@@ -3,7 +3,7 @@
 
 void ColorChannel::loadColors() {
     // black
-	colors[0].set(0, 0, 0);
+	colors[0].set(1, 0, 0);
 	// royal yellow
 	colors[1].set(250, 218, 94);
 	// burnt orange

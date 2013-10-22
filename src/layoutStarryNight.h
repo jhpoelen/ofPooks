@@ -9,7 +9,7 @@ class LayoutStarryNight : public Layout {
   
 public:
     virtual void render(ofTexture texture, ColorChannel *colorChannel, Layer layer);
-    virtual void update();
+    virtual void update(Layer layer);
     
 private:
     TwinklingStar stars[MAX_STARS];

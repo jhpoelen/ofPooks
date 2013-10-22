@@ -1,6 +1,6 @@
-#include "LayoutNoisy.h"
+#include "layoutGridHorizontalNoisy.h"
 
-void LayoutNoisy::render(ofTexture texture, ColorChannel *colorChannel, Layer layer) {
+void LayoutGridHorizontalNoisy::render(ofTexture texture, ColorChannel *colorChannel, Layer layer) {
     float complexity = layer.complexity;
     float noiseFactor = ofGetHeight()/(1 + complexity * 12);
     long int n = getpid();
@@ -9,12 +9,13 @@ void LayoutNoisy::render(ofTexture texture, ColorChannel *colorChannel, Layer la
     int y = -noiseFactor/2 + ofRandom(noiseFactor);
     int xSize = ofGetWidth() / (30 + ((complexity * 64) + 1));
     int ySize = ofGetHeight() / ((complexity * 64) + 1);
-    while (x < ofGetWidth()) {
-        int xSizeNew = xSize - noiseFactor/2 + ofRandom(noiseFactor);
-        while (y < ofGetHeight()) {
-            int ySizeNew = ySize - noiseFactor/2 + ofRandom(noiseFactor);
-            if (rand() % 5 != 0) {
-                ofColor selectedColor = colorChannel->nextColor();
+    int count = layoutFrame;
+    while (y < ofGetHeight()) {
+        int ySizeNew = ySize - noiseFactor/2 + ofRandom(noiseFactor);
+        while (x < ofGetWidth()) {
+            int xSizeNew = xSize - noiseFactor/2 + ofRandom(noiseFactor);
+            if (rand() % 10 != 0) {
+                ofColor selectedColor = colorChannel->selectColor(count);
                 shader.begin(texture.getWidth(),
                              texture.getHeight(),
                              layer.masterScreenAlpha,
@@ -26,14 +27,11 @@ void LayoutNoisy::render(ofTexture texture, ColorChannel *colorChannel, Layer la
                              selectedColor.b);
                 texture.draw(x, y, xSizeNew, ySizeNew);
                 shader.end();
+                count++;
             }
-            y += ySizeNew;
+            x += xSizeNew;
         }
-        y = -noiseFactor/2 + ofRandom(noiseFactor);
-        x += xSize;
+        x = -noiseFactor/2 + ofRandom(noiseFactor);
+        y += ySizeNew;
     }
-}
-
-void LayoutNoisy::update() {
-    
 }

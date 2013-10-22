@@ -2,11 +2,13 @@
 
 #include "layout.h"
 
-class LayoutMoreNoise : public Layout {
+class LayoutGridHorizontalNoisy : public Layout {
 
 public:
     virtual void render(ofTexture texture, ColorChannel *colorChannel, Layer layer);
-    virtual void update();
+    
+private:
+    int offset = 0;
     
 };
 

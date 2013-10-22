@@ -2,9 +2,10 @@
 
 
 void LayoutTelevision::render(ofTexture texture, ColorChannel* colorChannel, Layer layer) {
-    ofColor selectedColor = colorChannel->nextColor();
+    int count = layoutFrame;
+    ofColor selectedColor = colorChannel->selectColor(count);
     shader.begin(texture.getWidth(),
-                 texture.getHeight(),
+                 texture.getHeight(),   
                  layer.masterScreenAlpha,
                  layer.alpha,
                  layer.contrast,
@@ -14,8 +15,4 @@ void LayoutTelevision::render(ofTexture texture, ColorChannel* colorChannel, Lay
                  selectedColor.b);
     texture.draw(0, 0, ofGetWidth(), ofGetHeight());
     shader.end();
-}
-
-void LayoutTelevision::update() {
-    
 }

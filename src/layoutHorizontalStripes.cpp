@@ -8,7 +8,7 @@ void LayoutHorizontalStripes::render(ofTexture texture, ColorChannel *colorChann
     int ySize = ofGetHeight() / ncols;
     for (int row=0; row<nrows; row++) {
         for (int col=0; col<ncols; col++) {
-            ofColor selectedColor = colorChannel->nextColor();
+            ofColor selectedColor = colorChannel->selectColor(nrows * col + row + layoutFrame);
             shader.begin(texture.getWidth(),
                          texture.getHeight(),
                          layer.masterScreenAlpha,

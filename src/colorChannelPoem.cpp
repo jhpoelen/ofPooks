@@ -4,9 +4,9 @@
 ColorChannelPoem::ColorChannelPoem(string textFilename) {
     loadColors();
     position = 0;
-    whitespace.set(0,0,0);
-    newline.set(0,0,0);
-    newstanza.set(0,0,0);
+    whitespace.set(1,0,0);
+    newline.set(1,0,0);
+    newstanza.set(1,0,0);
     ofBuffer buffer = ofBufferFromFile(textFilename);
     ofLog(OF_LOG_NOTICE, "read [" + buffer.getText() + "] from [" + textFilename + "]");
     buffer.resetLineReader();

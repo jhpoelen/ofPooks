@@ -11,10 +11,11 @@ class Layout {
 public:
     Layout();
     virtual void render(ofTexture texture, ColorChannel* colorChannel, Layer layer) = 0;
-    virtual void update();
+    virtual void update(Layer layer);
     
 protected:
     SmoothShader shader;
-    int frame;
+    int frame = 0;
+    int layoutFrame = 0;
     
 };
