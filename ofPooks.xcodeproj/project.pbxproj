@@ -17,6 +17,7 @@
 		A25CE503181239F500D1C5B2 /* colorChannelPoem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A25CE501181239F500D1C5B2 /* colorChannelPoem.cpp */; };
 		A285AD4215040E9B008CAAC4 /* editable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A285AD4115040E9B008CAAC4 /* editable.cpp */; };
 		A285AD881504229E008CAAC4 /* layer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A285AD871504229E008CAAC4 /* layer.cpp */; };
+		A2AACF9D18161DAE0074252F /* colorChannelPoemNoRepetitions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2AACF9B18161DAE0074252F /* colorChannelPoemNoRepetitions.cpp */; };
 		A2B175BE180F76DA00A06BDA /* colorChannel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B175BC180F76DA00A06BDA /* colorChannel.cpp */; };
 		A2B175C1180F7D7300A06BDA /* colorChannelAlphabet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B175BF180F7D7200A06BDA /* colorChannelAlphabet.cpp */; };
 		A2B175C4180F992500A06BDA /* layout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A2B175C2180F992500A06BDA /* layout.cpp */; };
@@ -114,6 +115,8 @@
 		A285AD4115040E9B008CAAC4 /* editable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = editable.cpp; sourceTree = "<group>"; };
 		A285AD861504229E008CAAC4 /* layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = layer.h; sourceTree = "<group>"; };
 		A285AD871504229E008CAAC4 /* layer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = layer.cpp; sourceTree = "<group>"; };
+		A2AACF9B18161DAE0074252F /* colorChannelPoemNoRepetitions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = colorChannelPoemNoRepetitions.cpp; sourceTree = "<group>"; };
+		A2AACF9C18161DAE0074252F /* colorChannelPoemNoRepetitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colorChannelPoemNoRepetitions.h; sourceTree = "<group>"; };
 		A2B175BC180F76DA00A06BDA /* colorChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = colorChannel.cpp; sourceTree = "<group>"; };
 		A2B175BD180F76DA00A06BDA /* colorChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colorChannel.h; sourceTree = "<group>"; };
 		A2B175BF180F7D7200A06BDA /* colorChannelAlphabet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = colorChannelAlphabet.cpp; sourceTree = "<group>"; };
@@ -263,6 +266,8 @@
 				A25CE502181239F500D1C5B2 /* colorChannelPoem.h */,
 				A2191BD8181325B300B275F0 /* colorChannelPassthrough.cpp */,
 				A2191BD9181325B300B275F0 /* colorChannelPassthrough.h */,
+				A2AACF9B18161DAE0074252F /* colorChannelPoemNoRepetitions.cpp */,
+				A2AACF9C18161DAE0074252F /* colorChannelPoemNoRepetitions.h */,
 			);
 			name = color;
 			sourceTree = "<group>";
@@ -602,6 +607,7 @@
 				A25CE503181239F500D1C5B2 /* colorChannelPoem.cpp in Sources */,
 				A2191BD41813208B00B275F0 /* layoutGridDynamic.cpp in Sources */,
 				A2191BDA181325B300B275F0 /* colorChannelPassthrough.cpp in Sources */,
+				A2AACF9D18161DAE0074252F /* colorChannelPoemNoRepetitions.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

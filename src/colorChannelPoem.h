@@ -1,3 +1,5 @@
+#pragma once
+
 #include "colorChannelAlphabet.h"
 
 class ColorChannelPoem : public ColorChannelAlphabet {
@@ -7,11 +9,14 @@ public:
     virtual ofColor nextColor();
     virtual ofColor selectColor(int colorIndex);
     
+protected:
+    vector<ofColor> poeticColorSequence;
+    ofColor newline;
+    
 private:
     int position;
     int numberOfCharacters;
-    vector<ofColor> poeticColorSequence;
     ofColor whitespace;
-    ofColor newline;
+
     ofColor newstanza;
 };

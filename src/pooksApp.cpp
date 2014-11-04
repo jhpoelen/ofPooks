@@ -5,6 +5,7 @@
 #include "colorChannelAlphabet.h"
 #include "colorChannelPoem.h"
 #include "colorChannelPassthrough.h"
+#include "colorChannelPoemNoRepetitions.h"
 #include "layoutTelevision.h"
 #include "layoutGrid.h"
 #include "layoutGridDynamic.h"
@@ -119,6 +120,7 @@ void pooksApp::loadColors() {
             ofFile file = *it;
             ofLog(OF_LOG_NOTICE, "found text file [" + file.path() + "]");
             colorChannels.push_back(new ColorChannelPoem(file.path()));
+            colorChannels.push_back(new ColorChannelPoemNoRepetitions(file.path()));
         }
     }
     ofLog(OF_LOG_NOTICE, "loading colorchannels done.");

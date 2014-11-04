@@ -2,14 +2,18 @@
 
 void LayoutGrid::render(ofTexture texture, ColorChannel* colorChannel, Layer layer) {
     float complexity = layer.complexity;
-    int nrows = (complexity * 32) + 1;
+    int nrows = (complexity * 64) + 1;
     int ncols = nrows;
-    int xSize = ofGetWidth() / nrows;
-    int ySize = ofGetHeight() / ncols;
+    float fill = 0.85;
+    int xSize = fill * ofGetWidth() / nrows;
+    int xMargin = ofGetWidth() / nrows - xSize;
+    int ySize = fill * ofGetHeight() / ncols;
+    int yMargin = ofGetHeight() / ncols - ySize;
     for (int row=0; row<nrows; row++) {
         for (int col=0; col<ncols; col++) {
             ofColor selectedColor = colorChannel->selectColor(selectColorIndex(row, col, nrows));
-            if (selectedColor.r > 0 || selectedColor.g > 0 || selectedColor.b > 0) {
+            int lum = selectedColor.r + selectedColor.g + selectedColor.b;
+            if (lum > 2) {
                 shader.begin(texture.getWidth(),
                          texture.getHeight(),
                          layer.masterScreenAlpha,
@@ -19,8 +23,8 @@ void LayoutGrid::render(ofTexture texture, ColorChannel* colorChannel, Layer lay
                          selectedColor.r,
                          selectedColor.g,
                          selectedColor.b);
-                int xOffset = row * xSize;
-                int yOffset = col * ySize;
+                int xOffset = row * xSize + xMargin * row + 0.5 * xMargin;
+                int yOffset = col * ySize + yMargin * col + 0.5 * yMargin;
                 texture.draw(xOffset, yOffset, xSize, ySize);
                 shader.end();
             }
