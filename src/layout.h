@@ -15,7 +15,7 @@ public:
     
 protected:
     SmoothShader shader;
-    int frame = 0;
-    int layoutFrame = 0;
+    int frame;
+    int layoutFrame;
     
 };
