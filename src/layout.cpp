@@ -1,10 +1,9 @@
 #include "layout.h"
 
-int Layout::frame = 0;
-int Layout::layoutFrame = 0;
-
 Layout::Layout() {
     shader.setup(320,240);
+    frame = 0;
+    layoutFrame = 0;
 }
 
 void Layout::update(Layer layer) {
