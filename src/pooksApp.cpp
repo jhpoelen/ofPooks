@@ -72,7 +72,7 @@ void pooksApp::setup() {
 	
 	midiIn.setVerbose(false);
 	midiIn.listPorts();
-	midiIn.openPort(0);
+	midiIn.openPort("nanoKONTROL");
 	midiIn.addListener(this);
 	
 	ofSetFrameRate(30);
