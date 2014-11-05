@@ -5,7 +5,7 @@
 class LayoutGridHorizontalNoisy : public Layout {
 
 public:
-    LayoutGridHorizontalNoise() : Layout() {}
+    LayoutGridHorizontalNoisy();
     virtual void render(ofTexture texture, ColorChannel *colorChannel, Layer layer);
     
 private:
