@@ -1,5 +1,9 @@
 #include "layoutGridHorizontalNoisy.h"
 
+LayoutGridHorizontalNoisy::LayoutGridHorizontalNoisy() {
+  offset = 1;
+}
+
 void LayoutGridHorizontalNoisy::render(ofTexture texture, ColorChannel *colorChannel, Layer layer) {
     float complexity = layer.complexity;
     float noiseFactor = ofGetHeight()/(1 + complexity * 12);
