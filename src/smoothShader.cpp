@@ -17,13 +17,65 @@ SmoothShader::SmoothShader() {
 void SmoothShader::setup(float w, float h) {
 	
 	string vertexShader =
-	"void main() {\
+#ifdef TARGET_OPENGLES
+  STRINGIFY(
+    attribute vec4 position;
+    attribute vec4 color;
+    attribute vec4 normal;
+    attribute vec2 texcoord;
+
+    uniform mat4 modelViewMatrix;
+    uniform mat4 projectionMatrix;
+
+    varying vec4 colorVarying;
+    varying vec2 texCoordVarying;
+
+
+    void main() {
+      vec4 pos = projectionMatrix * modelViewMatrix * position;
+      gl_Position = pos;
+                            
+      colorVarying = color;
+      texCoordVarying = texcoord;
+    }
+  );
+#else
+  "void main() {\
 		gl_TexCoord[0] = gl_MultiTexCoord0;\
 		gl_Position = ftransform();\
 	}";
+#endif
 	
 	string smoothEdgeShader =
-	"const vec4 lumCoeff = vec4(0.2125, 0.7154, 0.0721, 0.0);\
+  #ifdef TARGET_OPENGLES
+  STRINGIFY(
+    precision highp float;
+
+    uniform sampler2D src_tex_unit0;
+    uniform float useTexture;
+    uniform float useColors;
+    uniform vec4 color;
+
+    varying float depth;
+    varying vec4 colorVarying;
+    varying vec2 texCoordVarying;
+        
+    void main(){
+      vec4 c;
+      if(useColors>0.5){
+        c = colorVarying;
+      } else {
+        c = color;
+      }
+      if (useTexture >0.5 ) {
+        gl_FragColor = texture2D(src_tex_unit0, texCoordVarying)*c;
+      } else {
+        gl_FragColor = c;
+      }
+    }
+  );
+  #else
+  "const vec4 lumCoeff = vec4(0.2125, 0.7154, 0.0721, 0.0);\
 	uniform sampler2DRect src_tex_unit0;\
 	uniform float layerAlpha;\
 	uniform float screenAlpha;\
@@ -48,24 +100,27 @@ void SmoothShader::setup(float w, float h) {
 		}\
 		gl_FragColor = color * vec4(1.0, 1.0, 1.0, layerAlpha * edgeAlpha * screenAlpha);\
 	}";
+  #endif
     
     if (alphaShader.setupShaderFromSource(GL_FRAGMENT_SHADER, smoothEdgeShader)) {
-		ofLog(OF_LOG_NOTICE, "created shader");
-	} else {
-		ofLog(OF_LOG_NOTICE, "failed to create shader");
-	}
-    alphaShader.setupShaderFromSource(GL_VERTEX_SHADER, vertexShader);
-    alphaShader.linkProgram();
-    
+		ofLog(OF_LOG_NOTICE, "created fragment shader");
     initialized = true;
-    enabled = true;
+	} else {
+		ofLog(OF_LOG_ERROR, "failed to create fragment shader");
+	}
+  if (alphaShader.setupShaderFromSource(GL_VERTEX_SHADER, vertexShader)) {
+    ofLog(OF_LOG_NOTICE, "created vertex shader");
+  } else {
+    ofLog(OF_LOG_ERROR, "failed to create vertex shader");
+    initialized = false;
+  }
+
+  alphaShader.linkProgram();
+  enabled = true;
 }
 
 void SmoothShader::begin(float width, float height, float screenAlpha, float layerAlpha, float contrast, float luminance, float red, float green, float blue) {
-    if (!initialized) {
-        ofLog(OF_LOG_ERROR, "ofxBlurShader::setup(w,h) needs to be called first");
-    }
-    if (enabled) {
+    if (initialized && enabled) {
         alphaShader.begin();
         alphaShader.setUniform1f("layerAlpha", layerAlpha);
         alphaShader.setUniform1f("screenAlpha", screenAlpha);
@@ -83,7 +138,7 @@ void SmoothShader::begin(float width, float height, float screenAlpha, float lay
 }
 
 void SmoothShader::end() {
-    if (enabled) {
+    if (initialized && enabled) {
         alphaShader.end();
     }
 }
