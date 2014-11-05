@@ -15,66 +15,32 @@ SmoothShader::SmoothShader() {
 }
 
 void SmoothShader::setup(float w, float h) {
-	
-	string vertexShader =
 #ifdef TARGET_OPENGLES
-  STRINGIFY(
-    attribute vec4 position;
-    attribute vec4 color;
-    attribute vec4 normal;
-    attribute vec2 texcoord;
-
-    uniform mat4 modelViewMatrix;
-    uniform mat4 projectionMatrix;
-
-    varying vec4 colorVarying;
-    varying vec2 texCoordVarying;
-
-
-    void main() {
-      vec4 pos = projectionMatrix * modelViewMatrix * position;
-      gl_Position = pos;
-                            
-      colorVarying = color;
-      texCoordVarying = texcoord;
-    }
-  );
+  setupOpenGL_ES(w,h);
 #else
+  setupNonOpenGL_ES(w,h);
+#endif
+}
+
+void SmoothShader::setupOpenGL_ES(float w, float h) {
+  if (alphaShader.load("openGLES_alpha.vert", "openGLES_alpha.frag")) {
+    initialized = true;
+    enabled = true;
+    ofLog(OF_LOG_NOTICE, "loaded openGL ES shaders");
+  } else {
+    ofLog(OF_LOG_ERROR, "problem loading openGL ES shaders");
+  }
+}
+
+void SmoothShader::setupNonOpenGL_ES(float w, float h) {
+
+	string vertexShader =
   "void main() {\
 		gl_TexCoord[0] = gl_MultiTexCoord0;\
 		gl_Position = ftransform();\
 	}";
-#endif
 	
 	string smoothEdgeShader =
-  #ifdef TARGET_OPENGLES
-  STRINGIFY(
-    precision highp float;
-
-    uniform sampler2D src_tex_unit0;
-    uniform float useTexture;
-    uniform float useColors;
-    uniform vec4 color;
-
-    varying float depth;
-    varying vec4 colorVarying;
-    varying vec2 texCoordVarying;
-        
-    void main(){
-      vec4 c;
-      if(useColors>0.5){
-        c = colorVarying;
-      } else {
-        c = color;
-      }
-      if (useTexture >0.5 ) {
-        gl_FragColor = texture2D(src_tex_unit0, texCoordVarying)*c;
-      } else {
-        gl_FragColor = c;
-      }
-    }
-  );
-  #else
   "const vec4 lumCoeff = vec4(0.2125, 0.7154, 0.0721, 0.0);\
 	uniform sampler2DRect src_tex_unit0;\
 	uniform float layerAlpha;\
@@ -100,8 +66,6 @@ void SmoothShader::setup(float w, float h) {
 		}\
 		gl_FragColor = color * vec4(1.0, 1.0, 1.0, layerAlpha * edgeAlpha * screenAlpha);\
 	}";
-  #endif
-    
     if (alphaShader.setupShaderFromSource(GL_FRAGMENT_SHADER, smoothEdgeShader)) {
 		ofLog(OF_LOG_NOTICE, "created fragment shader");
     initialized = true;

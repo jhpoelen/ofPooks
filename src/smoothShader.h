@@ -25,5 +25,8 @@ public:
     ofShader alphaShader;
 	
 private:
+    void setupOpenGL_ES(float w, float h);
+    void setupNonOpenGL_ES(float w, float h);
+
     bool initialized;
 };
