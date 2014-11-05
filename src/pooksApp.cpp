@@ -13,7 +13,7 @@
 #include "layoutVerticalStripes.h"
 #include "layoutStarryNight.h"
 #include "layoutGridVerticalNoisy.h"
-#include "LayoutGridHorizontalNoisy.h"
+#include "layoutGridHorizontalNoisy.h"
 
 void pooksApp::setup() {
     // ensure to load from app bundle resources
