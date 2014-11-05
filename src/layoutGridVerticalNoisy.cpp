@@ -1,4 +1,4 @@
-#include "LayoutGridVerticalNoisy.h"
+#include "layoutGridVerticalNoisy.h"
 
 void LayoutGridVerticalNoisy::render(ofTexture texture, ColorChannel *colorChannel, Layer layer) {
     float complexity = layer.complexity;
