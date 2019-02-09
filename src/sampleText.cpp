@@ -2,7 +2,7 @@
 
 bool SampleText::loadMovie(string name) {
     buffer = ofBufferFromFile(name);
-    return font.loadFont("frabk.ttf", 80);
+    return font.load("frabk.ttf", 80);
 };
 
 bool SampleText::isLoaded() {
@@ -10,5 +10,5 @@ bool SampleText::isLoaded() {
 };
 
 void SampleText::update() {
-    font.drawString(buffer.getText(), ofGetWidth()/3.0, ofGetHeight()/2.0);
+    font.drawString(buffer.getText(), ofGetWidth()/3.0f, ofGetHeight()/2.0f);
 };

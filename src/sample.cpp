@@ -7,7 +7,7 @@ Sample::Sample() {
 bool Sample::loadMovie(string name) {
     isVideoPlayer = true;
     isVideoGrabber = false;
-    return videoPlayer.loadMovie(name);
+    return videoPlayer.load(name);
 }
 
 bool Sample::initGrabber() {
@@ -15,10 +15,10 @@ bool Sample::initGrabber() {
     isVideoGrabber = true;
     videoGrabber.setVerbose(false);
     videoGrabber.setDeviceID(3);
-    bool loaded = videoGrabber.initGrabber(320,240,true);
-    int grabW = videoGrabber.width;
-    int grabH = videoGrabber.height;
-    printf("asked for 320 by 240 - actual size is %i by %i", grabW, grabH);
+    bool loaded = videoGrabber.setup(320,240,true);
+    float grabW = videoGrabber.getWidth();
+    float grabH = videoGrabber.getHeight();
+    printf("asked for 320 by 240 - actual size is %f by %f", grabW, grabH);
     return loaded;
 }
 
@@ -94,9 +94,9 @@ void Sample::setVolume(float volume) {
 
 void Sample::cacheTextureReference() {
     if (isVideoPlayer) {
-        textureReference = videoPlayer.getTextureReference();
+        textureReference = videoPlayer.getTexture();
     } else if (isVideoGrabber) {
-        textureReference = videoGrabber.getTextureReference();
+        textureReference = videoGrabber.getTexture();
     }
 }
 

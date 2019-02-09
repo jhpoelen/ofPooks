@@ -3,3 +3,4 @@ build/*
 obj/*
 ofPooks.xcodeproj/project.xcworkspace/xcshareddata/*
 ofPooks.xcodeproj/project.xcworkspace/xcuserdata/*
+*.qbs.user

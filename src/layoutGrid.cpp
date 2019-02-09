@@ -23,8 +23,8 @@ void LayoutGrid::render(ofTexture texture, ColorChannel* colorChannel, Layer lay
                          selectedColor.r,
                          selectedColor.g,
                          selectedColor.b);
-                int xOffset = row * xSize + xMargin * row + 0.5 * xMargin;
-                int yOffset = col * ySize + yMargin * col + 0.5 * yMargin;
+                int xOffset = row * xSize + xMargin * row + 0.5f * xMargin;
+                int yOffset = col * ySize + yMargin * col + 0.5f * yMargin;
                 texture.draw(xOffset, yOffset, xSize, ySize);
                 shader.end();
             }

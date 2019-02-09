@@ -33,6 +33,7 @@ vector<Sample*> SampleFactory::createSamples(ofDirectory libraryDir) {
             if (file.isFile()) {
                 Sample *sample = createSampleByName(file.path());
                 if (sample->loadMovie(file.path())) {
+                    sample->setUseTexture(true);
                     ofLog(OF_LOG_NOTICE, "loaded [" + file.path() + "]");
                     samples.push_back(sample);
                 } else {
