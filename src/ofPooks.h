@@ -75,9 +75,9 @@ public:
     GLfloat homographyMatrix[16];
 
     int port;
-    int id;
+    int channel;
+    int control;
     int value;
-    int value2;
     double timestamp;
     char msg[255];
 

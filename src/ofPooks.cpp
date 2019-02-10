@@ -369,131 +369,120 @@ void ofPooks::renderWarpTool(int screenNumber) {
 
 }
 
-void ofPooks::newMidiMessage(ofxMidiMessage& eventArgs) {
+void ofPooks::newMidiMessage(ofxMidiMessage& midiMsg) {
 
-        // store some data from midi message in variables
-        value = eventArgs.control;
-        value2 = eventArgs.value;
-        id = eventArgs.channel;
+    // store some data from midi message in variables
+    control = midiMsg.control;
+    value = midiMsg.value;
+    channel = midiMsg.channel;
 
-        sprintf(msg, "value: (%i,%i), received from port: %i, id: %i \n\nwith %f milliseconds difference from last message",value,value2,port,id,timestamp);
-        ofLog(OF_LOG_NOTICE, "%s", msg);
 
-        float normValue2 = value2 / 16384.0f;
-        if (id == 1 && value == 7) {
+    sprintf(msg, "value: (%i,%i), received from port: %i, id: %i \n\nwith %f milliseconds difference from last message",control,value,port,channel,timestamp);
+    ofLog(OF_LOG_NOTICE, "%s", msg);
+
+    float normValue2 = value / 127.0f;
+    if (control == 0) {
         int newSampleIndex = normValue2 * (samples.size() - 1);
         selectSampleIndex(newSampleIndex);
-        } else if (id == 2 && value == 7) {
-                for (int j=0; j<MAX_SCREENS;j++) {
-                        if (screenSettings[j].canEdit) {
-                                for (int i=0; i< MAX_LAYERS; i++) {
-                                        if (screenLayerSettings[j][i].canEdit) {
-                                                screenLayerSettings[j][i].complexity = normValue2;
-                                        }
-                                }
-                        }
+    } else if (control == 1) {
+        for (int j=0; j<MAX_SCREENS;j++) {
+            if (screenSettings[j].canEdit) {
+                for (int i=0; i< MAX_LAYERS; i++) {
+                    if (screenLayerSettings[j][i].canEdit) {
+                        screenLayerSettings[j][i].complexity = normValue2;
+                    }
                 }
-        } else if (id == 3 && value == 7) {
-                for (int j=0; j<MAX_SCREENS;j++) {
-                        if (screenSettings[j].canEdit) {
-                                for (int i=0; i< MAX_LAYERS; i++) {
-                                        if (screenLayerSettings[j][i].canEdit) {
-                                                screenLayerSettings[j][i].selectedLayoutIndex = normValue2 * (MAX_LAYOUTS-1);
-                                        }
-                                }
-                        }
-                }
-        } else if (id == 4 && value == 7) {
-                for (int j=0; j<MAX_SCREENS;j++) {
-                        if (screenSettings[j].canEdit) {
-                                for (int i=0; i< MAX_LAYERS; i++) {
-                                        if (screenLayerSettings[j][i].canEdit) {
-                                                screenLayerSettings[j][i].luminance = normValue2;
-                                        }
-                                }
-                        }
-                }
-        } else if (id == 5 && value == 7) {
-                for (int j=0; j<MAX_SCREENS;j++) {
-                        if (screenSettings[j].canEdit) {
-                                for (int i=0; i< MAX_LAYERS; i++) {
-                                        if (screenLayerSettings[j][i].canEdit) {
-                                                screenLayerSettings[j][i].alpha = normValue2;
-                                        }
-                                }
-                        }
-                }
-        } else if (id == 6 && value == 7) {
-                int index = normValue2 * (colorChannels.size() - 1);
-                for (int j=0; j<MAX_SCREENS;j++) {
-                        if (screenSettings[j].canEdit) {
-                                for (int i=0; i< MAX_LAYERS; i++) {
-                                        if (screenLayerSettings[j][i].canEdit) {
-                                                screenLayerSettings[j][i].selectedColorIndex = index;
-                                        }
-                                }
-                        }
-                }
-        } else if (id == 7 && value == 7) {
-                for (int j=0; j<MAX_SCREENS;j++) {
-                        if (screenSettings[j].canEdit) {
-                                for (int i=0; i< MAX_LAYERS; i++) {
-                                        if (screenLayerSettings[j][i].canEdit) {
-                                                screenLayerSettings[j][i].speed = normValue2;
-                                        }
-                                }
-                        }
-                }
-        } else if (id == 8 && value == 7) {
-                for (int j=0; j<MAX_SCREENS;j++) {
-                        if (screenSettings[j].canEdit) {
-                                for (int i=0; i< MAX_LAYERS; i++) {
-                                        if (screenLayerSettings[j][i].canEdit) {
-                                                screenLayerSettings[j][i].layoutSpeed = normValue2;
-                                        }
-                                }
-                        }
-                }
-        } else if (id == 1) {
-                if (value == 47) {
-                        screenSettings[0].canEdit = normValue2 == 1.0;
-                } else if (value == 45) {
-                        screenSettings[1].canEdit = normValue2 == 1.0;
-                } else if (value == 48) {
-                        screenSettings[2].canEdit = normValue2 == 1.0;
-                } else if (value == 49) {
-                        screenSettings[3].canEdit = normValue2 == 1.0;
-                } else if (value == 46) {
-                        screenSettings[4].canEdit = normValue2 == 1.0;
-                } else if (value == 44) {
-                        screenSettings[5].canEdit = normValue2 == 1.0;
-                }
-
+            }
         }
-
-        if (value == 10) {
-                if (id > 0 && id <= MAX_SCREENS) {
-                        if (screenSettings[id-1].canEdit) {
-                                screenSettings[id-1].alpha = normValue2;
-                        }
-                } else if (id == 9) {
-            masterAlpha = normValue2;
-            masterVolume = normValue2;
-        }
-        }
-
-        if (value == 16) {
-                for (int i=0; i<MAX_SCREENS; i++) {
-                        if (screenSettings[i].canEdit) {
-                                int controlNo = id;
-                                if (id > 0 && id <= MAX_LAYERS) {
-                                        screenLayerSettings[i][id-1].canEdit = normValue2 == 1.0;
-                                }
-                        }
+    } else if (control == 2) {
+        for (int j=0; j<MAX_SCREENS;j++) {
+            if (screenSettings[j].canEdit) {
+                for (int i=0; i< MAX_LAYERS; i++) {
+                    if (screenLayerSettings[j][i].canEdit) {
+                        screenLayerSettings[j][i].selectedLayoutIndex = normValue2 * (MAX_LAYOUTS-1);
+                    }
                 }
+            }
         }
-        port = eventArgs.portNum;
-        timestamp = eventArgs.deltatime;
+    } else if (control == 3) {
+        for (int j=0; j<MAX_SCREENS;j++) {
+            if (screenSettings[j].canEdit) {
+                for (int i=0; i< MAX_LAYERS; i++) {
+                    if (screenLayerSettings[j][i].canEdit) {
+                        screenLayerSettings[j][i].luminance = normValue2;
+                    }
+                }
+            }
+        }
+    } else if (control == 4) {
+        for (int j=0; j<MAX_SCREENS;j++) {
+            if (screenSettings[j].canEdit) {
+                for (int i=0; i< MAX_LAYERS; i++) {
+                    if (screenLayerSettings[j][i].canEdit) {
+                        screenLayerSettings[j][i].alpha = normValue2;
+                    }
+                }
+            }
+        }
+    } else if (control == 5) {
+        int index = normValue2 * (colorChannels.size() - 1);
+        for (int j=0; j<MAX_SCREENS;j++) {
+            if (screenSettings[j].canEdit) {
+                for (int i=0; i< MAX_LAYERS; i++) {
+                    if (screenLayerSettings[j][i].canEdit) {
+                        screenLayerSettings[j][i].selectedColorIndex = index;
+                    }
+                }
+            }
+        }
+    } else if (control == 6) {
+        for (int j=0; j<MAX_SCREENS;j++) {
+            if (screenSettings[j].canEdit) {
+                for (int i=0; i< MAX_LAYERS; i++) {
+                    if (screenLayerSettings[j][i].canEdit) {
+                        screenLayerSettings[j][i].speed = normValue2;
+                    }
+                }
+            }
+        }
+    } else if (control == 7) {
+        for (int j=0; j<MAX_SCREENS;j++) {
+            if (screenSettings[j].canEdit) {
+                for (int i=0; i< MAX_LAYERS; i++) {
+                    if (screenLayerSettings[j][i].canEdit) {
+                        screenLayerSettings[j][i].layoutSpeed = normValue2;
+                    }
+                }
+            }
+        }
+    } else if (control == 32) {
+        screenSettings[0].canEdit = normValue2 == 1.0f;
+    } else if (control == 33) {
+        screenSettings[1].canEdit = normValue2 == 1.0f;
+    } else if (control == 34) {
+        screenSettings[2].canEdit = normValue2 == 1.0f;
+    } else if (control == 35) {
+        screenSettings[3].canEdit = normValue2 == 1.0f;
+    } else if (control == 36) {
+        screenSettings[4].canEdit = normValue2 == 1.0f;
+    } else if (control == 37) {
+        screenSettings[5].canEdit = normValue2 == 1.0f;
+    } else if (control >= 16 && control < (16 + MAX_SCREENS)) {
+        if (screenSettings[control-16].canEdit) {
+            screenSettings[control-16].alpha = normValue2;
+        }
+    } else if (control >= 48 && control < 48 + MAX_LAYERS) {
+        for (int i=0; i<MAX_SCREENS; i++) {
+            if (screenSettings[i].canEdit) {
+                screenLayerSettings[i][control - 48].canEdit = normValue2 == 1.0;
+            }
+        }
+    } else if (control == 23) {
+        masterAlpha = normValue2;
+        masterVolume = normValue2;
+    }
+    port = midiMsg.portNum;
+    timestamp = midiMsg.deltatime;
 }
 
 void ofPooks::selectColorChannelIndex(int colorChannelIndex) {
@@ -653,7 +642,7 @@ void ofPooks::windowResized(int w, int h){
 }
 
 //--------------------------------------------------------------
-void ofPooks::gotMessage(ofMessage msg){
+void ofPooks::gotMessage(ofMessage midiMsg){
 
 }
 
