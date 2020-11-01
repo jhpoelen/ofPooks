@@ -53,7 +53,7 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-    void newMidiMessage(ofxMidiEventArgs& eventArgs);
+    void newMidiMessage(ofxMidiMessage& eventArgs);
 	
     ofTrueTypeFont ttf;
     ofTrueTypeFont ttf2;

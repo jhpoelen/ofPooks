@@ -71,7 +71,7 @@ void pooksApp::setup() {
 	ofHideCursor();
 	
 	midiIn.setVerbose(false);
-	midiIn.listPorts();
+	midiIn.listInPorts();
 	midiIn.openPort(1);
 	midiIn.addListener(this);
 	
@@ -111,7 +111,8 @@ void pooksApp::loadLayouts() {
 }
 
 void pooksApp::loadColors() {
-    ofDirectory textDir = ofFilePath::join(ofFilePath::getUserHomeDir(), "Movies/Pooks/text/");
+    string userDir = ofFilePath::getUserHomeDir();
+    ofDirectory textDir(ofFilePath::join(userDir, "Movies/Pooks/text/"));
     ofLog(OF_LOG_NOTICE, "loading colorchannels...");
     if (textDir.exists() && textDir.isDirectory()) {
         ofLog(OF_LOG_NOTICE, "[" + textDir.path() + "] exists and has [" + ofToString(textDir.listDir()) + "] files.");
@@ -178,7 +179,7 @@ void pooksApp::update(){
 void pooksApp::draw(){
 	for(int i=0; i<MAX_SCREENS; i++) {
 		ofPushMatrix();
-		warpScreen(i);
+		//warpScreen(i);
 		renderScreen(i);
 		if (showWarpTool) {
 			renderWarpTool(i+1);
@@ -289,7 +290,7 @@ void pooksApp::warpScreen(int screenIndex) {
 	//figure out the warping!
 	//warning - older versions of openCV had a bug
 	//in this function.
-	cvFindHomography(src_mat, dst_mat, translate);
+	//cvFindHomography(src_mat, dst_mat, translate);
 	
 	//get the matrix as a list of floats
 	float *matrix = translate->data.fl;
@@ -368,11 +369,11 @@ void pooksApp::renderWarpTool(int screenNumber) {
     
 }
 
-void pooksApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
+void pooksApp::newMidiMessage(ofxMidiMessage& eventArgs) {
 	
 	// store some data from midi message in variables
-	value = eventArgs.byteOne;
-	value2 = eventArgs.byteTwo;
+	value = eventArgs.value;
+	value2 = eventArgs.velocity;
 	id = eventArgs.channel;
 	
 	sprintf(msg, "value: (%i,%i), received from port: %i, id: %i \n\nwith %f milliseconds difference from last message",value,value2,port,id,timestamp);
@@ -490,8 +491,8 @@ void pooksApp::newMidiMessage(ofxMidiEventArgs& eventArgs) {
 			}
 		}
 	}
-	port = eventArgs.port;
-	timestamp = eventArgs.timestamp;
+	port = eventArgs.portNum;
+	timestamp = eventArgs.deltatime;
 }
 
 void pooksApp::selectColorChannelIndex(int colorChannelIndex) {
