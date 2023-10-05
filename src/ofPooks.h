@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 
-#include "ofxOpenCv.h"
+#include "ofxHomography.h"
 #include "ofxMidi.h"
 #include "editable.h"
 #include "layer.h"
