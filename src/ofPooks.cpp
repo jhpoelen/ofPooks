@@ -246,24 +246,28 @@ void ofPooks::warpScreen(int screenIndex) {
     //CvPoint2D32f cvsrc[4];
     //CvPoint2D32f cvdst[4];
 
+    ofPoint cvsrc[4];
+    ofPoint cvdst[4]; 
+
     //we set the warp coordinates
     //source coordinates as the dimensions of our window
-    //cvsrc[0].x = 0;
-    //cvsrc[0].y = 0;
-    //cvsrc[1].x = ofGetWidth();
-    //cvsrc[1].y = 0;
-    //cvsrc[2].x = ofGetWidth();
-    //cvsrc[2].y = ofGetHeight();
-    //cvsrc[3].x = 0;
-    //cvsrc[3].y = ofGetHeight();
+    cvsrc[0].x = 0;
+    cvsrc[0].y = 0;
+    cvsrc[1].x = ofGetWidth();
+    cvsrc[1].y = 0;
+    cvsrc[2].x = ofGetWidth();
+    cvsrc[2].y = ofGetHeight();
+    cvsrc[3].x = 0;
+    cvsrc[3].y = ofGetHeight();
 
     //corners are in 0.0 - 1.0 range
     //so we scale up so that they are at the window's scale
-    //for(int i = 0; i < 4; i++){
-    //    cvdst[i].x = corners[i].x * (float)ofGetWidth();
-    //    cvdst[i].y = corners[i].y * (float)ofGetHeight();
-    //}
-
+    for(int i = 0; i < 4; i++){
+        cvdst[i].x = corners[i].x * (float)ofGetWidth();
+        cvdst[i].y = corners[i].y * (float)ofGetHeight();
+    }
+    homography = ofxHomography::findHomography(cvsrc, cvdst);
+    ofMultMatrix(homography);
 }
 
 void ofPooks::renderWarpTool(int screenNumber) {

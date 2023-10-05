@@ -72,7 +72,7 @@ public:
 
     int whichCorner;
 
-    GLfloat homographyMatrix[16];
+    ofMatrix4x4 homography;
 
     int port;
     int channel;
